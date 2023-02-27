@@ -1,6 +1,5 @@
 package sesohaeng.sesohaengbackend.domain.savedplace;
 
-import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.folder.Folder;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 

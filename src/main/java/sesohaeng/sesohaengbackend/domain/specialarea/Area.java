@@ -1,7 +1,5 @@
 package sesohaeng.sesohaengbackend.domain.specialarea;
 
-import org.springframework.data.annotation.TypeAlias;
-import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
@@ -9,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "special_area")
-public class SpecialArea {
+@Table(name = "area")
+public class Area {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +23,6 @@ public class SpecialArea {
     @Column
     private Double longitude;
 
-    @OneToMany(mappedBy = "special_area", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Place> places = new ArrayList<>();
 }

@@ -1,9 +1,9 @@
 package sesohaeng.sesohaengbackend.domain.place;
 
-import sesohaeng.sesohaengbackend.domain.folder.Folder;
+
 import sesohaeng.sesohaengbackend.domain.savedplace.SavedPlace;
-import sesohaeng.sesohaengbackend.domain.specialarea.SpecialArea;
-import sesohaeng.sesohaengbackend.domain.user.User;
+import sesohaeng.sesohaengbackend.domain.specialarea.Area;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class Place {
     private Double longitude;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "special_area_id")
-    private SpecialArea specialArea;
+    @JoinColumn(name = "specialarea_id")
+    private Area area;
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SavedPlace> savedPlaces = new ArrayList<>();

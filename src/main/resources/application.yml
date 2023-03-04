@@ -13,3 +13,28 @@ spring:
         format_sql: false
         default_batch_fetch_size: 1000
         globally_quoted_identifiers: true
+
+
+    # OAuth2의 기본 redirectUri는 /login/oauth2/code/{provider} 입니다
+    # ex) /login/oauth2/code/google
+    # 기본 redirectUri를 그대로 사용할 때는 특별한 설정이 필요 없지만 변경하고 싶으면 application.yml에 명시해야 합니다
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              clientId: 여기에 클라이언트 아이디 기입
+              clientSecret: 여기에 클라이언트 시크릿 기입
+              redirectUri: "{baseUrl}/oauth2/callback/{provider}"
+              scope:
+                - email
+                - profile
+app:
+  auth:
+    tokenSecret: "sesohaengjwtsecretkey"
+    refresh-cookie-key: "refresh"
+  oauth2:
+    # OAuth2 공급자로 성공적으로 인증 한 후 사용자에 대한 인증 토큰을 생성하고 토큰을
+    # 프론트 엔드 클라이언트가 /oauth2/authorize 요청에서 지정한 redirectUri입니다.
+    # 쿠키는 모바일 클라이언트에서 잘 작동하지 않기 때문에 사용하지 않습니다.
+    authorizedRedirectUris: "http://localhost:3000/oauth2/redirect"

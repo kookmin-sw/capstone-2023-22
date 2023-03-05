@@ -1,19 +1,24 @@
 package sesohaeng.sesohaengbackend.security.oauth.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 import sesohaeng.sesohaengbackend.domain.user.UserRepository;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 
-import java.util.Base64;
-import java.util.Date;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -57,6 +62,73 @@ public class JwtTokenProvider {
                 .setIssuer("debrains")
                 .setExpiration(validity)
                 .compact();
+    }
+
+    public void createRefreshToken(Authentication authentication, HttpServletResponse response){
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);
+
+        String refreshToken = Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .setIssuer("debrains")
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .compact();
+
+        saveRefreshToken(authentication,refreshToken);
+
+        ResponseCookie cookie = ResponseCookie.from(COOKIE_REFRESH_TOKEN_KEY, refreshToken)
+                .httpOnly(true)
+                .secure(true)
+                // CSRF나 의도하지 않은 정보 유출 취약성 대처
+                .sameSite("Lax")
+                .maxAge(REFRESH_TOKEN_EXPIRE_LENGTH)
+                .path("/")
+                .build();
+
+        response.addHeader("Set-Cookie", cookie.toString());
+
+    }
+
+    private void saveRefreshToken(Authentication authentication,String refreshToken){
+        CustomUserDetails userDetails = (CustomUserDetails)  authentication.getPrincipal();
+        Long id = Long.valueOf(userDetails.getName());
+
+        userRepository.updateRefreshToken(id,refreshToken);
+    }
+
+    // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성
+    public Authentication getAuthentication(String accessToken){
+        Claims claims = parseClaims(accessToken);
+
+        Collection<? extends  GrantedAuthority> authorities =
+                Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                        .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+
+        CustomUserDetails principal = new CustomUserDetails(Long.valueOf(claims.getSubject()),"",authorities);
+
+        return new UsernamePasswordAuthenticationToken(principal,"",authorities);
+    }
+    public Boolean validateToken(String token){
+        try{
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (ExpiredJwtException e){
+            log.info("만료된 토큰입니다.");
+        } catch(IllegalArgumentException e){
+            log.info("잘못된 토큰입니다.");
+        }
+        return false;
+    }
+
+
+    private Claims parseClaims(String accessToken){
+        try{
+            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(accessToken).getBody();
+
+        }catch (ExpiredJwtException e){
+            return e.getClaims();
+        }
     }
 
 }

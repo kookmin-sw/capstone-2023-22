@@ -1,7 +1,9 @@
 package sesohaeng.sesohaengbackend.domain.user;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.common.AuthProvider;
 import sesohaeng.sesohaengbackend.common.UserRole;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
@@ -16,6 +18,8 @@ import java.util.List;
 @Getter
 @Builder
 @Table(name = "user")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -52,7 +56,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders = new ArrayList<>();
-
 
 
 }

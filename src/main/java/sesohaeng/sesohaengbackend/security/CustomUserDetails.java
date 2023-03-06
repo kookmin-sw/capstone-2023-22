@@ -37,7 +37,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         log.info("CustomUserDetails 만들기 2");
         return new CustomUserDetails(
                 user.getId(),
-                user.getUsername(),
+                user.getEmail(),
                 authorities
         );
     }

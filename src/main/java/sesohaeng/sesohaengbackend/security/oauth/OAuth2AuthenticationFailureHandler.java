@@ -2,6 +2,7 @@ package sesohaeng.sesohaengbackend.security.oauth;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -19,6 +20,7 @@ import static sesohaeng.sesohaengbackend.security.oauth.CookieAuthorizationReque
 
 // OAuth2 로그인 실패시 호출되는 Handler
 // 인증요청시 생성된 쿠키들을 삭제하고 error를 담아 보낸다
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
@@ -27,6 +29,7 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
                                        AuthenticationException exception) throws IOException, ServletException {
+        log.info("OAuth2AuthenticationFailureHandler 호출");
         String targetUrl = CookieUtil.getCookie(request,REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue)
                 .orElse("/");

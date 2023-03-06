@@ -13,3 +13,14 @@ spring:
         format_sql: false
         default_batch_fetch_size: 1000
         globally_quoted_identifiers: true
+cloud:
+  aws:
+    region:
+      static: 버킷 지역
+    s3:
+      bucket: 버킷 이름
+  credentials:
+    access-key: access key
+    secret-key: secret key
+    stack:
+      auto: false

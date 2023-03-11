@@ -1,0 +1,11 @@
+@keyframes cursor {
+  0%{border-right: 1px solid #fff}
+  50%{border-right: 1px solid #000}
+  100%{border-right: 1px solid #fff}
+}
+
+.Main-message {
+  margin-left: 10vw;
+  margin-right: 10vw;
+  text-align: center;
+}

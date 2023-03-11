@@ -1,0 +1,34 @@
+.Team {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5vw;
+}
+
+.Profile-image {
+  border-radius: 100%;
+  width: 12vw;
+}
+
+.Person-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10%;
+}
+
+.Person-name {
+  margin-top: 1vw;
+  font-size: 2vw;
+  font-weight: bold;
+}
+
+.Person-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5vw;
+}
+
+.Person-details-self {
+  margin: 0.5vw 0;
+}

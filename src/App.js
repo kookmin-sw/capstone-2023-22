@@ -5,9 +5,9 @@ import AboutTeam from "./routes/AboutTeam";
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="" element={<Home />} />
         <Route path="/about-project" element={<AboutProject />} />
         <Route path="/about-team" element={<AboutTeam />} />
       </Routes>

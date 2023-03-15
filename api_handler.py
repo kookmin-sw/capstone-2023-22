@@ -8,9 +8,12 @@ import boto3
 import os
 from datetime import datetime
 
+import secret
+
 # S3 클라이언트 생성
-s3 = boto3.client('s3',aws_access_key_id='${HIDDEN}', aws_secret_access_key='${HIDDEN}')
+s3 = boto3.client('s3', aws_access_key_id=secret.AWS_ACCESS_KEY_ID, aws_secret_access_key=secret.AWS_SECRET_ACCESS_KEY)
 now = datetime.now()
+
 
 def find_dict(res, search):
     for key, value in res.items():
@@ -52,7 +55,7 @@ def job():
     start = time.time()
 
     url_base = "http://openapi.seoul.go.kr:8088/"
-    url_authentication_key = "${HIDDEN}"
+    url_authentication_key = secret.URL_ACCESS_KEY
     url_datasource = "/xml/citydata"
     url_page = "/1/5/"
     url_places = ["경복궁·서촌마을", "광화문·덕수궁", "창덕궁·종묘",
@@ -102,9 +105,8 @@ def job():
     print("result: ", check_availability)
     print("elapsed time: ", end - start, "sec")
 
+
 schedule.every().hour.at(":00").do(job)
 while True:
     schedule.run_pending()
     time.sleep(1)
-
-

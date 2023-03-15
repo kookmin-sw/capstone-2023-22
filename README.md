@@ -1,77 +1,47 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=10029594&assignment_repo_type=AssignmentRepo)
-# Welcome to GitHub
+# 2023년도 1학기 다학제간캡스톤디자인 I - 22팀
+> 세상의 소소한 문화행복 생활을 즐기다, 세소행
 
-캡스톤 팀 생성을 축하합니다.
+## :question: 팀 소개 & 팀 페이지
 
-## 팀소개 및 페이지를 꾸며주세요.
+### [팀페이지 주소(https://kookmin-sw.github.io/capstone-2023-22/)](https://kookmin-sw.github.io/capstone-2023-22/)
 
-- 프로젝트 소개
-  - 프로젝트 설치방법 및 데모, 사용방법, 프리뷰등을 readme.md에 작성.
-  - Api나 사용방법등 내용이 많을경우 wiki에 꾸미고 링크 추가.
+프로젝트 소개, 팀 소개와 같은 정보들은 위의 링크에서 확인할 수 있습니다.
 
-- 팀페이지 꾸미기
-  - 프로젝트 소개 및 팀원 소개
-  - index.md 예시보고 수정.
+## :evergreen_tree: 브랜치 설명
 
-- GitHub Pages 리파지토리 Settings > Options > GitHub Pages 
-  - Source를 marster branch
-  - Theme Chooser에서 태마선택
-  - 수정후 팀페이지 확인하여 점검.
+### Main
 
-**팀페이지 주소** -> https://kookmin-sw.github.io/ '{{자신의 리파지토리 아이디}}'
+- master: Frontend / Backend / MLOps 의 메인 배포 코드, 보고서와 시연 동영상 등 주요 프로젝트 관련 내용을 담은 브랜치입니다.
 
-**예시)** 2023년 0조  https://kookmin-sw.github.io/capstone-2023-00/
+### Frontend
 
+( Frontend main 브랜치의 코드는 master 브랜치에 포함되어 있습니다. )
 
-## 내용에 아래와 같은 내용들을 추가하세요.
+### Backend
 
-### 1. 프로잭트 소개
+( Backend의 Git flow 중 main 브랜치의 코드는 master 브랜치에 포함되어 있습니다. )
 
-프로젝트
+### MLOps
 
-### 2. 소개 영상
+( MLOps의 주요 기능 코드는 master 브랜치에 포함되어 있습니다. )
 
-프로젝트 소개하는 영상을 추가하세요
+## :raised_hands: 협업 규칙
 
-### 3. 팀 소개
+### :ok_woman: commit 규칙
 
-팀을 소개하세요.
+commit 메시지는 다음과 같은 양식으로 작성해주세요!
 
-팀원정보 및 담당이나 사진 및 SNS를 이용하여 소개하세요.
-
-### 4. 사용법
-
-소스코드제출시 설치법이나 사용법을 작성하세요.
-
-### 5. 기타
-
-추가적인 내용은 자유롭게 작성하세요.
-
-
-## Markdown을 사용하여 내용꾸미기
-
-Markdown은 작문을 스타일링하기위한 가볍고 사용하기 쉬운 구문입니다. 여기에는 다음을위한 규칙이 포함됩니다.
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+${add, feat, refactor, fix}: ${commit 설명}
 ```
 
-자세한 내용은 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### :raising_hand: Pull Request 규칙
 
-### Support or Contact
+Pull Request는 자유롭게 내용을 요약해서 보내시면 됩니다.
+다만, Pull Request의 제목을 읽고 무슨 내용인지 명확하게 이해할 수 있어야 합니다.
 
-readme 파일 생성에 추가적인 도움이 필요하면 [도움말](https://help.github.com/articles/about-readmes/) 이나 [contact support](https://github.com/contact) 을 이용하세요.
+### :notebook_with_decorative_cover: 기타 각 Part 별 협업 규칙
+
+각 파트별 추가적인 협업 규칙이 있다면 여기에 작성합니다.
+
+- master branch merge: 23:00, 매주 금요일 (GMT +9)

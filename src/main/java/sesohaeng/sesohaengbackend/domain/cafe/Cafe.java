@@ -1,6 +1,7 @@
 package sesohaeng.sesohaengbackend.domain.cafe;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.place.Place;
@@ -8,10 +9,10 @@ import sesohaeng.sesohaengbackend.domain.place.Place;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Cafe")
+@Getter
 @NoArgsConstructor
+@Table(name = "CAFE")
 public class Cafe {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,5 +29,4 @@ public class Cafe {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;
-
 }

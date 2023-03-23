@@ -1,5 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.like;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.user.User;
@@ -7,10 +8,10 @@ import sesohaeng.sesohaengbackend.domain.user.User;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "like")
+@Getter
 @NoArgsConstructor
+@Table(name = "LIKE")
 public class Like {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -25,6 +26,4 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
-
-
 }

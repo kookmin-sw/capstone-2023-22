@@ -1,17 +1,15 @@
 package sesohaeng.sesohaengbackend.domain.area;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "area")
+@Getter
 @NoArgsConstructor
+@Table(name = "AREA")
 public class Area {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,5 +22,4 @@ public class Area {
 
     @Column
     private Double longitude;
-
 }

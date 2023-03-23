@@ -1,0 +1,122 @@
+[2023-03-22T10:16:50.682+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T10:16:50.690+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T10:16:50.690+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags every 300 seconds
+[2023-03-22T10:16:50.690+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags
+[2023-03-22T10:16:50.691+0000] {manager.py:729} INFO - There are 1 files in /home/ubuntu/airflow/dags
+[2023-03-22T10:22:37.300+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T10:22:37.300+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T10:22:38.401+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T10:22:38.904+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T10:22:38.945+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T10:22:38.945+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags every 300 seconds
+[2023-03-22T10:22:38.945+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags
+[2023-03-22T10:22:38.968+0000] {manager.py:729} INFO - There are 1 files in /home/ubuntu/airflow/dags
+[2023-03-22T10:22:39.300+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/home/ubuntu/airflow/dags/redshift_data.py  64639  0.08s             0           0
+================================================================================
+[2023-03-22T10:23:09.491+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                   PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/home/ubuntu/airflow/dags/redshift_data.py                           0           1  0.45s           2023-03-22T10:22:39
+================================================================================
+[2023-03-22T10:23:40.025+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/home/ubuntu/airflow/dags/redshift_data.py  64750  0.00s             0           1  0.09s           2023-03-22T10:23:09
+================================================================================
+[2023-03-22T10:24:10.201+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/home/ubuntu/airflow/dags/redshift_data.py  64767  0.00s             0           1  0.07s           2023-03-22T10:23:40
+================================================================================
+[2023-03-22T10:24:13.862+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T10:41:59.748+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T10:41:59.758+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T10:41:59.759+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags every 300 seconds
+[2023-03-22T10:41:59.759+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags
+[2023-03-22T10:41:59.761+0000] {manager.py:729} INFO - There are 1 files in /home/ubuntu/airflow/dags
+[2023-03-22T10:41:59.914+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/home/ubuntu/airflow/dags/redshift_data.py  64894  0.07s             0           0
+================================================================================
+[2023-03-22T10:42:18.877+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T10:51:11.303+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T10:51:11.342+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T10:51:11.342+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags/dags every 300 seconds
+[2023-03-22T10:51:11.342+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T10:51:11.347+0000] {manager.py:729} INFO - There are 0 files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T10:51:13.706+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T11:00:15.915+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T11:00:16.033+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T11:00:16.034+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags/dags every 300 seconds
+[2023-03-22T11:00:16.034+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T11:00:16.041+0000] {manager.py:729} INFO - There are 0 files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T11:00:17.088+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-22T11:05:24.198+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-22T11:05:24.207+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-22T11:05:24.207+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags/dags every 300 seconds
+[2023-03-22T11:05:24.207+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T11:05:24.208+0000] {manager.py:729} INFO - There are 0 files in /home/ubuntu/airflow/dags/dags
+[2023-03-22T11:08:40.244+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:36:37.432+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-23T04:36:37.447+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-23T04:36:37.447+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags every 300 seconds
+[2023-03-23T04:36:37.447+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags
+[2023-03-23T04:36:37.449+0000] {manager.py:729} INFO - There are 2 files in /home/ubuntu/airflow/dags
+[2023-03-23T04:36:37.614+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/home/ubuntu/airflow/dags/redshift_data.py  72964  0.09s             0           0
+/home/ubuntu/airflow/dags/test.py           72966  0.08s             0           0
+================================================================================
+[2023-03-23T04:37:08.219+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------
+/home/ubuntu/airflow/dags/redshift_data.py                           1           0  1.01s           2023-03-23T04:36:38
+/home/ubuntu/airflow/dags/test.py           72979  0.00s             1           0  0.58s           2023-03-23T04:36:38
+================================================================================
+[2023-03-23T04:37:15.765+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:39.577+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2023-03-23T04:42:39.669+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2023-03-23T04:42:39.669+0000] {manager.py:485} INFO - Checking for new files in /home/ubuntu/airflow/dags every 300 seconds
+[2023-03-23T04:42:39.669+0000] {manager.py:726} INFO - Searching for files in /home/ubuntu/airflow/dags
+[2023-03-23T04:42:39.735+0000] {manager.py:729} INFO - There are 2 files in /home/ubuntu/airflow/dags
+[2023-03-23T04:42:40.523+0000] {manager.py:854} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                     PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run
+------------------------------------------  -----  ---------  --------  ----------  --------------  ----------
+/home/ubuntu/airflow/dags/redshift_data.py  73232  0.27s             0           0
+/home/ubuntu/airflow/dags/test.py           73233  0.26s             0           0
+================================================================================
+[2023-03-23T04:42:40.780+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:40.780+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:40.788+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:41.871+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:41.914+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2023-03-23T04:42:42.684+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15

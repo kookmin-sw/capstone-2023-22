@@ -1,5 +1,6 @@
-package sesohaeng.sesohaengbackend.domain.specialarea;
+package sesohaeng.sesohaengbackend.domain.area;
 
+import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "area")
+@NoArgsConstructor
 public class Area {
 
     @Id
@@ -23,6 +25,4 @@ public class Area {
     @Column
     private Double longitude;
 
-    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Place> places = new ArrayList<>();
 }

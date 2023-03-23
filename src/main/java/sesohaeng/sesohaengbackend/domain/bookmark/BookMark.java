@@ -1,13 +1,15 @@
-package sesohaeng.sesohaengbackend.domain.savedplace;
+package sesohaeng.sesohaengbackend.domain.bookmark;
 
+import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.folder.Folder;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "saved_place")
-public class SavedPlace {
+@Table(name = "BookMark")
+@NoArgsConstructor
+public class BookMark {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

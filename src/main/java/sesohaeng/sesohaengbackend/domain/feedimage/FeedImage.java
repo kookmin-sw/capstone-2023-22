@@ -1,16 +1,17 @@
 package sesohaeng.sesohaengbackend.domain.feedimage;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor
-@Table(name = "Feed_Image")
+@Table(name = "FEED_IMAGE")
 public class FeedImage {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,6 +22,4 @@ public class FeedImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
-
-
 }

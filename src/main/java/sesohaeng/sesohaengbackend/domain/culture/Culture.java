@@ -1,9 +1,9 @@
 package sesohaeng.sesohaengbackend.domain.culture;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
-import org.springframework.web.multipart.MultipartFile;
 import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "Culture")
+@Getter
 @NoArgsConstructor
+@Table(name = "CULTURE")
 public class Culture {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -66,8 +66,4 @@ public class Culture {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;
-
-
-
-
 }

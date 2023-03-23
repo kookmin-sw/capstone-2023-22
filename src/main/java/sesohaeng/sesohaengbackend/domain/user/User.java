@@ -1,5 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.user;
 
+import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.folder.Folder;
 import sesohaeng.sesohaengbackend.domain.like.Like;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

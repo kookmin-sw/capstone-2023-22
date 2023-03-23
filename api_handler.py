@@ -7,12 +7,10 @@ import schedule
 import boto3
 import os
 from datetime import datetime
-
-import secret
+# import secret
 
 # S3 클라이언트 생성
-s3 = boto3.client('s3', aws_access_key_id=secret.AWS_ACCESS_KEY_ID, aws_secret_access_key=secret.AWS_SECRET_ACCESS_KEY)
-now = datetime.now()
+s3 = boto3.client('s3', aws_access_key_id="{HIDDEN}", aws_secret_access_key="{HIDDEN}")
 
 
 def find_dict(res, search):
@@ -55,15 +53,15 @@ def job():
     start = time.time()
 
     url_base = "http://openapi.seoul.go.kr:8088/"
-    url_authentication_key = secret.URL_ACCESS_KEY
+    url_authentication_key = "{HIDDEN}"
     url_datasource = "/xml/citydata"
     url_page = "/1/5/"
-    url_places = ["경복궁·서촌마을", "광화문·덕수궁", "창덕궁·종묘",
-                  "강남 MICE 관광특구", "동대문 관광특구", "명동 관광특구", "이태원 관광특구", "잠실 관광특구", "종로·청계 관광특구", "홍대 관광특구",
-                  "가로수길", "낙산공원·이화마을", "노량진", "북촌한옥마을", "성수카페거리", "수유리 먹자골목", "쌍문동 맛집거리", "압구정로데오거리", "여의도", "영등포 타임스퀘어", "인사동·익선동", "창동 신경제 중심지", "DMC(디지털미디어시티)",
-                  "가산디지털단지역", "강남역", "건대입구역", "고속터미널역", "교대역", "구로디지털단지역", "서울역", "선릉역", "신도림역", "신림역", "신촌·이대역", "왕십리역", "역삼역", "연신내역", "용산역"]
+    url_places = ["경복궁·서촌마을", "광화문·덕수궁", "창덕궁·종묘"]
+                  # "강남 MICE 관광특구", "동대문 관광특구", "명동 관광특구", "이태원 관광특구", "잠실 관광특구", "종로·청계 관광특구", "홍대 관광특구",
+                  # "가로수길", "낙산공원·이화마을", "노량진", "북촌한옥마을", "성수카페거리", "수유리 먹자골목", "쌍문동 맛집거리", "압구정로데오거리", "여의도", "영등포 타임스퀘어", "인사동·익선동", "창동 신경제 중심지", "DMC(디지털미디어시티)",
+                  # "가산디지털단지역", "강남역", "건대입구역", "고속터미널역", "교대역", "구로디지털단지역", "서울역", "선릉역", "신도림역", "신림역", "신촌·이대역", "왕십리역", "역삼역", "연신내역", "용산역"]
 
-    output_filename = time.strftime("%Y%m%d") + ".csv"
+    output_filename = time.strftime("%Y") + ".csv"
 
     check_availability = []
 
@@ -79,10 +77,8 @@ def job():
 
         if dict_response["SeoulRtd.citydata"]["RESULT"]["RESULT.CODE"] == "INFO-000":
             response_output = response_maker(dict_response)
-            with open(output_filename, "a" if places == 0 else "a", encoding="UTF-8") as file:
+            with open(output_filename, "a" , encoding="UTF-8") as file:
                 writer_object = csv.writer(file)
-                if places == 0 and now.hour == 0:
-                    writer_object.writerow(response_output.keys())
                 writer_object.writerow(response_output.values())
 
                 file.close()
@@ -95,7 +91,7 @@ def job():
 
     # S3 버킷 이름과 업로드할 객체 키를 지정합니다.
     bucket_name = 'capstone-api-output'
-    object_key = time.strftime("%Y%m%d")+"/" + file_name
+    object_key = time.strftime("%Y")+"/" + file_name
 
     # 로컬 파일을 S3에 업로드합니다.
     s3.upload_file(file_path, bucket_name, object_key)
@@ -104,9 +100,8 @@ def job():
     print(("-" * 22) + "Program End" + ("-" * 22))
     print("result: ", check_availability)
     print("elapsed time: ", end - start, "sec")
-
-
-schedule.every().hour.at(":00").do(job)
+schedule.every(30).seconds.do(job)
+# schedule.every().hour.at(":00").do(job)
 while True:
     schedule.run_pending()
     time.sleep(1)

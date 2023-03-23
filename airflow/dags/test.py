@@ -11,6 +11,7 @@ t1 = BashOperator(task_id='print_date',
                   bash_command='date',
                   dag=dag)
 
+
 t2 = BashOperator(task_id='sleep',
                   bash_command='sleep 3',
                   dag=dag)

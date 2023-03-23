@@ -18,6 +18,7 @@ dag = DAG(
     schedule_interval='@hourly',
 )
 
+
 load_data = S3ToRedshiftOperator(
     task_id='load_data',
     s3_bucket='mlops-api-output',

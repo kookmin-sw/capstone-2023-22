@@ -43,7 +43,7 @@ dependencies {
 
 
 	//s3
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-aws'
 	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.232'
 	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 

@@ -1,34 +1,46 @@
 .Team {
   display: flex;
-  justify-content: space-around;
-  margin-top: 5vw;
+  flex-direction: column;
+  margin-top: 4vw;
+  margin-bottom: 4vw;
+  margin-left: 4vw;
 }
 
 .Profile-image {
   border-radius: 100%;
-  width: 12vw;
+  height: 25vmin;
 }
 
-.Person-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-radius: 10%;
-}
-
-.Person-name {
+.Person-represent {
   margin-top: 1vw;
   font-size: 2vw;
   font-weight: bold;
 }
 
-.Person-details {
+.Person-info {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  font-size: 1.5vw;
+  margin-bottom: 12vw;
+  margin-left: 4vw;
+  border-radius: 10%;
 }
 
-.Person-details-self {
-  margin: 0.5vw 0;
+.Person-info-main {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  border-radius: 10%;
+}
+
+.Person-details-part {
+  margin: 0.8vw 0;
+  font-weight: bold;
+}
+
+.Person-details-quote {
+  margin: 0.8vw 0;
+  padding: 1.5vw;
+  border-radius: 0.2rem;
+  background-color: rgb(239, 239, 236);
+  font-weight: 500;
 }

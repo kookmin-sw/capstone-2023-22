@@ -18,8 +18,8 @@ import sesohaeng.sesohaengbackend.security.oauth.jwt.JwtAccessDeniedHandler;
 import sesohaeng.sesohaengbackend.security.oauth.jwt.JwtAuthenticationEntryPoint;
 import sesohaeng.sesohaengbackend.security.oauth.jwt.JwtAuthenticationFilter;
 
-@Configuration
-@EnableWebSecurity
+//@Configuration
+//@EnableWebSecurity
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {

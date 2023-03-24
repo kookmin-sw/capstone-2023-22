@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import sesohaeng.sesohaengbackend.exception.DuplicateUserException;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
+import sesohaeng.sesohaengbackend.exception.NotLogInException;
 import sesohaeng.sesohaengbackend.response.ErrorResponse;
 
 import java.util.stream.Collectors;
@@ -53,6 +54,18 @@ public class GlobalExceptionController {
         return ErrorResponse.builder()
                 .success(false)
                 .status(HttpStatus.FORBIDDEN.value())
+                .message(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler({NotLogInException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public final ErrorResponse handleNotLogInException(final NotLogInException e) {
+        logger.error("NotLogInException 처리");
+        return ErrorResponse.builder()
+                .success(false)
+                .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
                 .build();
     }

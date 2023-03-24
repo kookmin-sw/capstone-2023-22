@@ -17,10 +17,10 @@ function Header() {
         </div>
       </Link>
       <div className='Home-navigator'>
-        <Link to="/about-project" style={{textDecoration: "none"}}><span>프로젝트 소개</span></Link>
-        <span>소개 영상</span>
-        <Link to="/about-team" style={{textDecoration: "none"}}><span>팀원 소개</span></Link>
-        <span>사용법</span>
+        <Link to="/about-project" className="focused"><span>프로젝트 소개</span></Link>
+        <Link to="/intro-movie" className="focused"><span>소개 영상</span></Link>
+        <Link to="/about-team" className="focused"><span>팀원 소개</span></Link>
+        <Link to="/exec-guide" className="focused"><span>사용법</span></Link>
       </div>
       <hr className='Div-line'/>
     </div>

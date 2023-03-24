@@ -15,7 +15,7 @@
     min-height: 5vh;
     display: flex;
     flex-direction: row;
-    font-size: 2vmin;
+    font-size: 20vmin;
     background-color: rgb(112, 76, 232);
   }
 
@@ -23,18 +23,18 @@
     min-height: 5vh;
     display: flex;
     flex-direction: column;
-    margin-left: 4vw;
+    margin-left: 4vmin;
     color: white;
     font-size: 2vmin;
   }
 
   .Home-header-title-explanation {
-    margin-top: 4vw;
+    margin-top: 4vh;
   }
 
   .Home-header-title-name {
     margin-top: 0;
-    font-size: 4vw;
+    font-size: 8vh;
   }
 
   .Home-navigator {
@@ -59,3 +59,7 @@
       transform: rotate(360deg);
     }
   }
+
+.focused {
+  text-decoration: none;
+}

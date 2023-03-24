@@ -1,5 +1,12 @@
 package sesohaeng.sesohaengbackend.domain.user;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import sesohaeng.sesohaengbackend.common.AuthProvider;
+import sesohaeng.sesohaengbackend.common.UserRole;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.folder.Folder;
 import sesohaeng.sesohaengbackend.domain.like.Like;
@@ -9,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Getter
+@Builder
+@Table(name = "USER")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,6 +38,17 @@ public class User {
     @Column
     private String profileImage;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
+
+    @Column
+    private String refreshToken;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
 
@@ -35,7 +57,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders = new ArrayList<>();
-
-
-
 }

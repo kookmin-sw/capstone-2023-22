@@ -1,8 +1,8 @@
 package sesohaeng.sesohaengbackend.domain.folder;
 
 
-import sesohaeng.sesohaengbackend.domain.feed.Feed;
-import sesohaeng.sesohaengbackend.domain.savedplace.SavedPlace;
+import lombok.NoArgsConstructor;
+import sesohaeng.sesohaengbackend.domain.bookmark.BookMark;
 import sesohaeng.sesohaengbackend.domain.user.User;
 
 import javax.persistence.*;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "folder")
+@NoArgsConstructor
 public class Folder {
 
     @Id
@@ -25,5 +26,5 @@ public class Folder {
     private User user;
 
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SavedPlace> savedPlaces = new ArrayList<>();
+    private List<BookMark> bookMarks = new ArrayList<>();
 }

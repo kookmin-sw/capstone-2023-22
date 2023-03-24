@@ -1,5 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.user;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
-@Table(name = "user")
+@Table(name = "USER")
 @AllArgsConstructor
 @NoArgsConstructor
 public class User {
@@ -56,6 +57,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Folder> folders = new ArrayList<>();
-
-
 }

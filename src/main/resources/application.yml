@@ -37,9 +37,6 @@ cloud:
     credentials:
       access-key: access key
       secret-key: secret key
-
-
-
 app:
   auth:
     token:

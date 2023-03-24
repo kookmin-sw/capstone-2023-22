@@ -25,22 +25,19 @@ spring:
             scope:
               - email
               - profile
+            # OAuth2의 기본 redirectUri는 /login/oauth2/code/{provider} 입니다
+            # ex) /login/oauth2/code/google
+            # 기본 redirectUri를 그대로 사용할 때는 특별한 설정이 필요 없지만 변경하고 싶으면 application.yml에 명시해야 합니다
 cloud:
   aws:
     region:
       static: 버킷 지역
     s3:
       bucket: 버킷 이름
-  credentials:
-    access-key: access key
-    secret-key: secret key
-    stack:
-      auto: false
-    # OAuth2의 기본 redirectUri는 /login/oauth2/code/{provider} 입니다
-    # ex) /login/oauth2/code/google
-    # 기본 redirectUri를 그대로 사용할 때는 특별한 설정이 필요 없지만 변경하고 싶으면 application.yml에 명시해야 합니다
-  profiles:
-    include: oauth
+    credentials:
+      access-key: access key
+      secret-key: secret key
+
 
 
 app:

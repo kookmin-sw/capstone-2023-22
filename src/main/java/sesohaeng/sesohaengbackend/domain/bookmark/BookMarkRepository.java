@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface BookMarkRepository extends JpaRepository<BookMark,Long> {
 
-    List<BookMark> findBy
+//    List<BookMark> findBy
 }

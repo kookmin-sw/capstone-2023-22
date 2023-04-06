@@ -1,10 +1,10 @@
 package sesohaeng.sesohaengbackend.domain.place;
 
-import sesohaeng.sesohaengbackend.dto.querydsl.place.QGetPlaceListDto;
+import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
 
 import java.util.List;
 
 public interface PlaceRepositoryCustom {
 
-    List<QGetPlaceListDto> searchPlaceByKeyword(String keyword);
+    List<GetPlaceListDto> searchPlaceByKeyword(String keyword);
 }

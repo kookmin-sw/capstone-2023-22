@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.service.cafe.CafeService;
+import sesohaeng.sesohaengbackend.service.cafe.CafeServiceImpl;
 
 import java.util.List;
 

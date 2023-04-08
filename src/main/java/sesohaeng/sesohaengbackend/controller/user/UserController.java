@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.user.UserResponseDto;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.user.UserService;
+import sesohaeng.sesohaengbackend.service.user.UserServiceImpl;
 
 @RestController
 @Slf4j

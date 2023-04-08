@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.area.AreaResponseDto;
 import sesohaeng.sesohaengbackend.service.area.AreaService;
+import sesohaeng.sesohaengbackend.service.area.AreaServiceImpl;
 
 import java.util.List;
 

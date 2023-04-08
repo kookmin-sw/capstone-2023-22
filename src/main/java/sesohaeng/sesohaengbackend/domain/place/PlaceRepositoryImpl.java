@@ -1,6 +1,7 @@
 package sesohaeng.sesohaengbackend.domain.place;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.stereotype.Repository;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.QGetPlaceListDto;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 import static sesohaeng.sesohaengbackend.domain.place.QPlace.place;
 
+@Repository
 public class PlaceRepositoryImpl implements PlaceRepositoryCustom{
 
     @PersistenceContext

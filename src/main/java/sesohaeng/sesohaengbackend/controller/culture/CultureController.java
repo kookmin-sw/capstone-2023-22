@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import sesohaeng.sesohaengbackend.service.culture.CultureService;
+import sesohaeng.sesohaengbackend.service.culture.CultureServiceImpl;
 
 import java.util.List;
 

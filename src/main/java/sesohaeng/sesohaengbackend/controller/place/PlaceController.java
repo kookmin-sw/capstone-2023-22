@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
 import sesohaeng.sesohaengbackend.service.bookmark.PlaceService;
+import sesohaeng.sesohaengbackend.service.bookmark.PlaceServiceImpl;
 
 import java.util.List;
 

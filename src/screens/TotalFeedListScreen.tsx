@@ -18,10 +18,6 @@ export const TotalFeedListScreen:React.FC = ()=>{
         dispatch(getFeedList());
     }, [])
 
-    const onPressAdd = useCallback(()=>{
-        rootNavigation.push('AddFeed');
-    }, [])
-
     const onPressFeed = useCallback(()=>{
         rootNavigation.navigate('PostDetail');
     }, [])
@@ -31,9 +27,6 @@ export const TotalFeedListScreen:React.FC = ()=>{
             <Header>
                 <Header.Group>
                     <Header.Title title='새소행 공간'></Header.Title>
-                </Header.Group>
-                <Header.Group>
-                    <Header.Icon iconName='add' onPress={onPressAdd}/>
                 </Header.Group>
             </Header>
             <FlatList<FeedInfo>

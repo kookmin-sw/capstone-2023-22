@@ -2,8 +2,6 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { FeedInfo } from '../@types/FeedInfo';
-import { AddFeedScreen } from '../screens/AddFeedScreen';
-import { FeedListScreen } from '../screens/FeedListScreen';
 import { PostDetailScreen } from '../screens/PostDetailScreen';
 import { SettingScreen } from '../screens/SettingScreen';
 import { BottomTabNavigation } from './BottomTabNavigation';
@@ -11,8 +9,6 @@ import { BottomTabNavigation } from './BottomTabNavigation';
 
 export type RootStackParamList = {
     BottomTab:undefined
-    FeedList:{list:FeedInfo[]}
-    AddFeed:undefined
     PostDetail:undefined
     Setting:undefined
 }
@@ -29,8 +25,6 @@ export const RootStackNavigation:React.FC = ()=>{
                 presentation: 'containedModal',
             }}>
                 <Stack.Screen name='BottomTab' component={BottomTabNavigation}></Stack.Screen>
-                <Stack.Screen name='AddFeed' component={AddFeedScreen}></Stack.Screen>
-                <Stack.Screen name='FeedList' component={FeedListScreen}></Stack.Screen>
             </Stack.Group>
             <Stack.Group screenOptions={{
                 headerShown:false,

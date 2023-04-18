@@ -61,9 +61,7 @@ export const MyPageScreen:React.FC = ()=>{
                     numColumns={3}
                     renderItem={({item})=>{
                         return (
-                            <Button onPress={()=>{
-                                rootNavigation.navigate('FeedList', {list:data})
-                            }}>
+                            <Button onPress={()=>{}}>
                                 <RemoteImage url={item.imageUrl} width={photoSize} height={photoSize} />
                             </Button>
                         )

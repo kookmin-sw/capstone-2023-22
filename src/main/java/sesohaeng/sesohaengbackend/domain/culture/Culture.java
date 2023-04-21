@@ -1,10 +1,8 @@
 package sesohaeng.sesohaengbackend.domain.culture;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
-import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
@@ -59,10 +57,6 @@ public class Culture {
 
     @Column
     private LocalDateTime endDatetime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
-    private Area area;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;

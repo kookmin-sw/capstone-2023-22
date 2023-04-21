@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.common.AuthProvider;
 import sesohaeng.sesohaengbackend.common.UserRole;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
-import sesohaeng.sesohaengbackend.domain.folder.Folder;
 import sesohaeng.sesohaengbackend.domain.like.Like;
 
 import javax.persistence.*;
@@ -54,7 +53,4 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Folder> folders = new ArrayList<>();
 }

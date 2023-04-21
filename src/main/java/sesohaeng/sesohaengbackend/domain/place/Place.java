@@ -3,6 +3,8 @@ package sesohaeng.sesohaengbackend.domain.place;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.area.Area;
+import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
+import sesohaeng.sesohaengbackend.domain.culture.Culture;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 
 import javax.persistence.*;

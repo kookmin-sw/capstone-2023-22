@@ -2,6 +2,7 @@ import {BottomTabNavigationProp, createBottomTabNavigator} from '@react-navigati
 import React from 'react';
 import { TotalFeedListScreen } from '../screens/TotalFeedListScreen';
 import { MyPageScreen } from '../screens/MyPageScreen';
+import { MapScreen } from '../screens/MapScreen';
 import { TabIcon } from '../components/TabIcon';
 import { TypeIconName } from '../components/Icons';
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
@@ -50,6 +51,7 @@ export const BottomTabNavigation = ()=>{
         }}>
             <BottomTab.Screen name='TotalFeedList' component={TotalFeedListScreen}></BottomTab.Screen>
             <BottomTab.Screen name='MyList' component={MyListScreen}></BottomTab.Screen>
+            <BottomTab.Screen name='Map' component={MapScreen}></BottomTab.Screen>
             <BottomTab.Screen name='Search' component={SearchScreen}></BottomTab.Screen>
             <BottomTab.Screen name='MyPage' component={MyPageScreen}></BottomTab.Screen>
         </BottomTab.Navigator>

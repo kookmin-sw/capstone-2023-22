@@ -1,9 +1,7 @@
 package sesohaeng.sesohaengbackend.domain.cafe;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
@@ -22,10 +20,6 @@ public class Cafe {
 
     @Column
     private String address;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
-    private Area area;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;

@@ -2,8 +2,11 @@ package sesohaeng.sesohaengbackend.domain.area;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sesohaeng.sesohaengbackend.domain.place.Place;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +25,7 @@ public class Area {
 
     @Column
     private Double longitude;
+
+    @OneToMany(mappedBy = "area", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Place> places = new ArrayList<>();
 }

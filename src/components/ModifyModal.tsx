@@ -25,7 +25,7 @@ export const ModifyModal:React.FC<{
                         </TouchableOpacity>
                     </View>
                     <View style={{width:'50%', alignItems:'center', justifyContent:'center'}}>
-                        <TouchableOpacity onPress={props.onPressClose} hitSlop={{top:5, bottom:5,right:5, left:5}}>
+                        <TouchableOpacity onPress={props.onPressAction} hitSlop={{top:5, bottom:5,right:5, left:5}}>
                             <Text style={{color:'#007AFF'}}>Action</Text>
                         </TouchableOpacity>
                     </View>

@@ -37,4 +37,18 @@ public class Feed extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    private Feed(String content, User user, Place place) {
+        this.content = content;
+        this.user = user;
+        this.place = place;
+    }
+
+    public static final Feed newInstance(String content, User user, Place place) {
+        return new Feed(content, user, place);
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

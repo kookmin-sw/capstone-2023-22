@@ -5,7 +5,7 @@ import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
 
 export const SET_USER_INFO = 'SET_USER_INFO' as const;
-
+export const UPDATE_USER_NICKNAME = 'UPDATE_USER_NICKNAME' as const;
 export const GET_MY_FEED_LIST_REQUEST = 'GET_MY_FEED_LIST_REQUEST' as const;
 export const GET_MY_FEED_LIST_SUCCESS = 'GET_MY_FEED_LIST_SUCCESS' as const;
 export const GET_MY_FEED_LIST_FAILURE = 'GET_MY_FEED_LIST_FAILURE' as const;
@@ -38,6 +38,18 @@ export const getMyFeedListFailure = ()=>{
     }
 }
 
+export const updateNickname = (payload:string) => {
+    return {
+        type: UPDATE_USER_NICKNAME,
+        payload
+    }
+}
+
+export const updateUserNickname = (nickname:string):UserThunkAction => async (dispatch) => {
+    console.log(nickname);
+    dispatch(updateNickname(nickname))
+}
+
 export const signIn = ():UserThunkAction => async (dispatch)=>{
     await sleep(1000);
 
@@ -48,7 +60,6 @@ export const signIn = ():UserThunkAction => async (dispatch)=>{
             profileImage:'PROFILE'
         })
     )
-
 }
 
 export const getMyFeedList = ():UserThunkAction => async (dispatch)=>{
@@ -89,4 +100,5 @@ export type UserInfoActions =
     | ReturnType<typeof setUserInfo> 
     | ReturnType<typeof getMyFeedListRequest> 
     | ReturnType<typeof getMyFeedListSuccess>
-    | ReturnType<typeof getMyFeedListFailure>;
+    | ReturnType<typeof getMyFeedListFailure>
+    | ReturnType<typeof updateNickname>;

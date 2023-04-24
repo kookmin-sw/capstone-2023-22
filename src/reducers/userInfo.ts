@@ -1,6 +1,6 @@
 import { FeedInfo } from "../@types/FeedInfo";
 import { UserInfo } from "../@types/UserInfo";
-import { GET_MY_FEED_LIST_SUCCESS, SET_USER_INFO, UserInfoActions } from "../actions/user"
+import { GET_MY_FEED_LIST_SUCCESS, SET_USER_INFO, UPDATE_USER_NICKNAME, UserInfoActions } from "../actions/user"
 
 export type typeUserInfoReducer = {
     userInfo:UserInfo | null;
@@ -24,6 +24,15 @@ export const userInfoReducer = (state:typeUserInfoReducer = defaultUserInfoState
             return {
                 ...state,
                 myFeedList: action.list
+            }
+        }
+        case UPDATE_USER_NICKNAME: {
+            return {
+                ...state,
+                userInfo:{
+                    ...state.userInfo,
+                    name: action.payload
+                }
             }
         }
     }

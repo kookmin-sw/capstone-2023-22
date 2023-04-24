@@ -1,7 +1,6 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { FeedInfo } from '../@types/FeedInfo';
 import { PostDetailScreen } from '../screens/PostDetailScreen';
 import { SettingScreen } from '../screens/SettingScreen';
 import { BottomTabNavigation } from './BottomTabNavigation';

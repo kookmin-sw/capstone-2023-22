@@ -1,10 +1,12 @@
-package sesohaeng.sesohaengbackend.service.bookmark;
+package sesohaeng.sesohaengbackend.service.place;
 
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sesohaeng.sesohaengbackend.domain.area.Area;
+import sesohaeng.sesohaengbackend.domain.area.AreaRepository;
 import sesohaeng.sesohaengbackend.domain.bookmark.BookMarkRepository;
 import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
 import sesohaeng.sesohaengbackend.domain.cafe.CafeRepository;
@@ -13,16 +15,12 @@ import sesohaeng.sesohaengbackend.domain.culture.CultureRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepositoryCustom;
-import sesohaeng.sesohaengbackend.domain.place.PlaceRepositoryImpl;
-import sesohaeng.sesohaengbackend.domain.user.User;
 import sesohaeng.sesohaengbackend.domain.user.UserRepository;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
-import sesohaeng.sesohaengbackend.dto.response.bookmark.BookmarkResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
-import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,15 +29,17 @@ import java.util.Optional;
 @Slf4j
 @AllArgsConstructor
 public class PlaceServiceImpl implements PlaceService{
-    private PlaceRepositoryCustom placeRepositoryCustom;
-    private PlaceRepository placeRepository;
-    private BookMarkRepository bookMarkRepository;
 
-    private UserRepository userRepository;
+    private final AreaRepository areaRepository;
+    private final PlaceRepositoryCustom placeRepositoryCustom;
+    private final PlaceRepository placeRepository;
+    private final BookMarkRepository bookMarkRepository;
 
-    private CultureRepository cultureRepository;
+    private final UserRepository userRepository;
 
-    private CafeRepository cafeRepository;
+    private final CultureRepository cultureRepository;
+
+    private final CafeRepository cafeRepository;
 
 
 //    @Transactional
@@ -67,6 +67,7 @@ public class PlaceServiceImpl implements PlaceService{
 
         return judgeCafeOrCulture(place, culture, cafe);
     }
+
 
     private PlaceResponseDto judgeCafeOrCulture(Place place, Optional<Culture> culture, Optional<Cafe> cafe) {
         if (culture.isEmpty() && cafe.isPresent()) {

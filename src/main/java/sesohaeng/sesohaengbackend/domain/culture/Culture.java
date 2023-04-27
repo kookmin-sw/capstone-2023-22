@@ -60,4 +60,12 @@ public class Culture {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;
+
+    private Culture(String cultureName, Place place){
+        this.cultureName = cultureName;
+        this.place = place;
+    }
+    public static Culture newTestInstance(String cultureName, Place place){
+        return new Culture(cultureName,place);
+    }
 }

@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation, useRootRoute } from '../navigations/RootStackNavigation';
+import { useRootNavigation } from '../navigations/RootStackNavigation';
 
 export const PostDetailScreen:React.FC = ()=>{
     const rootNavigation = useRootNavigation();

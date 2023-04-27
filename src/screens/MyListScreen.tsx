@@ -38,7 +38,6 @@ export const MyListScreen:React.FC = () => {
                 </View>
                 </Button>
             </View>
-            
         )
     }
     return (

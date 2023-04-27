@@ -15,7 +15,7 @@ import {
 // }
 
 export const RemoteImage:React.FC<{
-    url:string,
+    url:string | undefined,
     width:number,
     height:number,
     style?:StyleProp<ImageStyle>

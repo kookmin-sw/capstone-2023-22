@@ -23,4 +23,14 @@ public class Cafe {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;
+
+
+    private Cafe(String cafeName, Place place){
+        this.cafe_name = cafeName;
+        this.place = place;
+    }
+
+    public final static Cafe newTestInstance(String cafeName, Place place){
+        return new Cafe(cafeName,place);
+    }
 }

@@ -13,13 +13,18 @@ td, th {
   vertical-align: middle;
 }
 
- td {
+td {
   border-bottom: 1px solid rgba(0,0,0,.1);
   background: #fff;
 }
 
 a {
   color: rgb(112, 76, 232);
+}
+
+.structure-pic {
+
+  width: 80vw;
 }
 
 @media all and (max-width: 768px) {

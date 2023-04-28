@@ -3,6 +3,8 @@ import React from "react";
 import "./Project.css"
 import StyledButton from "./StyledButtton";
 
+import systemStructure from "../images/system-structure.png"
+
 function Project() {
   return (
     <div className="Project">
@@ -13,10 +15,11 @@ function Project() {
       </div>
       <h2>세소행: "세상의 소소한 문화행복 생활을 즐기다"</h2>
       <p className="main-text">
-        2022년 10월 29일 발생한 이태원 사건은 사회적으로 큰 충격을 불러일으켰으며, 동시에 "인구밀집"을 중요한 사회적 키워드로 부각시켰습니다. <br />
-        <a href="https://www.hani.co.kr/arti/society/society_general/1069820.html">‘이태원 참사’ 트라우마 83%가 2030…또래 희생 충격 컸나</a> <br />
-        저희는 이러한 문제점으로부터 '만약 특정 지역의 인구 밀집 정도를 예측할 수 있고, 실제 인구밀집이 발생하는 이유를 확인할 수 있다면 사회적 문제의 해결로도 이어질 수 있지 않을까?'라고 생각하였습니다.
-        이러한 인구밀집 현상을 '트렌드'의 측면에서 바라보고, 문화 생활을 즐길 수 있는 장소에 대한 정보를 추가적으로 소비자에게 제공하여 보다 다양한 장소에서 문화생활을 즐길 수 있도록 해당 애플리케이션 서비스를 기획하였습니다.
+        지난 이태원 사고 이후로 인구 과밀에 대한 관심은 지속적으로 증가하고 있습니다.
+        국내외 전문가들은 ‘인구 과밀로 인한 사고를 막기 위해서는 예측이 중요하다'고 말합니다. <br /><br />
+        <a href="https://www.hani.co.kr/arti/society/society_general/1065148.html">과밀이 일상인 서울…위험은 빽빽이 들어차 있다</a> <br /><br />
+        이러한 예측이 이루어지려면 인구 혼잡에 대한 정보를 확인할 수 있는 정보가 중요하지만, 현재의 검색 및 장소 정보 제공 플랫폼에서는 인구 혼잡 및 과밀에 대한 정보가 자세하게 제공되지 않고 있습니다.
+        이러한 인구밀집 현상을 '트렌드'의 측면에서 바라보고, 문화 생활을 즐길 수 있는 장소에 대한 정보를 소비자에게 제공하여 보다 다양한 장소에서 문화생활을 즐길 수 있도록 해당 애플리케이션 서비스를 기획하였습니다.
       </p>
       <h1>기술 스택</h1>
       <p>서비스 개발 과정에서 저희가 사용한 주요 기술 스택은 다음과 같습니다.</p>
@@ -24,11 +27,13 @@ function Project() {
         <thead><th>PART</th><th>STACKS</th></thead>
         <tr><td>Frontend</td><td><img alt="React Native Logo" src="https://img.shields.io/badge/React Native-61DAFB?style=flat-square&logo=React&logoColor=black"/></td></tr>
         <tr><td>Backend</td><td><img alt="Spring" src="https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white"/></td></tr>
-        <tr><td>MLOps</td><td></td></tr>
+        <tr><td>MLOps</td><td><img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white"/></td></tr>
         <tr><td>Cloud</td><td><img alt="AWS" src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white"/></td></tr>
+        <tr><td>Data Preprocessing</td><td><a href="https://docs.python.org/3/reference/index.html"><img alt="Python Badge" src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white" /></a>&nbsp;<img alt="Pandas Badge" src="https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white" /></td></tr>
       </table>
       <h1>시스템 구조</h1>
-      <p>(추가 예정입니다.)</p>
+      <p>시스템 구조는 아래 그림과 같습니다.</p>
+      <img className="structure-pic" alt="System structure" src={systemStructure} />
     </div>
   );
 }

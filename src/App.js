@@ -4,10 +4,12 @@ import Home from './routes/Home';
 import AboutTeam from "./routes/AboutTeam";
 import IntroMovie from "./routes/IntroMovie";
 import ExecGuide from "./routes/ExecGuide";
+import Header from "./components/Header";
 
 function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
+      <Header />
       <Routes>
         <Route path="" element={<Home />} />
         <Route path="/about-project" element={<AboutProject />} />

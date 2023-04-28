@@ -1,11 +1,13 @@
 # 2023년도 1학기 다학제간캡스톤디자인 I - 22팀
 > 세상의 소소한 문화행복 생활을 즐기다, 세소행
 
+![logo](./img/logo.png)
+
 ## :question: 팀 소개 & 팀 페이지
 
-### [팀페이지 주소(https://kookmin-sw.github.io/capstone-2023-22/)](https://kookmin-sw.github.io/capstone-2023-22/)
+### 팀페이지 주소: [https://kookmin-sw.github.io/capstone-2023-22/](https://kookmin-sw.github.io/capstone-2023-22/)
 
-프로젝트 소개, 팀 소개와 같은 정보들은 위의 링크에서 확인할 수 있습니다.
+프로젝트 소개 / 소개 영상 / 팀원 소개 / 사용법 등 프로젝트 정보들은 위의 링크에서 확인할 수 있습니다.
 
 ## :evergreen_tree: 브랜치 설명
 
@@ -15,15 +17,27 @@
 
 ### Frontend
 
-( Frontend main 브랜치의 코드는 master 브랜치에 포함되어 있습니다. )
+- develop: Git flow 중 개발을 위한 branch입니다.<br />
+( Frontend의 Git flow 중 develop 브랜치의 코드는 master 브랜치에서도 확인할 수 있습니다. )
+- main: 실질 배포를 위한 branch입니다.
+- feature: 개별 기능 단위 개발을 위한 branch입니다.
 
 ### Backend
 
-( Backend의 Git flow 중 main 브랜치의 코드는 master 브랜치에 포함되어 있습니다. )
+- develop: Git flow 중 개발을 위한 branch입니다.<br />
+( Backend의 Git flow 중 develop 브랜치의 코드는 master 브랜치에서도 확인할 수 있습니다. )
+- main: 실질 배포를 위한 branch입니다.
+- feature: 개별 기능 단위 개발을 위한 branch입니다.
+    - response
+    - exception
+    - feed
+    - security
+    - entity
+    - cafe,culture,area_maker
 
 ### MLOps
 
-( MLOps의 주요 기능 코드는 master 브랜치에 포함되어 있습니다. )
+- (MLOps의 주요 기능 코드는 master 브랜치에서 확인할 수 있습니다.)
 
 ## :raised_hands: 협업 규칙
 
@@ -44,4 +58,6 @@ Pull Request는 자유롭게 내용을 요약해서 보내시면 됩니다.
 
 각 파트별 추가적인 협업 규칙이 있다면 여기에 작성합니다.
 
-- master branch merge: 23:00, 매주 금요일 (GMT +9)
+- 조직 링크: https://github.com/sesohaeng <br />
+브랜치 단위가 아닌 레포지토리 단위로 명확하게 구분된 프로젝트 전반 코드는 해당 Organization 링크에서 확인할 수 있습니다.
+- master branch의 파트별 작업물 merge는 필요에 의해 진행합니다. 각자의 branch에서 작업해주시면 됩니다.

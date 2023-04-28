@@ -1,3 +1,23 @@
-.message {
-  text-align: center;
+.user-guide {
+  margin-left: 10vw;
+  margin-right: 10vw;
+}
+
+.message-quote {
+  width: 60vw;
+  margin: 0.8vw 0;
+  padding: 1.5vw;
+  border-radius: 0.2rem;
+  background-color: rgb(239, 239, 236);
+  font-weight: 500;
+}
+
+.code {
+  padding: 0.2vw 0.5vw;
+  border-radius: 0.2rem;
+  background-color: rgb(237, 237, 235);
+}
+
+li {
+  margin-bottom: 1vw;
 }

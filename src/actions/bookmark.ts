@@ -30,8 +30,6 @@ export const getBookmarkListFailure = ()=>{
 export const getBookmarkList = ():BookmarkListThunkAction=> async (dispatch)=>{
     dispatch(getBookmarkListRequest());
 
-    await sleep(2000)
-
     dispatch(
         getBookmarkListSuccess([
             {

@@ -1,18 +1,19 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity} from 'react-native';
 import { useDispatch } from 'react-redux';
-import { TypeUserDispatch, updateUserNickname } from '../actions/user';
+import { TypeUserDispatch, updateUserBirth, updateUserNickname } from '../actions/user';
 import { Header } from '../components/Header/Header';
 import { ModifyModal } from '../components/ModifyModal';
 import { Spacer } from '../components/Spacer';
 import { Typography } from '../components/Typography';
 import {  useRootNavigation } from '../navigations/RootStackNavigation';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import dayjs from 'dayjs';
 
 export const SettingScreen:React.FC = ()=>{
     const [modifyNicknameModalVisible, setModifyNicknameModalVisible] = useState(false);
     const [modifyBirthModalVisible, setModifyBirthModalVisible] = useState(false);
     const [nickname, setNickname] = useState("");
-    const [birth, setBirth] = useState("");
 
     const rootNavigation = useRootNavigation();
     const dispatch = useDispatch<TypeUserDispatch>();
@@ -73,15 +74,15 @@ export const SettingScreen:React.FC = ()=>{
                         </View>
                     </View>
                 </View>
-                <ModifyModal 
+                <ModifyModal
                 value={nickname} 
-                modalVisible={modifyNicknameModalVisible} 
+                modalVisible={modifyNicknameModalVisible}
                 setModalVisible={()=>setModifyNicknameModalVisible(!modifyNicknameModalVisible)} 
                 onPressAction={() => {
                     console.log(nickname);
                     dispatch(updateUserNickname(nickname));
                     setModifyNicknameModalVisible(false);
-                    setNickname("")    
+                    setNickname("")
                 }} 
                 onPressClose={()=>{
                     setModifyNicknameModalVisible(false);
@@ -92,22 +93,17 @@ export const SettingScreen:React.FC = ()=>{
                     <Text style={{fontSize:13}}>수정할 닉네임을 입력하세요.</Text>
                     <Text style={{fontSize:13}}>닉네임은 2글자 이상이어야 합니다.</Text>
                 </ModifyModal>
-                <ModifyModal 
-                value={birth} 
-                modalVisible={modifyBirthModalVisible} 
-                setModalVisible={()=>setModifyBirthModalVisible(!modifyBirthModalVisible)} 
-                onPressAction={() => {
-                    setModifyBirthModalVisible(false);
-                    setBirth("")
-                }} 
-                onPressClose={()=>{
-                    setModifyBirthModalVisible(false);
-                    setBirth("");
-                }} 
-                onChangeValue={setBirth}>
-                    <Text style={{fontSize:17, paddingVertical: 5, marginTop:18}}>생년월일 수정</Text>
-                    <Text style={{fontSize:13}}>생년월일을 수정합니다.</Text>
-                </ModifyModal>
+                <DateTimePickerModal
+                    isVisible={modifyBirthModalVisible}
+                    mode="date"
+                    onConfirm={(date) => {
+                        const newUserBirth = dayjs(date).format('YY-MM-DD');
+                        dispatch(updateUserBirth(newUserBirth));
+                        setModifyBirthModalVisible(false);
+                    }}
+                    onCancel={() =>{
+                        setModifyBirthModalVisible(false);
+                    }}/>
             </View>
         </View>
     )

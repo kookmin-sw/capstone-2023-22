@@ -1,22 +1,17 @@
 package sesohaeng.sesohaengbackend.service.area;
 
-import org.assertj.core.api.Assertions;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.area.AreaRepository;
-import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.dto.response.area.AreaResponseDto;
 
-import javax.persistence.*;
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 class AreaServiceTest {
 
@@ -36,16 +32,13 @@ class AreaServiceTest {
     @Mock
     AreaRepository areaRepository;
 
-
     @BeforeEach
     void init(){
-
-
     }
 
 
 
-    @DisplayName("Get Area List")
+    @DisplayName("특구 리스트 가져오기")
     @Test
     void getAreas() {
         // create a list of areas to be returned by the mocked repository
@@ -62,8 +55,10 @@ class AreaServiceTest {
 
         // then
         assertThat(areas.get(0).getAreaName()).isEqualTo("AreaSeYeol");
+        log.info("areaName = {}", areas.get(0).getAreaName());
     }
 
+    @DisplayName("특정 특구 가져오기")
     @Test
     void getArea() {
         // stubbing
@@ -76,6 +71,7 @@ class AreaServiceTest {
 
         // then
         assertThat(areaResponseDto.getAreaName()).isEqualTo("AreaSeYeol");
+        log.info("areaName = {}", areaResponseDto.getAreaName());
 
     }
 }

@@ -38,9 +38,11 @@
 }
 
 .Person-details-quote {
+  width: 50vw;
   margin: 0.8vw 0;
   padding: 1.5vw;
-  border-radius: 0.2rem;
+  line-height: 2vw;
+  border-radius: 0.8rem;
   background-color: rgb(239, 239, 236);
   font-weight: 500;
 }

@@ -30,8 +30,7 @@ function Team() {
         sn="****2648"
         githubLink="https://github.com/jin-jae"
         part="팀장, 디자인(기획), Frontend"
-        message={`안녕하세요, 다양성의 가치를 추구하는 개발자 **김진재**입니다.
-
+        message={`안녕하세요, 다양성의 가치를 추구하는 개발자 **김진재**입니다.  
 넓고 깊은 **탐색가의 삶**을 지향합니다 :)`}
       />
       <PersonInfo
@@ -45,7 +44,7 @@ function Team() {
       <PersonInfo
         image="https://avatars.githubusercontent.com/u/79959576?v=4"
         name="박세열"
-        sn="****2648"
+        sn="****2894"
         githubLink="https://github.com/SeYeol00"
         part="Backend (Security, Infrastructure)"
         message={`안녕하세요, 박세열입니다.`}
@@ -64,10 +63,8 @@ function Team() {
         sn="****1703"
         githubLink="https://github.com/sunho1999"
         part="MLOps"
-        message={`현재 99년생 18학번 소프트웨어학부 재학중인 평선호 라고 합니다.
-
-**배우는것을 공유하고 나누는것**이 **공부의 이상**이라 생각합니다.
-
+        message={`현재 99년생 18학번 소프트웨어학부 재학중인 평선호 라고 합니다.  
+**배우는것을 공유하고 나누는것**이 **공부의 이상**이라 생각합니다.  
 감사합니다 :-)`}
       />
     </div>

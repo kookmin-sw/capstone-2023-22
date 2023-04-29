@@ -21,7 +21,7 @@ export const setUserInfo = (userInfo:UserInfo)=>{
         userInfo
     }
 }
- 
+
 export const getMyFeedListRequest = ()=>{
     return {
         type:GET_MY_FEED_LIST_REQUEST
@@ -83,18 +83,6 @@ export const updateBirth = (payload:string) => {
 export const updateUserBirth = (birth:string):UserThunkAction => async (dispatch) => {
     console.log(birth);
     dispatch(updateBirth(birth));
-}
-
-export const updateNickname = (payload:string) => {
-    return {
-        type: UPDATE_USER_NICKNAME,
-        payload
-    }
-}
-
-export const updateUserNickname = (nickname:string):UserThunkAction => async (dispatch) => {
-    console.log(nickname);
-    dispatch(updateNickname(nickname))
 }
 
 export const signIn = ():UserThunkAction => async (dispatch)=>{
@@ -175,8 +163,8 @@ export const getMyFavoriteList = ():UserThunkAction => async (dispatch)=>{
 export type UserThunkAction = ThunkAction<Promise<void>, RootReducer, undefined, UserInfoActions>;
 export type TypeUserDispatch = ThunkDispatch<RootReducer, undefined, UserInfoActions>;
 export type UserInfoActions =
-    | ReturnType<typeof setUserInfo> 
-    | ReturnType<typeof getMyFeedListRequest> 
+    | ReturnType<typeof setUserInfo>
+    | ReturnType<typeof getMyFeedListRequest>
     | ReturnType<typeof getMyFeedListSuccess>
     | ReturnType<typeof getMyFeedListFailure>
     | ReturnType<typeof getMyFavoriteListRequest>

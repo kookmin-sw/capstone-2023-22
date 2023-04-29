@@ -15,6 +15,3 @@ web-build/
 
 # IDE
 .idea
-
-# for security
-app.json

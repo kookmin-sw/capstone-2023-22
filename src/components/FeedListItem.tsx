@@ -5,7 +5,6 @@ import { Icon } from './Icons';
 import { RemoteImage } from './RemoteImage';
 import { Spacer } from './Spacer';
 import { Typography } from './Typography';
-import { Platform } from 'react-native'
 
 export const FeedListItem:React.FC<{image:string, likeCount:number, writer:string, writerImg:string, comment:string, onPressFeed:()=>void}> = (props)=>{
     const {width} = useWindowDimensions();

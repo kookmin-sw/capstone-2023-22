@@ -1,16 +1,20 @@
 import React, { useCallback, useEffect } from 'react';
 import { FlatList, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
 import { getFeedList, TypeFeedListDispatch } from '../actions/feed';
+import { Button } from '../components/Button';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
+import { Icon } from '../components/Icons';
 import { Spacer } from '../components/Spacer';
 import { useRootNavigation } from '../navigations/RootStackNavigation';
 import { useTotalFeedList } from '../selectors/feed';
 
 export const TotalFeedListScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation<'BottomTab'>();
+    const safeAreaInset = useSafeAreaInsets();
+    const stackNavigation = useRootNavigation();
     const dispatch = useDispatch<TypeFeedListDispatch>();
     const feedList = useTotalFeedList();
 
@@ -19,7 +23,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
     }, [])
 
     const onPressFeed = useCallback(()=>{
-        rootNavigation.navigate('PostDetail');
+        stackNavigation.navigate('PostDetail');
     }, [])
 
     return (
@@ -47,6 +51,13 @@ export const TotalFeedListScreen:React.FC = ()=>{
                     <Spacer space={24}/>
                 )}
             />
+            <View style={{position:'absolute', right:24, bottom:10 + safeAreaInset.bottom}}>
+                <Button onPress={()=>{console.log("Button clicked"); stackNavigation.navigate('PlaceSearch');}}>
+                    <View style={{width:78, height:78, borderRadius:78/2, alignItems:'center', justifyContent:'center', backgroundColor:"#764AF1"}}>
+                        <Icon name='albums-outline' color='white' size={30}/>
+                    </View>
+                </Button>
+            </View>
         </View>
     )
 }

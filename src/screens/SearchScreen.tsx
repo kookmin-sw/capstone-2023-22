@@ -1,20 +1,13 @@
-import React, { useCallback, useEffect } from 'react';
-import { FlatList, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { FeedInfo } from '../@types/FeedInfo';
-import { getFeedList, TypeFeedListDispatch } from '../actions/feed';
-import { FeedListItem } from '../components/FeedListItem';
+import React, {} from 'react';
+import { View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useRootNavigation } from '../navigations/RootStackNavigation';
-import { useTotalFeedList } from '../selectors/feed';
 import { SingleLineInput } from '../components/SingleLineInput';
 import { Typography } from '../components/Typography';
 import { Icon } from '../components/Icons';
 
 export const SearchScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation<'BottomTab'>();
-
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>

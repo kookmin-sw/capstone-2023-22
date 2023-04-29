@@ -18,7 +18,8 @@ export const MultiLineInput:React.FC<{
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 4,
-        borderWidth: 1,
+        backgroundColor:'#D9D9D9',
+        // borderWidth: 1,
         borderColor: focused ? 'black' : 'gray',
       }}
     >

@@ -29,7 +29,6 @@ export const getBookmarkListFailure = ()=>{
 
 export const getBookmarkList = ():BookmarkListThunkAction=> async (dispatch)=>{
     dispatch(getBookmarkListRequest());
-
     dispatch(
         getBookmarkListSuccess([
             {

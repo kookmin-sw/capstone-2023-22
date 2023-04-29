@@ -13,7 +13,8 @@ export type BottomTabParamList = {
     TotalFeedList:undefined,
     MyPage:undefined,
     MyList:undefined,
-    Search:undefined
+    Search:undefined,
+    Map:undefined,
 }
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
@@ -31,6 +32,9 @@ export const BottomTabNavigation = ()=>{
                 }
                 if(route.name === 'Search'){
                     return 'search'
+                }
+                if(route.name === 'Map'){
+                    return 'map'
                 }
                 return 'home'
             }

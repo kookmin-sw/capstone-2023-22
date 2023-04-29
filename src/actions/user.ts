@@ -85,6 +85,18 @@ export const updateUserBirth = (birth:string):UserThunkAction => async (dispatch
     dispatch(updateBirth(birth));
 }
 
+export const updateNickname = (payload:string) => {
+    return {
+        type: UPDATE_USER_NICKNAME,
+        payload
+    }
+}
+
+export const updateUserNickname = (nickname:string):UserThunkAction => async (dispatch) => {
+    console.log(nickname);
+    dispatch(updateNickname(nickname))
+}
+
 export const signIn = ():UserThunkAction => async (dispatch)=>{
     await sleep(1000);
 

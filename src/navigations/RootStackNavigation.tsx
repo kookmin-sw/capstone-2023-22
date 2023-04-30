@@ -15,6 +15,7 @@ export type RootStackParamList = {
     Setting:undefined
     PlaceSearch:undefined
     ImageSelect:undefined
+    Map:undefined
     WritePost:{
         uri:string|undefined
     }

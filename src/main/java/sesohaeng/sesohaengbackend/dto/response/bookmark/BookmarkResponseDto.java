@@ -6,5 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BookmarkResponseDto {
-    private String placeName;
+    Long placeId;
+    String placeName;
 }

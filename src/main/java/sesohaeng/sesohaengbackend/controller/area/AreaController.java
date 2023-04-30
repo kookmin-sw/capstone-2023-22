@@ -35,7 +35,7 @@ public class AreaController {
     }
 
     @GetMapping("/map/{id}")
-    public final CommonResponse getAreas(@PathVariable Long id){
+    public final CommonResponse getArea(@PathVariable Long id){
         return SingleResponse.<AreaResponseDto>builder()
                 .success(true)
                 .status(200)

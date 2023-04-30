@@ -25,7 +25,7 @@ public class CafeController {
         return ListResponse.<CafeResponseDto>builder()
                 .success(true)
                 .status(200)
-                .message("해당 특구에 속하는 카페들을 가져오는데 성공했습니다.")
+                .message("해당 특구 관련 카페 로딩 성공")
                 .result(cafeService.getCafesByArea(areaId))
                 .build();
     }

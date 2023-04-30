@@ -10,7 +10,7 @@ import { MyListScreen } from '../screens/MyListScreen';
 import { SearchScreen } from '../screens/SearchScreen';
 
 export type BottomTabParamList = {
-    TotalFeedList:undefined,
+    Space:undefined,
     MyPage:undefined,
     MyList:undefined,
     Search:undefined,
@@ -24,19 +24,19 @@ export const BottomTabNavigation = ()=>{
     return (
         <BottomTab.Navigator screenOptions={({route})=>{
             const getIconName = ():TypeIconName=>{
-                if(route.name === 'MyPage'){
-                    return 'person'
+                if (route.name === 'MyPage'){
+                    return 'person';
                 }
-                if(route.name === 'MyList'){
-                    return 'star'
+                if (route.name === 'MyList'){
+                    return 'star';
                 }
-                if(route.name === 'Search'){
-                    return 'search'
+                if (route.name === 'Search'){
+                    return 'search';
                 }
-                if(route.name === 'Map'){
-                    return 'map'
+                if (route.name === 'Map'){
+                    return 'map';
                 }
-                return 'home'
+                return 'globe';
             }
 
             const routeIconName = getIconName();
@@ -53,11 +53,11 @@ export const BottomTabNavigation = ()=>{
                 }
             }
         }}>
-            <BottomTab.Screen name='TotalFeedList' component={TotalFeedListScreen}></BottomTab.Screen>
-            <BottomTab.Screen name='MyList' component={MyListScreen}></BottomTab.Screen>
-            <BottomTab.Screen name='Map' component={MapScreen}></BottomTab.Screen>
-            <BottomTab.Screen name='Search' component={SearchScreen}></BottomTab.Screen>
-            <BottomTab.Screen name='MyPage' component={MyPageScreen}></BottomTab.Screen>
+            <BottomTab.Screen name='Space' component={TotalFeedListScreen} />
+            <BottomTab.Screen name='MyList' component={MyListScreen} />
+            <BottomTab.Screen name='Map' component={MapScreen} />
+            <BottomTab.Screen name='Search' component={SearchScreen} />
+            <BottomTab.Screen name='MyPage' component={MyPageScreen} />
         </BottomTab.Navigator>
     )
 }

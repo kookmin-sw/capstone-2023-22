@@ -42,8 +42,14 @@ public class Place {
         this.longitude = longitude;
         this.area = area;
     }
+    private Place(String placeName ){
+        this.placeName = placeName;
+    }
 
     public static final Place newTestInstance(String placeName ,Double latitude, Double longitude, Area area) {
         return new Place(placeName,latitude,longitude,area);
+    }
+    public static final Place newTestInstance(String placeName) {
+        return new Place(placeName);
     }
 }

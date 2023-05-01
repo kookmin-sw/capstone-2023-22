@@ -29,8 +29,18 @@ public class Cafe {
         this.cafe_name = cafeName;
         this.place = place;
     }
+    private Cafe(Long cafeId,String cafeName, Place place){
+        this.id = cafeId;
+        this.cafe_name = cafeName;
+        this.place = place;
+    }
 
     public final static Cafe newTestInstance(String cafeName, Place place){
         return new Cafe(cafeName,place);
     }
+
+    public final static Cafe newTestInstance(Long cafeId, String cafeName, Place place){
+        return new Cafe(cafeId,cafeName,place);
+    }
+
 }

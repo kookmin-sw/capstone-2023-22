@@ -3,9 +3,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: url
-    username: 유저네임
-    password: 비밀번호
+    url: jdbc:mysql://localhost:3309/sesohaeng
+    username: root
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -49,5 +49,3 @@ app:
     # 프론트 엔드 클라이언트가 /oauth2/authorize 요청에서 지정한 redirectUri입니다.
     # 쿠키는 모바일 클라이언트에서 잘 작동하지 않기 때문에 사용하지 않습니다.
     authorizedRedirectUri: "http://localhost:3000/oauth2/redirect"
-server:
-  port: 8082

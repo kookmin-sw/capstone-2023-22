@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
+import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.feed.FeedService;
 import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
@@ -21,16 +22,15 @@ public class FeedController {
     private final FeedService feedService;
 
     @PostMapping
-    public final CommonResponse createFeed(@RequestBody @Valid final FeedCreateRequest feedCreateRequest) {
+    public final CommonResponse createFeed(@RequestBody @Valid final FeedCreateRequest feedCreateRequest, CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 작성 성공")
                 .data(feedService.saveFeed(FeedServiceRequest.newInstance(
                         feedCreateRequest.getContent(),
-                        feedCreateRequest.getUserEmail(),
                         feedCreateRequest.getPlaceId()
-                )))
+                ), Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 }

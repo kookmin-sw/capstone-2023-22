@@ -14,12 +14,9 @@ public class FeedServiceRequest {
     private String content;
 
     @NotNull
-    private String userEmail;
-
-    @NotNull
     private Long placeId;
 
-    public static FeedServiceRequest newInstance(String content, String userEmail, Long placeId) {
-        return new FeedServiceRequest(content, userEmail, placeId);
+    public static FeedServiceRequest newInstance(String content, Long placeId) {
+        return new FeedServiceRequest(content, placeId);
     }
 }

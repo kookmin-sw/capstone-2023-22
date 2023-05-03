@@ -28,10 +28,7 @@ public class Culture {
     private String cultureName;
 
     @Column
-    private LocalDateTime cultureDatetime;
-
-    @Column(name = "place")
-    private String placeName;
+    private String cultureDatetime;
 
     @Column
     private String targetUser;

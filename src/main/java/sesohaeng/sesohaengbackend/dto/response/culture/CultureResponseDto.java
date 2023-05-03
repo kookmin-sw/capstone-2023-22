@@ -20,9 +20,7 @@ public class CultureResponseDto {
 
     String cultureName;
 
-    LocalDateTime cultureDatetime;
-
-    String placeName;
+    String cultureDatetime;
 
     String targetUser;
 

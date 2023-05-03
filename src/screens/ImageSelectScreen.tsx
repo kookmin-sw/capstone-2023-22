@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Pressable, TextInput, TouchableOpacity, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useRootNavigation } from '../navigations/RootStackNavigation';

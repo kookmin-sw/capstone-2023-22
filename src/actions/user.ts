@@ -3,7 +3,7 @@ import { FeedInfo } from "../@types/FeedInfo";
 import { UserInfo } from "../@types/UserInfo";
 import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 
 export const SET_USER_INFO = 'SET_USER_INFO' as const;
 export const UPDATE_USER_NICKNAME = 'UPDATE_USER_NICKNAME' as const;

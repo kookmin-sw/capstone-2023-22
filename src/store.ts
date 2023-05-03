@@ -5,13 +5,15 @@ import { bookmarkListReducer, TypeBookmarkListReducer } from './reducers/bookmar
 
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
+import { searchReducer, TypeSearchReducer } from './reducers/search';
 
 const rootReducer = combineReducers({
     userInfo:userInfoReducer,
     feedList:feedListReducer,
     bookmarkList:bookmarkListReducer,
+    search:searchReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk, logger))
 
-export type RootReducer = {userInfo:typeUserInfoReducer, feedList:TypeFeedListReducer, bookmarkList:TypeBookmarkListReducer};
+export type RootReducer = {userInfo:typeUserInfoReducer, feedList:TypeFeedListReducer, bookmarkList:TypeBookmarkListReducer, search:TypeSearchReducer};

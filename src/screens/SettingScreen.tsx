@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, TouchableOpacity} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TypeUserDispatch, updateUserBirth, updateUserNickname } from '../actions/user';

@@ -71,7 +71,8 @@ public class PlaceServiceImpl implements PlaceService{
 
     private PlaceResponseDto judgeCafeOrCulture(Place place, Optional<Culture> culture, Optional<Cafe> cafe) {
         if (culture.isEmpty() && cafe.isPresent()) {
-            return new PlaceResponseDto(new CafeResponseDto(
+            return new PlaceResponseDto(
+                    new CafeResponseDto(
                     cafe.get().getId(),
                     cafe.get().getCafe_name(),
                     place.getLatitude(),
@@ -87,7 +88,6 @@ public class PlaceServiceImpl implements PlaceService{
                             culture.get().getBorough(),
                             culture.get().getCultureName(),
                             culture.get().getCultureDatetime(),
-                            culture.get().getPlaceName(),
                             culture.get().getTargetUser(),
                             culture.get().getFee(),
                             culture.get().getCast(),

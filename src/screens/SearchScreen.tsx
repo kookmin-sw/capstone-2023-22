@@ -2,12 +2,12 @@ import React, {} from 'react';
 import { View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation } from '../navigations/RootStackNavigation';
 import { SingleLineInput } from '../components/SingleLineInput';
 import { Typography } from '../components/Typography';
 import { Icon } from '../components/Icons';
 
 export const SearchScreen:React.FC = ()=>{
+    
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>

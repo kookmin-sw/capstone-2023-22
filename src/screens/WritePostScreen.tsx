@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { TextInput, TouchableOpacity, View, Image, useWindowDimensions, Pressable, KeyboardAvoidingView, Platform, Keyboard, ScrollView } from 'react-native';
+import { View, useWindowDimensions, Pressable, Keyboard, ScrollView } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useRootNavigation, useRootRoute } from '../navigations/RootStackNavigation';

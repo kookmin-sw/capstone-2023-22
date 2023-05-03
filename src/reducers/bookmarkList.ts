@@ -17,7 +17,6 @@ export const bookmarkListReducer = (state:TypeBookmarkListReducer = defaultBookm
                 bookmarkList: action.list
             }
         }
-
     }
 
     return {

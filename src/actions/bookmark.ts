@@ -29,6 +29,8 @@ export const getBookmarkListFailure = ()=>{
 
 export const getBookmarkList = ():BookmarkListThunkAction=> async (dispatch)=>{
     dispatch(getBookmarkListRequest());
+// TODO: 서버 api로부터 받아오기, axios
+    await sleep(2000)
     dispatch(
         getBookmarkListSuccess([
             {

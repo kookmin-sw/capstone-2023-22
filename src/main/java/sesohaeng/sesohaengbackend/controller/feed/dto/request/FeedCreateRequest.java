@@ -13,8 +13,5 @@ public class FeedCreateRequest {
     String content;
 
     @NotNull
-    String userEmail;
-
-    @NotNull
     Long placeId;
 }

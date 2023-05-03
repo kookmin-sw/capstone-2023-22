@@ -86,7 +86,6 @@ public class PlaceServiceImpl implements PlaceService{
                             culture.get().getBorough(),
                             culture.get().getCultureName(),
                             culture.get().getCultureDatetime(),
-                            culture.get().getPlaceName(),
                             culture.get().getTargetUser(),
                             culture.get().getFee(),
                             culture.get().getCast(),

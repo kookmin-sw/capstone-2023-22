@@ -22,8 +22,6 @@ public class CultureResponseDto {
 
     LocalDateTime cultureDatetime;
 
-    String placeName;
-
     String targetUser;
 
     String fee;

@@ -17,8 +17,6 @@ import sesohaeng.sesohaengbackend.dto.response.bookmark.BookMarkPostResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.bookmark.BookmarkResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -35,21 +33,12 @@ public class BookMarkServiceImpl implements BookMarkService {
 
     @Transactional
     @Override
-    public BookMarkPostResponseDto bookMarked(Long userId, Long id) {
+    public BookMarkPostResponseDto bookMarked(Long userId, Long id, String type) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoDataException("해당 유저가 존재하지 않습니다. 회원가입 해주세요"));
-        // 카페인지 컬쳐인지 검증
-        Optional<Culture> culture = cultureRepository.findById(id);
-        Optional<Cafe> cafe = cafeRepository.findById(id);
-        String value = judgeCafeOrCulture(cafe, culture);
-        // 등록
-        BookMark bookMark = registerBookMark(value, user, culture, cafe);
-        return new BookMarkPostResponseDto(
-                bookMark.getId(),
-                bookMark.getPlace().getPlaceName(),
-                bookMark.getCreatedAt()
-        );
+        return getBookMarkPostResponseDto(id, type, user);
     }
+
 
     @Transactional
     @Override
@@ -67,39 +56,32 @@ public class BookMarkServiceImpl implements BookMarkService {
         List<BookmarkResponseDto> bookmarkResponseDtos = new LinkedList<>();
         List<BookMark> BookMarks = bookMarkRepository.findAllByUser(user);
         BookMarks.forEach(bookMark -> {
-            bookmarkResponseDtos.add(new BookmarkResponseDto(bookMark.getId(),bookMark.getPlace().getId(), bookMark.getPlace().getPlaceName()));
+            bookmarkResponseDtos.add(new BookmarkResponseDto(bookMark.getId(), bookMark.getPlace().getId(), bookMark.getPlace().getPlaceName()));
         });
         return bookmarkResponseDtos;
     }
 
-    private String judgeCafeOrCulture(Optional<Cafe> cafe, Optional<Culture> culture) {
-        if (cafe.isPresent() && culture.isEmpty()) {
-            return "Cafe";
-        }else if (cafe.isEmpty() && culture.isPresent()){
-            return "Culture";
-        }
-        return "Unavailable";
-    }
 
-    private BookMark registerBookMark(String value,User user, Optional<Culture> culture,Optional<Cafe> cafe) {
-        if (value.equals("Cafe")) {
-            return bookMarkRepository.save(
-                    BookMark.newInstance(
-                            true,
-                            user,
-                            cafe.get().getPlace()
-                    )
+
+    private BookMarkPostResponseDto getBookMarkPostResponseDto(Long id, String type, User user) {
+        if (type.equals("culture")) {
+            Culture culture = cultureRepository.findById(id).orElseThrow(() -> new NoDataException("해당 문화 공간이 존재하지 않습니다."));
+            BookMark saveBookMark = bookMarkRepository.save(BookMark.newInstance(true, user, culture.getPlace()));
+            return new BookMarkPostResponseDto(
+                    saveBookMark.getId(),
+                    saveBookMark.getPlace().getPlaceName(),
+                    saveBookMark.getCreatedAt()
             );
-        } else if (value.equals("Culture")) {
-            return bookMarkRepository.save(
-                    BookMark.newInstance(
-                            true,
-                            user,
-                            culture.get().getPlace()
-                    )
+        } else if(type.equals("cafe")){
+            Cafe cafe = cafeRepository.findById(id).orElseThrow(() -> new NoDataException("해당 카페가 존재하지 않습니다."));
+            BookMark saveBookMark = bookMarkRepository.save(BookMark.newInstance(true, user, cafe.getPlace()));
+            return new BookMarkPostResponseDto(
+                    saveBookMark.getId(),
+                    saveBookMark.getPlace().getPlaceName(),
+                    saveBookMark.getCreatedAt()
             );
-        } else {
-            throw new NoDataException("해당하는 문화공간이나 카페가 없습니다.");
+        }else{
+            throw new NoDataException("해당 문화공간이나 카페가 존재하지 않습니다.");
         }
     }
 }

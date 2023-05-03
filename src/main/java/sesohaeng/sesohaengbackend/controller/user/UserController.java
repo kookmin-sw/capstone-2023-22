@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.user.UserResponseDto;
+import sesohaeng.sesohaengbackend.response.CommonResponse;
+import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.user.UserService;
 import sesohaeng.sesohaengbackend.service.user.UserServiceImpl;
@@ -17,7 +19,14 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user")
-    public UserResponseDto getUserDetail(CustomUserDetails userDetails){
-        return userService.getUserProfile(Long.valueOf(userDetails.getName()));
+    public final CommonResponse getUserDetail(CustomUserDetails userDetails){
+
+        return SingleResponse.<UserResponseDto>builder()
+                .success(true)
+                .status(200)
+                .message("유저 이름, 유저 이미지 로딩 성공")
+                .data(userService.getUserProfile(Long.valueOf(userDetails.getName())))
+                .build();
+//        return userService.getUserProfile(Long.valueOf(userDetails.getName()));
     }
 }

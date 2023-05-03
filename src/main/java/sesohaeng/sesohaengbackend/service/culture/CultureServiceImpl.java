@@ -38,7 +38,6 @@ public class CultureServiceImpl implements CultureService{
                     culture.getBorough(),
                     culture.getCultureName(),
                     culture.getCultureDatetime(),
-                    culture.getPlaceName(),
                     culture.getTargetUser(),
                     culture.getFee(),
                     culture.getCast(),

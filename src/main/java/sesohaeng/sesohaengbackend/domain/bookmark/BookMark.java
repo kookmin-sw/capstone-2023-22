@@ -7,6 +7,7 @@ import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.user.User;
 
 import javax.persistence.*;
+import java.awt.print.Book;
 
 @Entity
 @NoArgsConstructor
@@ -40,5 +41,9 @@ public class BookMark extends BaseTimeEntity {
 
     public static final void deleteBookMark(BookMark bookMark){
         bookMark.isSaved = false;
+    }
+
+    public static final BookMark newTestInstance(Boolean isSaved, User user, Place place){
+        return new BookMark(isSaved,user,place);
     }
 }

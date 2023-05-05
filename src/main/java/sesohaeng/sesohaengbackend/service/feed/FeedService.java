@@ -52,6 +52,14 @@ public class FeedService {
         );
     }
 
+    public final FeedServiceResponse getFeed(final Long id) {
+        logger.info("피드 상세 페이지");
+
+        return convertFeedResponse(feedRepository.findById(id).orElseThrow(
+                () -> new NoDataException("피드가 존재하지 않습니다.")
+        ));
+    }
+
     private FeedServiceResponse convertFeedResponse(Feed feed) {
         return FeedServiceResponse.of(
                 feed.getId(),

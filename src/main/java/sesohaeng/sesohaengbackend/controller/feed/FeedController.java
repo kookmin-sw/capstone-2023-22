@@ -51,4 +51,17 @@ public class FeedController {
                 .data(feedService.getFeed(id))
                 .build();
     }
+
+    @PutMapping("/{id}")
+    public final CommonResponse updateFeed(@PathVariable(name = "id") final Long id, @RequestBody @Valid final FeedCreateRequest feedCreateRequest) {
+        return SingleResponse.<FeedServiceResponse>builder()
+                .success(true)
+                .status(200)
+                .message("피드 수정 성공")
+                .data(feedService.updateFeed(id, FeedServiceRequest.newInstance(
+                        feedCreateRequest.getContent(),
+                        feedCreateRequest.getPlaceId()
+                )))
+                .build();
+    }
 }

@@ -14,10 +14,10 @@ public class FeedServiceResponse {
     Long id;
     String content;
     String userEmail;
-    Long placeId;
+    String placeName;
     LocalDateTime createdAt;
 
-    public static FeedServiceResponse of(Long id, String content, String userEmail, Long placeId, LocalDateTime createdAt) {
-        return new FeedServiceResponse(id, content, userEmail, placeId, createdAt);
+    public static FeedServiceResponse of(Long id, String content, String userEmail, String placeName, LocalDateTime createdAt) {
+        return new FeedServiceResponse(id, content, userEmail, placeName, createdAt);
     }
 }

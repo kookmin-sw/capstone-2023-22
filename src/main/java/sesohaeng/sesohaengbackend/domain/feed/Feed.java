@@ -51,4 +51,6 @@ public class Feed extends BaseTimeEntity {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public void setPlace(Place place) { this.place = place; }
 }

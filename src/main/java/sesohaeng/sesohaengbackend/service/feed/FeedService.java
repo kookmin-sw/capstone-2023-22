@@ -72,6 +72,11 @@ public class FeedService {
         return convertFeedResponse(modifyFeed);
     }
 
+    public final boolean deleteFeed(final Long id) {
+        feedRepository.deleteById(id);
+        return true;
+    }
+
     private FeedServiceResponse convertFeedResponse(Feed feed) {
         return FeedServiceResponse.of(
                 feed.getId(),

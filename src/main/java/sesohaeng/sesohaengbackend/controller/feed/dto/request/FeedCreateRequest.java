@@ -13,5 +13,5 @@ public class FeedCreateRequest {
     String content;
 
     @NotNull
-    Long placeId;
+    String placeName;
 }

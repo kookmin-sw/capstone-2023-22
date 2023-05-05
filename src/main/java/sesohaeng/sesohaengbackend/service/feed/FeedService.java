@@ -32,9 +32,7 @@ public class FeedService {
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-        Place place = placeRepository.findById(feedServiceRequest.getPlaceId()).orElseThrow(
-                () -> new NoDataException("place가 존재하지 않습니다.")
-        );
+        Place place = placeRepository.findByPlaceName(feedServiceRequest.getPlaceName());
         Feed feed = feedRepository.save(Feed.newInstance(
                 feedServiceRequest.getContent(),
                 user,
@@ -64,7 +62,7 @@ public class FeedService {
         logger.info("피드 수정");
 
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
-        Place place = placeRepository.findById(feedServiceRequest.getPlaceId()).orElseThrow(() -> new NoDataException("장소가 존재하지 않습니다."));
+        Place place = placeRepository.findByPlaceName(feedServiceRequest.getPlaceName());
         feed.setContent(feedServiceRequest.getContent());
         feed.setPlace(place);
 

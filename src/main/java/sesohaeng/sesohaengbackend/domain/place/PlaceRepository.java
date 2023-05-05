@@ -11,8 +11,6 @@ import java.util.List;
 
 @Repository
 public interface PlaceRepository extends JpaRepository<Place,Long> {
-
+    Place findByPlaceName(String placeName);
     List<Place> findAllByArea(Area area);
-
-
 }

@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 public class FeedServiceResponse {
     Long id;
     String content;
+    String userEmail;
     Long placeId;
     LocalDateTime createdAt;
 
-    public static FeedServiceResponse of(Long id, String content, Long placeId, LocalDateTime createdAt) {
-        return new FeedServiceResponse(id, content, placeId, createdAt);
+    public static FeedServiceResponse of(Long id, String content, String userEmail, Long placeId, LocalDateTime createdAt) {
+        return new FeedServiceResponse(id, content, userEmail, placeId, createdAt);
     }
 }

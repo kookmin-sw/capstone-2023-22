@@ -41,4 +41,14 @@ public class FeedController {
                 .data(feedService.getFeeds())
                 .build();
     }
+
+    @GetMapping("/{id}")
+    public final CommonResponse getFeed(@PathVariable(name = "id") final Long id) {
+        return SingleResponse.<FeedServiceResponse>builder()
+                .success(true)
+                .status(200)
+                .message("피드 상세 페이지 가져오기 성공")
+                .data(feedService.getFeed(id))
+                .build();
+    }
 }

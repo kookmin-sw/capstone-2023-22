@@ -9,30 +9,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
-import sesohaeng.sesohaengbackend.service.bookmark.PlaceService;
-import sesohaeng.sesohaengbackend.service.bookmark.PlaceServiceImpl;
-
-import java.util.List;
+import sesohaeng.sesohaengbackend.response.CommonResponse;
+import sesohaeng.sesohaengbackend.response.ListResponse;
+import sesohaeng.sesohaengbackend.response.SingleResponse;
+import sesohaeng.sesohaengbackend.service.place.PlaceService;
 
 @RestController
 @AllArgsConstructor
 @Slf4j
 public class PlaceController {
 
-    private PlaceService placeService;
+    private final PlaceService placeService;
 
 
     @GetMapping("/place")
-    public List<GetPlaceListDto> searchPlaceByKeyword(
+    public final CommonResponse searchPlaceByKeyword(
             @RequestParam String keyword
     ){
-        return placeService.searchPlaceByKeyword(keyword);
+        return ListResponse.<GetPlaceListDto>builder()
+                .success(true)
+                .status(200)
+                .message("장소 검색 성공")
+                .result(placeService.searchPlaceByKeyword(keyword))
+                .build();
+
     }
 
     @GetMapping("/place/{placeId}")
-    public PlaceResponseDto getPlace(
+    public final CommonResponse getPlace(
             @PathVariable Long placeId
     ){
-        return placeService.getPlace(placeId);
+        return SingleResponse.<PlaceResponseDto>builder()
+                .success(true)
+                .message("장소 상세 검색 성공")
+                .data(placeService.getPlace(placeId))
+                .build();
     }
 }

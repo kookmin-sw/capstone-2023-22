@@ -53,4 +53,12 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
+
+    private User(Long id, String email){
+        this.id = id;
+        this.email = email;
+    }
+    public final static User newTestInstance(Long id, String email){
+        return new User(id,email);
+    }
 }

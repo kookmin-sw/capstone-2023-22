@@ -35,4 +35,21 @@ public class Place {
 
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
+
+    private Place(String placeName ,Double latitude, Double longitude, Area area){
+        this.placeName = placeName;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.area = area;
+    }
+    private Place(String placeName ){
+        this.placeName = placeName;
+    }
+
+    public static final Place newTestInstance(String placeName ,Double latitude, Double longitude, Area area) {
+        return new Place(placeName,latitude,longitude,area);
+    }
+    public static final Place newTestInstance(String placeName) {
+        return new Place(placeName);
+    }
 }

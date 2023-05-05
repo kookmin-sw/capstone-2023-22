@@ -57,4 +57,20 @@ public class Culture {
 
     @OneToOne(fetch = FetchType.LAZY)
     private Place place;
+
+    private Culture(String cultureName, Place place){
+        this.cultureName = cultureName;
+        this.place = place;
+    }
+    private Culture(Long cultureId,String cultureName, Place place){
+        this.id = cultureId;
+        this.cultureName = cultureName;
+        this.place = place;
+    }
+    public static Culture newTestInstance(String cultureName, Place place){
+        return new Culture(cultureName,place);
+    }
+    public static Culture newTestInstance(Long cultureId,String cultureName, Place place){
+        return new Culture(cultureId,cultureName,place);
+    }
 }

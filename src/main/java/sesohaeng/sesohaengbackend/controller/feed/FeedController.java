@@ -64,4 +64,14 @@ public class FeedController {
                 )))
                 .build();
     }
+
+    @DeleteMapping("/{id}")
+    public final CommonResponse deleteFeed(@PathVariable(name = "id") final Long id) {
+        return SingleResponse.builder()
+                .success(true)
+                .status(200)
+                .message("피드 삭제 성공")
+                .data(feedService.deleteFeed(id))
+                .build();
+    }
 }

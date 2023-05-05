@@ -6,5 +6,5 @@ import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
 import sesohaeng.sesohaengbackend.domain.culture.Culture;
 
 public interface PlaceRepository extends JpaRepository<Place,Long> {
-
+    Place findByPlaceName(String placeName);
 }

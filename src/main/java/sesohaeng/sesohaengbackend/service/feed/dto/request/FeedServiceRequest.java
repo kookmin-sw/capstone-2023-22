@@ -15,9 +15,9 @@ public class FeedServiceRequest {
     private String content;
 
     @NotNull
-    private Long placeId;
+    private String placeName;
 
-    public static FeedServiceRequest newInstance(String content, Long placeId) {
-        return new FeedServiceRequest(content, placeId);
+    public static FeedServiceRequest newInstance(String content, String placeName) {
+        return new FeedServiceRequest(content, placeName);
     }
 }

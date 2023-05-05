@@ -77,6 +77,18 @@ public class FeedService {
         return true;
     }
 
+    public final FeedListServiceResponse getMyFeeds(Long userId) {
+        logger.info("내가 쓴 게시물");
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NoDataException("user가 존재하지 않습니다."));
+
+        List<Feed> feeds = feedRepository.findByUser(user);
+        return FeedListServiceResponse.newInstance(
+                feeds.stream().map(feed -> convertFeedResponse(feed)).collect(Collectors.toList())
+        );
+    }
+
     private FeedServiceResponse convertFeedResponse(Feed feed) {
         return FeedServiceResponse.of(
                 feed.getId(),

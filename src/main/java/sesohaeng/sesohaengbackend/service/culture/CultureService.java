@@ -5,5 +5,6 @@ import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import java.util.List;
 
 public interface CultureService {
-    List<CultureResponseDto> getCultures();
+    List<CultureResponseDto> getCulturesByArea(Long areaId);
+
 }

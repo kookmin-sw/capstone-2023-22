@@ -5,8 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BookmarkResponseDto {
-    Long bookmarkId;
-    Long placeId;
-    String placeName;
+public class BookMarkDeleteResponseDto {
+    String message;
 }

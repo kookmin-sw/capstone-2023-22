@@ -94,7 +94,7 @@ public class FeedService {
                 feed.getId(),
                 feed.getContent(),
                 feed.getUser().getEmail(),
-                feed.getPlace().getId(),
+                feed.getPlace().getPlaceName(),
                 feed.getCreatedAt()
         );
     }

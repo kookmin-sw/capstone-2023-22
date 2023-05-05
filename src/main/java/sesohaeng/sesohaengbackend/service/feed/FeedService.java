@@ -60,6 +60,18 @@ public class FeedService {
         ));
     }
 
+    public final FeedServiceResponse updateFeed(final Long id, @Valid final FeedServiceRequest feedServiceRequest) {
+        logger.info("피드 수정");
+
+        Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+        Place place = placeRepository.findById(feedServiceRequest.getPlaceId()).orElseThrow(() -> new NoDataException("장소가 존재하지 않습니다."));
+        feed.setContent(feedServiceRequest.getContent());
+        feed.setPlace(place);
+
+        Feed modifyFeed = feedRepository.save(feed);
+        return convertFeedResponse(modifyFeed);
+    }
+
     private FeedServiceResponse convertFeedResponse(Feed feed) {
         return FeedServiceResponse.of(
                 feed.getId(),

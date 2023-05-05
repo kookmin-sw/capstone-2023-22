@@ -74,4 +74,14 @@ public class FeedController {
                 .data(feedService.deleteFeed(id))
                 .build();
     }
+
+    @GetMapping("/my-posts")
+    public final CommonResponse getMyFeeds(CustomUserDetails customUserDetails) {
+        return SingleResponse.<FeedListServiceResponse>builder()
+                .success(true)
+                .status(200)
+                .message("내가 쓴 게시물 가져오기 성공")
+                .data(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
 }

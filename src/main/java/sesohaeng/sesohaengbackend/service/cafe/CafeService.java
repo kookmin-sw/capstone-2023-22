@@ -5,5 +5,5 @@ import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import java.util.List;
 
 public interface CafeService {
-    List<CafeResponseDto> getCafes();
+    List<CafeResponseDto> getCafesByArea(Long areaId);
 }

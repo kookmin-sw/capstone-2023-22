@@ -1,5 +1,7 @@
-package sesohaeng.sesohaengbackend.service.bookmark;
+package sesohaeng.sesohaengbackend.service.place;
 
+import sesohaeng.sesohaengbackend.domain.area.Area;
+import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.dto.querydsl.place.GetPlaceListDto;
 import sesohaeng.sesohaengbackend.dto.response.bookmark.BookmarkResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;

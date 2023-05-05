@@ -27,7 +27,7 @@ public class FeedController {
                 .message("피드 작성 성공")
                 .data(feedService.saveFeed(FeedServiceRequest.newInstance(
                         feedCreateRequest.getContent(),
-                        feedCreateRequest.getPlaceId()
+                        feedCreateRequest.getPlaceName()
                 ), Long.valueOf(customUserDetails.getName())))
                 .build();
     }
@@ -60,7 +60,7 @@ public class FeedController {
                 .message("피드 수정 성공")
                 .data(feedService.updateFeed(id, FeedServiceRequest.newInstance(
                         feedCreateRequest.getContent(),
-                        feedCreateRequest.getPlaceId()
+                        feedCreateRequest.getPlaceName()
                 )))
                 .build();
     }

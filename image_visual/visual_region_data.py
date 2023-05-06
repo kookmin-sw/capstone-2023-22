@@ -74,6 +74,7 @@ data = {'region': local_list,
 df = pd.DataFrame(data)
 
 for i in local_list:
+    plt.clf() # plt 초기화
     local_df = df["region"] == i  # "지역" column에서 "지역 정보" 값을 가지고 있는 행 추출
     filtered_local_df = df[local_df]
     labels = filtered_local_df.columns[1:3]

@@ -1,11 +1,10 @@
 
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3309/sesohaeng
-    username: root
-    password: root
+    url: jdbc:mysql://${URL}
+    username: ${username}
+    password: ${password}
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,14 +14,14 @@ spring:
         format_sql: false
         default_batch_fetch_size: 1000
         globally_quoted_identifiers: true
-        
+
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: 클라이언트 아이디
-            clientSecret: 클라이언트 시크릿
+            clientId: ${client_id}
+            clientSecret: ${client_secret}
             redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
@@ -33,16 +32,16 @@ spring:
 cloud:
   aws:
     region:
-      static: 버킷 지역
+      static: ${static}
     s3:
-      bucket: 버킷 이름
+      bucket: ${bucket}
     credentials:
-      access-key: access key
-      secret-key: secret key
+      access-key: ${AccessKey}
+      secret-key: ${SecretKey}
 app:
   auth:
     token:
-      secret-key: "sesohaengjwtsecretkey"
+      secret-key: ${SecretKey}
       refresh-cookie-key: "refresh"
   oauth2:
     # OAuth2 공급자로 성공적으로 인증 한 후 사용자에 대한 인증 토큰을 생성하고 토큰을

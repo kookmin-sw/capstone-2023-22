@@ -43,11 +43,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     }
 
     public static CustomUserDetails create(User user, Map<String,Object> attributes){
-        log.info("CustomUserDetails 만들기 3");
         CustomUserDetails userDetails = CustomUserDetails.create(user);
-        log.info("CustomUserDetails 만들기 4");
         userDetails.setAttributes(attributes);
-        log.info("CustomUserDetails 만들기 5");
         return userDetails;
     }
 

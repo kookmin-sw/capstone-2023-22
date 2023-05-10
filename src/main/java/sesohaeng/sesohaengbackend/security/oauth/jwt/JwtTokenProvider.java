@@ -14,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
+import sesohaeng.sesohaengbackend.common.UserRole;
+import sesohaeng.sesohaengbackend.domain.user.User;
 import sesohaeng.sesohaengbackend.domain.user.UserRepository;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 
@@ -55,6 +57,22 @@ public class JwtTokenProvider {
         String role = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .setSubject(userId)
+                .claim(AUTHORITIES_KEY,role)
+                .setIssuer("debrains")
+                .setExpiration(validity)
+                .compact();
+    }
+
+    public String createAccessTokenRN(User user, List<UserRole> roles){
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_LENGTH);
+
+
+        String userId = user.getId().toString();
+        String role = roles.stream().map(UserRole::getRole).collect(Collectors.joining(","));
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
                 .setSubject(userId)

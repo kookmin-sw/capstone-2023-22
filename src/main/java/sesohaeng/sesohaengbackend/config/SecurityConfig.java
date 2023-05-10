@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import sesohaeng.sesohaengbackend.security.oauth.CookieAuthorizationRequestRepository;
 import sesohaeng.sesohaengbackend.security.oauth.CustomOAuth2UserService;
 import sesohaeng.sesohaengbackend.security.oauth.OAuth2AuthenticationFailureHandler;

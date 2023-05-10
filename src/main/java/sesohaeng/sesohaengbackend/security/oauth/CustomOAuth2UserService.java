@@ -37,27 +37,27 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     // 획득한 유저정보를 Java Model과 맵핑하고 프로세스 진행
     private OAuth2User process(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        log.info("CustomOAuth2UserService 호출 1");
+
         AuthProvider authProvider = AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId().toUpperCase());
-        log.info("CustomOAuth2UserService 호출 2");
+
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(authProvider, oAuth2User.getAttributes());
         if (userInfo.getEmail().isEmpty()){
             throw new IllegalArgumentException("이메일을 찾을 수 없습니다.");
         }
-        log.info("CustomOAuth2UserService 호출 3");
+
         Optional<User> userOptional = userRepository.findByEmail(userInfo.getEmail());
         User user;
-        log.info("CustomOAuth2UserService 호출 4");
+
         if(userOptional.isPresent()) { // 이미 가입된 경우
             user = userOptional.get();
             if (authProvider != user.getAuthProvider()) {
                 throw new IllegalArgumentException("Auth 프로바이더가 일치하지 않습니다.");
             }
         }else{ // 가입하지 않은 경우
-            log.info("CustomOAuth2UserService 호출 5");
+
             user = createUser(userInfo,authProvider);
         }
-        log.info("CustomOAuth2UserService 호출 6");
+
         return CustomUserDetails.create(user, oAuth2User.getAttributes());
     }
 

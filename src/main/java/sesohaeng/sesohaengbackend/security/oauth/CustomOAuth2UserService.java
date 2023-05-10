@@ -66,6 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = User.builder()
                 .email(userInfo.getEmail())
                 .profileImage(userInfo.getImageUrl())
+                .username(userInfo.getName())
                 .role(UserRole.USER)
                 // state는 없다??
                 .authProvider(authProvider)

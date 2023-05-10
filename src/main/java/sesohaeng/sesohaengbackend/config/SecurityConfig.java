@@ -40,9 +40,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeRequests()
+        http.authorizeRequests() // 인증 진행할 url 설정
                 .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/oauth2/**", "/auth/**").permitAll()
+                .antMatchers("/oauth2/**", "/auth/**","/api/**").permitAll()
                 .anyRequest().authenticated();
 
         http.cors() // CORS on

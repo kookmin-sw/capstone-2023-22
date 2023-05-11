@@ -3,6 +3,7 @@ package sesohaeng.sesohaengbackend.controller.user;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sesohaeng.sesohaengbackend.dto.response.user.UserResponseDto;
@@ -19,7 +20,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user")
-    public final CommonResponse getUserDetail(CustomUserDetails userDetails){
+    public final CommonResponse getUserDetail(@AuthenticationPrincipal CustomUserDetails userDetails){
+        log.info("userId = {}",userDetails.getName());
 
         return SingleResponse.<UserResponseDto>builder()
                 .success(true)

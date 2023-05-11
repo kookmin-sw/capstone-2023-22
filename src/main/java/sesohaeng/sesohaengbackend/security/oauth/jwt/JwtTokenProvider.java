@@ -14,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
+import sesohaeng.sesohaengbackend.common.UserRole;
+import sesohaeng.sesohaengbackend.domain.user.User;
 import sesohaeng.sesohaengbackend.domain.user.UserRepository;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 
@@ -64,6 +66,22 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String createAccessTokenRN(User user, List<UserRole> roles){
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + ACCESS_TOKEN_EXPIRE_LENGTH);
+
+
+        String userId = user.getId().toString();
+        String role = roles.stream().map(UserRole::getRole).collect(Collectors.joining(","));
+        return Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512,SECRET_KEY)
+                .setSubject(userId)
+                .claim(AUTHORITIES_KEY,role)
+                .setIssuer("debrains")
+                .setExpiration(validity)
+                .compact();
+    }
+
     public void createRefreshToken(Authentication authentication, HttpServletResponse response){
         Date now = new Date();
         Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);
@@ -99,19 +117,22 @@ public class JwtTokenProvider {
 
     // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성
     public Authentication getAuthentication(String accessToken){
+        log.info("getAuthentication");
         Claims claims = parseClaims(accessToken);
-
+        log.info("claims = {}",claims.getSubject());
         Collection<? extends  GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
+        log.info("authorities = {}",authorities);
         CustomUserDetails principal = new CustomUserDetails(Long.valueOf(claims.getSubject()),"",authorities);
+        log.info("principal = {}",principal.getName());
 
         return new UsernamePasswordAuthenticationToken(principal,"",authorities);
     }
     public Boolean validateToken(String token){
         try{
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            log.info("토큰 검증");
             return true;
         } catch (ExpiredJwtException e){
             log.info("만료된 토큰입니다.");

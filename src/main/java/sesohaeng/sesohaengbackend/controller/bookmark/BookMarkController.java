@@ -2,6 +2,7 @@ package sesohaeng.sesohaengbackend.controller.bookmark;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sesohaeng.sesohaengbackend.dto.request.BookMarkRequestDto;
 import sesohaeng.sesohaengbackend.dto.response.bookmark.BookMarkDeleteResponseDto;
@@ -21,7 +22,7 @@ public class BookMarkController {
     private final BookMarkService bookMarkService;
 
     @GetMapping("/bookmark")
-    public final CommonResponse getBookMarks(CustomUserDetails customUserDetails){
+    public final CommonResponse getBookMarks(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         return ListResponse.<BookmarkResponseDto>builder()
                 .success(true)
                 .status(200)

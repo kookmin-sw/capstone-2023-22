@@ -117,19 +117,22 @@ public class JwtTokenProvider {
 
     // Access Token을 검사하고 얻은 정보로 Authentication 객체 생성
     public Authentication getAuthentication(String accessToken){
+        log.info("getAuthentication");
         Claims claims = parseClaims(accessToken);
-
+        log.info("claims = {}",claims.getSubject());
         Collection<? extends  GrantedAuthority> authorities =
                 Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
                         .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-
+        log.info("authorities = {}",authorities);
         CustomUserDetails principal = new CustomUserDetails(Long.valueOf(claims.getSubject()),"",authorities);
+        log.info("principal = {}",principal.getName());
 
         return new UsernamePasswordAuthenticationToken(principal,"",authorities);
     }
     public Boolean validateToken(String token){
         try{
             Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            log.info("토큰 검증");
             return true;
         } catch (ExpiredJwtException e){
             log.info("만료된 토큰입니다.");

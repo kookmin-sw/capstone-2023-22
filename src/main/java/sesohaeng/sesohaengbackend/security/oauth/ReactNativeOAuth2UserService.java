@@ -46,7 +46,6 @@ public class ReactNativeOAuth2UserService {
             case "google":
                 oAuth2UserInfo = getGoogleData(id_token);
                 AuthProvider authProvider = AuthProvider.GOOGLE;
-                int httpStatus = HttpStatus.OK.value();
 
                 Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
                 User user;

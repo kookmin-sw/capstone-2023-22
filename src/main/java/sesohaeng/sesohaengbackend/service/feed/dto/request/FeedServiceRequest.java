@@ -1,10 +1,11 @@
 package sesohaeng.sesohaengbackend.service.feed.dto.request;
 
-import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -14,12 +15,9 @@ public class FeedServiceRequest {
     private String content;
 
     @NotNull
-    private String userEmail;
+    private String placeName;
 
-    @NotNull
-    private Long placeId;
-
-    public static FeedServiceRequest newInstance(String content, String userEmail, Long placeId) {
-        return new FeedServiceRequest(content, userEmail, placeId);
+    public static FeedServiceRequest newInstance(String content, String placeName) {
+        return new FeedServiceRequest(content, placeName);
     }
 }

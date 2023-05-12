@@ -1,9 +1,7 @@
 package sesohaeng.sesohaengbackend.domain;
 
 import lombok.Getter;
-import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,6 +20,6 @@ public abstract class BaseTimeEntity {
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     @LastModifiedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime updateAt = LocalDateTime.now();
+    @Column(nullable = false, updatable = true)
+    private LocalDateTime updatedAt = LocalDateTime.now();
 }

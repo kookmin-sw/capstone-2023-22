@@ -88,4 +88,44 @@ public class FeedController {
                 .data(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
+
+    @PostMapping("/{id}/heart")
+    public final CommonResponse heartFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<Integer>builder()
+                .success(true)
+                .status(200)
+                .message("좋아요 성공")
+                .data(feedService.heartFeed(id, Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
+
+    @DeleteMapping("/{id}/heart")
+    public final CommonResponse unHeartFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<Integer>builder()
+                .success(true)
+                .status(200)
+                .message("좋아요 취소 성공")
+                .data(feedService.unHeartFeed(id, Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
+
+    @GetMapping("/{id}/heart")
+    public final CommonResponse isHeartFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<Boolean>builder()
+                .success(true)
+                .status(200)
+                .message("좋아요 여부 성공")
+                .data(feedService.isHeartFeed(id, Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
+
+    @GetMapping("/my-heart-posts")
+    public final CommonResponse getMyHeartFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<FeedListServiceResponse>builder()
+                .success(true)
+                .status(200)
+                .message("내가 좋아요한 게시물 가져오기 성공")
+                .data(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
 }

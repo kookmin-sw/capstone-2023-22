@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.common.AuthProvider;
 import sesohaeng.sesohaengbackend.common.UserRole;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
-import sesohaeng.sesohaengbackend.domain.like.Like;
+import sesohaeng.sesohaengbackend.domain.heart.Heart;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class User {
     private List<Feed> feeds = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private List<Heart> hearts = new ArrayList<>();
 
     private User(Long id, String email){
         this.id = id;

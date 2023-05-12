@@ -50,29 +50,31 @@ public class FeedService {
                 place
         ));
 
+        FeedImage feedImage = null;
         if(!image.isEmpty()) {
             FileRequestDto storedFile = s3service.upload(image);
-            FeedImage feedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), feed));
+            feedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), feed));
         }
 
-        return convertFeedResponse(feed);
+        return convertFeedResponse(feed, feedImage);
     }
 
     public final FeedListServiceResponse getFeeds() {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAll();
+
         return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed -> convertFeedResponse(feed)).collect(Collectors.toList())
+                feeds.stream().map(feed -> convertFeedResponse(feed, feedImageRepository.findByFeed(feed))).collect(Collectors.toList())
         );
     }
 
     public final FeedServiceResponse getFeed(final Long id) {
         logger.info("피드 상세 페이지");
 
-        return convertFeedResponse(feedRepository.findById(id).orElseThrow(
-                () -> new NoDataException("피드가 존재하지 않습니다.")
-        ));
+        Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+
+        return convertFeedResponse(feed, feedImageRepository.findByFeed(feed));
     }
 
     public final FeedServiceResponse updateFeed(final Long id, @Valid final FeedServiceRequest feedServiceRequest) {
@@ -84,7 +86,8 @@ public class FeedService {
         feed.setPlace(place);
 
         Feed modifyFeed = feedRepository.save(feed);
-        return convertFeedResponse(modifyFeed);
+
+        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed));
     }
 
     public final boolean deleteFeed(final Long id) {
@@ -99,18 +102,21 @@ public class FeedService {
                 () -> new NoDataException("user가 존재하지 않습니다."));
 
         List<Feed> feeds = feedRepository.findByUser(user);
+
         return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed -> convertFeedResponse(feed)).collect(Collectors.toList())
+                feeds.stream().map(feed ->
+                        convertFeedResponse(feed, feedImageRepository.findByFeed(feed))).collect(Collectors.toList())
         );
     }
 
-    private FeedServiceResponse convertFeedResponse(Feed feed) {
+    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage) {
         return FeedServiceResponse.of(
                 feed.getId(),
                 feed.getContent(),
                 feed.getUser().getUsername(),
                 feed.getPlace().getPlaceName(),
-                feed.getCreatedAt()
+                feed.getCreatedAt(),
+                feedImage.getImageUrl()
         );
     }
 }

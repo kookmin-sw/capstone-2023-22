@@ -1,8 +1,17 @@
 export type FeedInfo = {
-    id:string, 
+    id:number, 
     content:string, 
-    writer:string,
-    writerImg:string,
-    imageUrl:string, 
-    likeCount:number
+    userName:string,
+    placeName:string,
+    createdAt:string, 
+    imageUrl:string
 }
+
+//     id(feed):number, 
+//     feedImageUrl:string
+//     content:string, 
+//     writer(userName):string,
+//     writerImgUrl(userImgUrl):string,
+//     placeId:number
+//     placeName:string,
+//     createdAt:string,

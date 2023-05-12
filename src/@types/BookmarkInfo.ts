@@ -1,5 +1,5 @@
 export type BookmarkInfo = {
-    id:string,
-    name:string,
-    category:string
+    bookmarkId:number,
+    placeId:number,
+    placeName:string,
 }

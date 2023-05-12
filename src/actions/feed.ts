@@ -2,6 +2,9 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { FeedInfo } from "../@types/FeedInfo";
 import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
+import axios from "axios";
+
+const BASE_URL = 'http://127.0.0.1:8080' 
 
 export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const;
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const;
@@ -75,32 +78,14 @@ export const favoriteFeedFailure = ()=>{
 export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
     dispatch(getFeedListRequest());
 
-    await sleep(2000)
-
-    dispatch(
-        getFeedListSuccess([{
-            id:'ID_01',
-            content:'CONTENT_01',
-            writer:'WRITER_01',
-            likeCount:10,
-            writerImg: 'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        },{
-            id:'ID_02',
-            content:'CONTENT_02',
-            writer:'WRITER_02',
-            likeCount:10,
-            writerImg: 'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        },{
-            id:'ID_03',
-            content:'CONTENT_03',
-            writer:'WRITER_03',
-            likeCount:10,
-            writerImg: 'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        }]
-    ))
+    axios.defaults.headers.common['Authorization'] = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJkZWJyYWlucyIsImV4cCI6MTY4NjMzMjIwM30.miHHbQyHEHcSGNcnN65hjCoIUpfjOuHUkpYW9qq9VH7f_JJcYdQSnv_PUA1r9FUUdNc5xIGMN3mOPzTw1IqnWg`;
+    axios.get(`${BASE_URL}/posts`).then(res => {
+        console.log(res.data.data);
+        console.log(res.data.data.feeds);
+        dispatch(
+            getFeedListSuccess(res.data.data.feeds))    
+    }).catch(err => {console.log(err.response)});
+    
 }
 
 export const createFeed = (item:Omit<FeedInfo, 'id'|'writer'|'likeCount'>):FeedListThunkAction => async (dispatch, getState)=>{

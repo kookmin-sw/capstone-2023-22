@@ -33,7 +33,7 @@ export const MyListScreen:React.FC = () => {
                     </View>
                     <Spacer space={15} horizontal/>
                     <View style={{justifyContent:'center'}}>
-                        <Typography fontSize={20} bold>{item.name}</Typography>
+                        <Typography fontSize={20} bold>{item.placeName}</Typography>
                     </View>
                 </View>
                 </Button>
@@ -53,7 +53,7 @@ export const MyListScreen:React.FC = () => {
             <View style={{flex:1}}>
                 <FlatList<BookmarkInfo>
                     data={bookmarkList}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item:BookmarkInfo) => `${item.bookmarkId}`}
                     renderItem={({item}) => renderItem(item)}
                 />
             </View>

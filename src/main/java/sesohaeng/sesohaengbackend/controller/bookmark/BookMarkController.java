@@ -40,8 +40,7 @@ public class BookMarkController {
                 .data(
                         bookMarkService.bookMarked(
                                 Long.valueOf(customUserDetails.getName()),
-                                dto.getId(),
-                                dto.getType()
+                                dto.getPlaceId()
                         )
                 ).build();
     }

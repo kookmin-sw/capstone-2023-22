@@ -29,25 +29,31 @@ public class CultureServiceImpl implements CultureService{
         Area area = areaRepository.findById(areaId).orElseThrow(()->new NoDataException("특구가 존재하지 않습니다."));
         List<Place> places = placeRepository.findAllByArea(area);
         List<CultureResponseDto> responseDtos = new ArrayList<>();
-        places.forEach(place -> {
-            Culture culture = cultureRepository.findByPlace(place).orElseThrow(()->new NoDataException("해당 문화공간이 존재하지 않습니다."));
-            responseDtos.add(new CultureResponseDto(
-                    culture.getPlace().getLatitude(),
-                    culture.getPlace().getLongitude(),
-                    culture.getClassification(),
-                    culture.getBorough(),
-                    culture.getCultureName(),
-                    culture.getCultureDatetime(),
-                    culture.getTargetUser(),
-                    culture.getFee(),
-                    culture.getCast(),
-                    culture.getCulture_url(),
-                    culture.getCultureImage(),
-                    culture.getApplicationDate(),
-                    culture.getStartDatetime(),
-                    culture.getEndDatetime()
-            ));
-        });
+
+        for(Place place : places){
+            List<Culture> cultures = cultureRepository.findAllByPlace(place);
+            if(cultures.isEmpty()){
+                continue;
+            }
+            for (Culture culture: cultures) {
+                responseDtos.add(new CultureResponseDto(
+                        culture.getPlace().getLatitude(),
+                        culture.getPlace().getLongitude(),
+                        culture.getClassification(),
+                        culture.getBorough(),
+                        culture.getCultureName(),
+                        culture.getCultureDatetime(),
+                        culture.getTargetUser(),
+                        culture.getFee(),
+                        culture.getCast(),
+                        culture.getCulture_url(),
+                        culture.getCultureImage(),
+                        culture.getApplicationDate(),
+                        culture.getStartDatetime(),
+                        culture.getEndDatetime()
+                ));
+            }
+        }
         return responseDtos;
     }
 }

@@ -22,6 +22,7 @@ import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,15 +63,15 @@ public class PlaceServiceImpl implements PlaceService{
                 .orElseThrow(NoDataException::new);
 
         // 카페인지 컬쳐인지 검증
-        Optional<Culture> culture = cultureRepository.findByPlace(place);
+        List<Culture> cultures = cultureRepository.findAllByPlace(place);
         Optional<Cafe> cafe = cafeRepository.findByPlace(place);
 
-        return judgeCafeOrCulture(place, culture, cafe);
+        return judgeCafeOrCulture(place, cultures, cafe);
     }
 
 
-    private PlaceResponseDto judgeCafeOrCulture(Place place, Optional<Culture> culture, Optional<Cafe> cafe) {
-        if (culture.isEmpty() && cafe.isPresent()) {
+    private PlaceResponseDto judgeCafeOrCulture(Place place, List<Culture> cultures, Optional<Cafe> cafe) {
+        if (cultures.isEmpty() && cafe.isPresent()) {
             return new PlaceResponseDto(
                     new CafeResponseDto(
                     cafe.get().getId(),
@@ -79,24 +80,29 @@ public class PlaceServiceImpl implements PlaceService{
                     place.getLongitude(),
                     cafe.get().getAddress()
             ), null);
-        } else if (culture.isPresent() && cafe.isEmpty()) {
-            return new PlaceResponseDto(null,
-                    new CultureResponseDto(
-                            place.getLatitude(),
-                            place.getLongitude(),
-                            culture.get().getClassification(),
-                            culture.get().getBorough(),
-                            culture.get().getCultureName(),
-                            culture.get().getCultureDatetime(),
-                            culture.get().getTargetUser(),
-                            culture.get().getFee(),
-                            culture.get().getCast(),
-                            culture.get().getCulture_url(),
-                            culture.get().getCultureImage(),
-                            culture.get().getApplicationDate(),
-                            culture.get().getStartDatetime(),
-                            culture.get().getEndDatetime()
-                    ));
+        } else if (!(cultures.isEmpty()) && cafe.isEmpty()) {
+            List<CultureResponseDto> cultureResponseDtos = new LinkedList<>();
+            for (Culture culture : cultures) {
+                cultureResponseDtos.add(
+                        new CultureResponseDto(
+                                place.getLatitude(),
+                                place.getLongitude(),
+                                culture.getClassification(),
+                                culture.getBorough(),
+                                culture.getCultureName(),
+                                culture.getCultureDatetime(),
+                                culture.getTargetUser(),
+                                culture.getFee(),
+                                culture.getCast(),
+                                culture.getCulture_url(),
+                                culture.getCultureImage(),
+                                culture.getApplicationDate(),
+                                culture.getStartDatetime(),
+                                culture.getEndDatetime()
+                        ));
+            }
+            return new PlaceResponseDto(null,cultureResponseDtos);
+
         }else{
             return null;
         }

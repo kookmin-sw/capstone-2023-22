@@ -26,7 +26,7 @@ public class UserController {
         return SingleResponse.<UserResponseDto>builder()
                 .success(true)
                 .status(200)
-                .message("유저 이름, 유저 이미지 로딩 성공")
+                .message("유저 아이디, 유저 이름, 유저 이미지 로딩 성공")
                 .data(userService.getUserProfile(Long.valueOf(userDetails.getName())))
                 .build();
 //        return userService.getUserProfile(Long.valueOf(userDetails.getName()));

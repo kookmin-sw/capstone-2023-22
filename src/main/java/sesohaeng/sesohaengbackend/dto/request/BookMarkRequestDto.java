@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class BookMarkRequestDto {
 
-    Long id;
-    String type; // type: “cafe" or type: “culture”
+    Long placeId;
+
 }

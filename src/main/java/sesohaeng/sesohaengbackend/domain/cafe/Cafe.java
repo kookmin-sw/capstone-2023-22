@@ -21,7 +21,8 @@ public class Cafe {
     @Column
     private String address;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
+    @JoinColumn(name = "place_id")
     private Place place;
 
 

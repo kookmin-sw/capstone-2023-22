@@ -16,5 +16,8 @@ web-build/
 # IDE
 .idea
 
+# secret files
+src/secrets.ts
+
 # config
 config/

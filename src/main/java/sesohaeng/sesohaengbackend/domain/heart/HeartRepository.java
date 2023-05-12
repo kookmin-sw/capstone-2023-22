@@ -7,7 +7,7 @@ import sesohaeng.sesohaengbackend.domain.user.User;
 
 @Repository
 public interface HeartRepository extends JpaRepository<Heart,Long> {
-    int countByFeedId(Long feedId);
+    Integer countByFeedId(Long feedId);
 
-    int deleteByFeedAndUser(Feed feed, User user);
+    Integer deleteByFeedAndUser(Feed feed, User user);
 }

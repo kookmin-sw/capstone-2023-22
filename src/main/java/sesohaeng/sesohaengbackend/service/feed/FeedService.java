@@ -41,7 +41,8 @@ public class FeedService {
     private S3service s3service;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public final FeedServiceResponse saveFeed(@Valid final FeedServiceRequest feedServiceRequest, Long userId, MultipartFile image) {
+    @Transactional
+    public FeedServiceResponse saveFeed(@Valid final FeedServiceRequest feedServiceRequest, Long userId, MultipartFile image) {
         logger.info("피드 생성");
 
         User user = userRepository.findById(userId).orElseThrow(
@@ -63,7 +64,8 @@ public class FeedService {
         return convertFeedResponse(feed, feedImage);
     }
 
-    public final FeedListServiceResponse getFeeds() {
+    @Transactional
+    public FeedListServiceResponse getFeeds() {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAll();
@@ -73,7 +75,8 @@ public class FeedService {
         );
     }
 
-    public final FeedServiceResponse getFeed(final Long id) {
+    @Transactional
+    public FeedServiceResponse getFeed(final Long id) {
         logger.info("피드 상세 페이지");
 
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
@@ -81,7 +84,8 @@ public class FeedService {
         return convertFeedResponse(feed, feedImageRepository.findByFeed(feed));
     }
 
-    public final FeedServiceResponse updateFeed(final Long id, @Valid final FeedServiceRequest feedServiceRequest) {
+    @Transactional
+    public FeedServiceResponse updateFeed(final Long id, @Valid final FeedServiceRequest feedServiceRequest) {
         logger.info("피드 수정");
 
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
@@ -94,12 +98,15 @@ public class FeedService {
         return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed));
     }
 
-    public final boolean deleteFeed(final Long id) {
+    @Transactional
+    public boolean deleteFeed(final Long id) {
+        logger.info("피드 삭제");
         feedRepository.deleteById(id);
         return true;
     }
 
-    public final FeedListServiceResponse getMyFeeds(Long userId) {
+    @Transactional
+    public FeedListServiceResponse getMyFeeds(Long userId) {
         logger.info("내가 쓴 게시물");
 
         User user = userRepository.findById(userId).orElseThrow(
@@ -127,8 +134,8 @@ public class FeedService {
     }
 
     @Transactional
-    public Integer unheartFeed(final Long feedId, Long userId) {
-        logger.info("좋아요 누르기");
+    public Integer unHeartFeed(final Long feedId, Long userId) {
+        logger.info("좋아요 취소");
 
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
         User user = userRepository.findById(userId).orElseThrow(() -> new NoDataException("user가 존재하지 않습니다."));

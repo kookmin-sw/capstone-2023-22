@@ -118,4 +118,14 @@ public class FeedController {
                 .data(feedService.isHeartFeed(id, Long.valueOf(customUserDetails.getName())))
                 .build();
     }
+
+    @GetMapping("/my-heart-posts")
+    public final CommonResponse getMyHeartFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<FeedListServiceResponse>builder()
+                .success(true)
+                .status(200)
+                .message("내가 좋아요한 게시물 가져오기 성공")
+                .data(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
 }

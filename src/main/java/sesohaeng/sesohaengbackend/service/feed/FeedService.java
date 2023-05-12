@@ -157,6 +157,21 @@ public class FeedService {
         return isHeart;
     }
 
+    @Transactional
+    public FeedListServiceResponse getMyHeartFeeds(Long userId) {
+        logger.info("내가 좋아요한 게시물");
+
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NoDataException("user가 존재하지 않습니다."));
+
+        List<Heart> hearts = heartRepository.findByUser(user);
+
+        return FeedListServiceResponse.newInstance(
+                hearts.stream().map(heart ->
+                        convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()))).collect(Collectors.toList())
+        );
+    }
+
     private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage) {
         return FeedServiceResponse.of(
                 feed.getId(),

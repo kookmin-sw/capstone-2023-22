@@ -14,12 +14,13 @@ public class FeedServiceResponse {
     Long id;
     String content;
     String userName;
+    String profileImage;
     String placeName;
-    LocalDateTime updateAt;
+    LocalDateTime updatedAt;
     String imageUrl;
     Integer heartCount;
 
-    public static FeedServiceResponse of(Long id, String content, String userName, String placeName, LocalDateTime updateAt, String imageUrl, Integer heartCount) {
-        return new FeedServiceResponse(id, content, userName, placeName, updateAt, imageUrl, heartCount);
+    public static FeedServiceResponse of(Long id, String content, String userName, String profileImage, String placeName, LocalDateTime updatedAt, String imageUrl, Integer heartCount) {
+        return new FeedServiceResponse(id, content, userName, profileImage, placeName, updatedAt, imageUrl, heartCount);
     }
 }

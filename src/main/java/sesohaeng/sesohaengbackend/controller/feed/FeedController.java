@@ -98,4 +98,14 @@ public class FeedController {
                 .data(feedService.heartFeed(id, Long.valueOf(customUserDetails.getName())))
                 .build();
     }
+
+    @DeleteMapping("/{id}/heart")
+    public final CommonResponse unheartFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        return SingleResponse.<Integer>builder()
+                .success(true)
+                .status(200)
+                .message("좋아요 취소 성공")
+                .data(feedService.unheartFeed(id, Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
 }

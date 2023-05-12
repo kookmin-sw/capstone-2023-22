@@ -23,6 +23,7 @@ import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedListServiceResponse;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -112,6 +113,7 @@ public class FeedService {
         );
     }
 
+    @Transactional
     public Integer heartFeed(final Long feedId, Long userId) {
         logger.info("좋아요 누르기");
 
@@ -124,13 +126,14 @@ public class FeedService {
         return heartCount;
     }
 
+    @Transactional
     public Integer unheartFeed(final Long feedId, Long userId) {
         logger.info("좋아요 누르기");
 
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
         User user = userRepository.findById(userId).orElseThrow(() -> new NoDataException("user가 존재하지 않습니다."));
 
-        heartRepository.unheartFeed(user.getId(), feed.getId());
+        heartRepository.deleteByFeedAndUser(feed, user);
 
         Integer heartCount = heartRepository.countByFeedId(feedId);
         return heartCount;

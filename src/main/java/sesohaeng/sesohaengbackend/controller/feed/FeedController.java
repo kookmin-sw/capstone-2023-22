@@ -1,7 +1,9 @@
 package sesohaeng.sesohaengbackend.controller.feed;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
@@ -11,6 +13,7 @@ import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedListServiceResponse;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -19,8 +22,8 @@ import javax.validation.Valid;
 public class FeedController {
     private final FeedService feedService;
 
-    @PostMapping
-    public final CommonResponse createFeed(@RequestBody @Valid final FeedCreateRequest feedCreateRequest, CustomUserDetails customUserDetails) {
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public final CommonResponse createFeed(HttpServletRequest request, @RequestPart @Valid final FeedCreateRequest feedCreateRequest, @RequestPart MultipartFile image, CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
@@ -28,7 +31,7 @@ public class FeedController {
                 .data(feedService.saveFeed(FeedServiceRequest.newInstance(
                         feedCreateRequest.getContent(),
                         feedCreateRequest.getPlaceName()
-                ), Long.valueOf(customUserDetails.getName())))
+                ), Long.valueOf(customUserDetails.getName()), image))
                 .build();
     }
 

@@ -19,7 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class AreaServiceImpl implements AreaService{
-    private AreaRepository areaRepository;
+    // 파이널 안 걸면 에러 납니다.
+    private final AreaRepository areaRepository;
 
 
 

@@ -15,7 +15,7 @@ import sesohaeng.sesohaengbackend.exception.NoDataException;
 @Slf4j
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     @Transactional
@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService{
         User byId = userRepository.findById(userId)
                 .orElseThrow(NoDataException::new);
         return new UserResponseDto(
+                byId.getId(),
                 byId.getUsername(),
                 byId.getProfileImage()
         );

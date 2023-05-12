@@ -55,7 +55,8 @@ public class Culture {
     @Column
     private LocalDateTime endDatetime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "place_id")
     private Place place;
 
     private Culture(String cultureName, Place place){

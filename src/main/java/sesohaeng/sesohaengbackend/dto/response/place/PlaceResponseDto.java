@@ -7,11 +7,13 @@ import sesohaeng.sesohaengbackend.domain.culture.Culture;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 public class PlaceResponseDto {
 
     CafeResponseDto cafeResponseDto;
 
-    CultureResponseDto cultureResponseDto;
+    List<CultureResponseDto> cultureResponseDtos;
 }

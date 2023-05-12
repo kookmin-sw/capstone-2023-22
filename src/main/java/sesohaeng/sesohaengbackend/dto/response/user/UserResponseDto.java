@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class UserResponseDto {
 
+    Long userId;
+
     String userName;
 
     String profileImage;

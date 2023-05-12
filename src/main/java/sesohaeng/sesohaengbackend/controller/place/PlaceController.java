@@ -36,8 +36,7 @@ public class PlaceController {
     }
 
     @GetMapping("/place/{placeId}")
-    public final CommonResponse getPlace(
-            @PathVariable Long placeId
+    public final CommonResponse getPlace( @PathVariable Long placeId
     ){
         return SingleResponse.<PlaceResponseDto>builder()
                 .success(true)

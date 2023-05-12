@@ -12,8 +12,10 @@ import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -27,8 +29,12 @@ public class CafeServiceImpl implements CafeService{
         Area area = areaRepository.findById(areaId).orElseThrow(()->new NoDataException("특구가 존재하지 않습니다."));
         List<Place> places = placeRepository.findAllByArea(area);
         List<CafeResponseDto> responseDtos = new ArrayList<>();
-        places.forEach(place -> {
-            Cafe cafe = cafeRepository.findByPlace(place).orElseThrow(() -> new NoDataException("해당 문화공간이 존재하지 않습니다."));
+        for (Place place : places) {
+            Optional<Cafe> opCafe = cafeRepository.findByPlace(place);
+            if (opCafe.isEmpty()) {
+                continue;
+            }
+            Cafe cafe = opCafe.get();
             responseDtos.add(new CafeResponseDto(
                     cafe.getId(),
                     cafe.getCafe_name(),
@@ -36,7 +42,7 @@ public class CafeServiceImpl implements CafeService{
                     cafe.getPlace().getLongitude(),
                     cafe.getAddress()
             ));
-        });
+        }
         return responseDtos;
     }
 }

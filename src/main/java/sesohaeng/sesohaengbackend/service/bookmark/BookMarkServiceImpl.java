@@ -9,6 +9,7 @@ import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
 import sesohaeng.sesohaengbackend.domain.cafe.CafeRepository;
 import sesohaeng.sesohaengbackend.domain.culture.Culture;
 import sesohaeng.sesohaengbackend.domain.culture.CultureRepository;
+import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.domain.user.User;
 import sesohaeng.sesohaengbackend.domain.user.UserRepository;
@@ -33,10 +34,10 @@ public class BookMarkServiceImpl implements BookMarkService {
 
     @Transactional
     @Override
-    public BookMarkPostResponseDto bookMarked(Long userId, Long id, String type) {
+    public BookMarkPostResponseDto bookMarked(Long userId, Long id) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoDataException("해당 유저가 존재하지 않습니다. 회원가입 해주세요"));
-        return getBookMarkPostResponseDto(id, type, user);
+        return getBookMarkPostResponseDto(id, user);
     }
 
 
@@ -63,25 +64,22 @@ public class BookMarkServiceImpl implements BookMarkService {
 
 
 
-    private BookMarkPostResponseDto getBookMarkPostResponseDto(Long id, String type, User user) {
-        if (type.equals("culture")) {
-            Culture culture = cultureRepository.findById(id).orElseThrow(() -> new NoDataException("해당 문화 공간이 존재하지 않습니다."));
-            BookMark saveBookMark = bookMarkRepository.save(BookMark.newInstance(true, user, culture.getPlace()));
+    private BookMarkPostResponseDto getBookMarkPostResponseDto(Long id, User user) {
+        Place place = placeRepository.findById(id).orElseThrow(() -> new NoDataException("해당 장소가 존재하지 않습니다."));
+        if(checkDistinct(user,place)){
+            BookMark bookMark = bookMarkRepository.save(BookMark.newTestInstance(true, user, place));
             return new BookMarkPostResponseDto(
-                    saveBookMark.getId(),
-                    saveBookMark.getPlace().getPlaceName(),
-                    saveBookMark.getCreatedAt()
+                    bookMark.getId(),
+                    place.getPlaceName(),
+                    bookMark.getCreatedAt()
             );
-        } else if(type.equals("cafe")){
-            Cafe cafe = cafeRepository.findById(id).orElseThrow(() -> new NoDataException("해당 카페가 존재하지 않습니다."));
-            BookMark saveBookMark = bookMarkRepository.save(BookMark.newInstance(true, user, cafe.getPlace()));
-            return new BookMarkPostResponseDto(
-                    saveBookMark.getId(),
-                    saveBookMark.getPlace().getPlaceName(),
-                    saveBookMark.getCreatedAt()
-            );
-        }else{
-            throw new NoDataException("해당 문화공간이나 카페가 존재하지 않습니다.");
+        }else {
+            throw new IllegalArgumentException("이미 저장된 북마크입니다.");
         }
+    }
+
+    private boolean checkDistinct(User user, Place place) {
+        Optional<BookMark> byUserAndPlace = bookMarkRepository.findByUserAndPlace(user, place);
+        return byUserAndPlace.isEmpty();
     }
 }

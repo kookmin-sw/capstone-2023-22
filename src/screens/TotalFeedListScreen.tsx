@@ -38,11 +38,12 @@ export const TotalFeedListScreen:React.FC = ()=>{
                 renderItem={({item})=>{
                     return (
                         <FeedListItem
-                            image={item.imageUrl}
-                            comment={item.content}
-                            likeCount={item.likeCount}
-                            writer={item.writer}
-                            writerImg={item.writerImg}
+                            feedId={item.id}
+                            imageUrl={item.imageUrl}
+                            content={item.content}
+                            placeName={item.placeName}
+                            writer={item.userName}
+                            writerImg={item.imageUrl}
                             onPressFeed={onPressFeed}
                         />
                     )

@@ -1,5 +1,5 @@
 import { BookmarkInfo } from "../@types/BookmarkInfo"
-import { BookmarkListActions, GET_BOOKMARK_LIST_SUCCESS } from "../actions/bookmark"
+import { BookmarkListActions, GET_BOOKMARK_LIST_SUCCESS, POST_BOOKMARK_SUCCESS } from "../actions/bookmark"
 
 
 export type TypeBookmarkListReducer ={
@@ -15,6 +15,11 @@ export const bookmarkListReducer = (state:TypeBookmarkListReducer = defaultBookm
             return {
                 ...state,
                 bookmarkList: action.list
+            }
+        }
+        case POST_BOOKMARK_SUCCESS: {
+            return {
+                bookmarkList:[action.bookmarkInfo, ...state.bookmarkList]
             }
         }
     }

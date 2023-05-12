@@ -16,8 +16,5 @@ web-build/
 # IDE
 .idea
 
-# app.json
-app.json
-
 # config
 config/

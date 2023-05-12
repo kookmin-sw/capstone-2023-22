@@ -10,4 +10,6 @@ public interface HeartRepository extends JpaRepository<Heart,Long> {
     Integer countByFeedId(Long feedId);
 
     Integer deleteByFeedAndUser(Feed feed, User user);
+
+    Heart findByFeedIdAndUserId(Long feedId, Long userId);
 }

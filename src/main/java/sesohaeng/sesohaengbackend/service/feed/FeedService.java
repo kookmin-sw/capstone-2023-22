@@ -26,6 +26,7 @@ import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -144,6 +145,16 @@ public class FeedService {
 
         Integer heartCount = heartRepository.countByFeedId(feedId);
         return heartCount;
+    }
+
+    @Transactional
+    public Boolean isHeartFeed(final Long feedId, Long userId) {
+        logger.info("좋아요 여부");
+
+        Heart heart = heartRepository.findByFeedIdAndUserId(feedId, userId);
+
+        Boolean isHeart = !Objects.isNull(heart);
+        return isHeart;
     }
 
     private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage) {

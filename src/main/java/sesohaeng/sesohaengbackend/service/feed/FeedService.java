@@ -62,7 +62,7 @@ public class FeedService {
             feedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), feed));
         }
 
-        return convertFeedResponse(feed, feedImage);
+        return convertFeedResponse(feed, feedImage, heartRepository.countByFeedId(feed.getId()));
     }
 
     @Transactional
@@ -72,7 +72,7 @@ public class FeedService {
         List<Feed> feeds = feedRepository.findAll();
 
         return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed -> convertFeedResponse(feed, feedImageRepository.findByFeed(feed))).collect(Collectors.toList())
+                feeds.stream().map(feed -> convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
         );
     }
 
@@ -82,7 +82,7 @@ public class FeedService {
 
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
 
-        return convertFeedResponse(feed, feedImageRepository.findByFeed(feed));
+        return convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()));
     }
 
     @Transactional
@@ -96,7 +96,7 @@ public class FeedService {
 
         Feed modifyFeed = feedRepository.save(feed);
 
-        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed));
+        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed), heartRepository.countByFeedId(modifyFeed.getId()));
     }
 
     @Transactional
@@ -117,7 +117,7 @@ public class FeedService {
 
         return FeedListServiceResponse.newInstance(
                 feeds.stream().map(feed ->
-                        convertFeedResponse(feed, feedImageRepository.findByFeed(feed))).collect(Collectors.toList())
+                        convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
         );
     }
 
@@ -168,18 +168,19 @@ public class FeedService {
 
         return FeedListServiceResponse.newInstance(
                 hearts.stream().map(heart ->
-                        convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()))).collect(Collectors.toList())
+                        convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId()))).collect(Collectors.toList())
         );
     }
 
-    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage) {
+    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount) {
         return FeedServiceResponse.of(
                 feed.getId(),
                 feed.getContent(),
                 feed.getUser().getUsername(),
                 feed.getPlace().getPlaceName(),
                 feed.getCreatedAt(),
-                feedImage.getImageUrl()
+                feedImage.getImageUrl(),
+                heartCount
         );
     }
 }

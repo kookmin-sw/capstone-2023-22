@@ -17,8 +17,9 @@ public class FeedServiceResponse {
     String placeName;
     LocalDateTime createdAt;
     String imageUrl;
+    Integer heartCount;
 
-    public static FeedServiceResponse of(Long id, String content, String userName, String placeName, LocalDateTime createdAt, String imageUrl) {
-        return new FeedServiceResponse(id, content, userName, placeName, createdAt, imageUrl);
+    public static FeedServiceResponse of(Long id, String content, String userName, String placeName, LocalDateTime createdAt, String imageUrl, Integer heartCount) {
+        return new FeedServiceResponse(id, content, userName, placeName, createdAt, imageUrl, heartCount);
     }
 }

@@ -4,6 +4,7 @@ import { BookmarkInfo } from "../@types/BookmarkInfo";
 import { RootReducer } from "../store";
 import qs from 'qs';
 import { sleep } from "../utils/utils";
+import { Config } from "../config";
 
 export const GET_BOOKMARK_LIST_REQUEST = 'GET_BOOKMARK_LIST_REQUEST' as const;
 export const GET_BOOKMARK_LIST_SUCCESS = 'GET_BOOKMARK_LIST_SUCCESS' as const;
@@ -53,9 +54,9 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
     try { 
         console.log(id);
         dispatch(postBookmarkRequest());
-        axios.defaults.headers.common['Authorization'] = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJkZWJyYWlucyIsImV4cCI6MTY4NjMzMjIwM30.miHHbQyHEHcSGNcnN65hjCoIUpfjOuHUkpYW9qq9VH7f_JJcYdQSnv_PUA1r9FUUdNc5xIGMN3mOPzTw1IqnWg`;
-        const res = await axios.post('http://127.0.0.1:8080/bookmark', 
+        const res = await axios.post(`${Config.server}/bookmark`, 
         JSON.stringify({
+            // TODO: id 변경
             id: 325016,
             type: 'cafe'
         }), {headers: {"Content-Type": `application/json`}});
@@ -79,8 +80,7 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
 export const getBookmarkList = ():BookmarkListThunkAction=> async (dispatch)=>{
     dispatch(getBookmarkListRequest());
 // TODO: 서버 api로부터 받아오기, axios
-    axios.defaults.headers.common['Authorization'] = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJkZWJyYWlucyIsImV4cCI6MTY4NjMzMjIwM30.miHHbQyHEHcSGNcnN65hjCoIUpfjOuHUkpYW9qq9VH7f_JJcYdQSnv_PUA1r9FUUdNc5xIGMN3mOPzTw1IqnWg`;
-    axios.get('http://127.0.0.1:8080/bookmark').then(res => {
+    axios.get(`${Config.server}/bookmark`).then(res => {
         console.log(res.data);
         dispatch(
             getBookmarkListSuccess(res.data.result))    

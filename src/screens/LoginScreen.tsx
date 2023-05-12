@@ -27,7 +27,8 @@ export const LoginScreen:React.FC = () => {
       axios.get(`http://127.0.0.1:8080/oauth2/google?id_token=${response.params.id_token}`)
         .then(function (gotToken) {
           console.log("received token:", gotToken.data.data.accessToken);
-          AsyncStorage.setItem('@token', gotToken.data.data.accessToken!);
+          AsyncStorage.setItem('@token', gotToken.data.data.accessToken);
+          axios.defaults.headers.common['Authorization'] = `Bearer ${gotToken.data.data.accessToken}`;
         })
         .catch(function (error) {
           console.log("ERROR:", error);

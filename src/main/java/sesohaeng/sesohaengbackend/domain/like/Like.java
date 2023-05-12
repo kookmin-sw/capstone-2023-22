@@ -16,9 +16,6 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
-    private Boolean isLiked;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -26,4 +23,13 @@ public class Like {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
+
+    public Like(User user, Feed feed) {
+        this.user = user;
+        this.feed = feed;
+    }
+
+    public static final Like newInstance(User user, Feed feed) {
+        return new Like(user, feed);
+    }
 }

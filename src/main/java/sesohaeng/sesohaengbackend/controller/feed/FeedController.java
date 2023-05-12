@@ -87,4 +87,14 @@ public class FeedController {
                 .data(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
+
+    @PostMapping("/{id}/like")
+    public final CommonResponse likeFeed(@PathVariable(name = "id") final Long id, CustomUserDetails customUserDetails) {
+        return SingleResponse.<Integer>builder()
+                .success(true)
+                .status(200)
+                .message("좋아요 성공")
+                .data(feedService.likeFeed(id, Long.valueOf(customUserDetails.getName())))
+                .build();
+    }
 }

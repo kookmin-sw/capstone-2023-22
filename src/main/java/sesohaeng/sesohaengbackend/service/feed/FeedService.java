@@ -10,6 +10,8 @@ import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.feed.FeedRepository;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImage;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImageRepository;
+import sesohaeng.sesohaengbackend.domain.like.Like;
+import sesohaeng.sesohaengbackend.domain.like.LikeRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.domain.user.User;
@@ -32,6 +34,7 @@ public class FeedService {
     private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
     private final FeedImageRepository feedImageRepository;
+    private final LikeRepository likeRepository;
 
     @Autowired
     private S3service s3service;
@@ -107,6 +110,18 @@ public class FeedService {
                 feeds.stream().map(feed ->
                         convertFeedResponse(feed, feedImageRepository.findByFeed(feed))).collect(Collectors.toList())
         );
+    }
+
+    public Integer likeFeed(final Long feedId, Long userId) {
+        logger.info("좋아요 누르기");
+
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NoDataException("user가 존재하지 않습니다."));
+
+        likeRepository.save(Like.newInstance(user, feed));
+
+        Integer likeCount = likeRepository.countByFeedId(feedId);
+        return likeCount;
     }
 
     private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage) {

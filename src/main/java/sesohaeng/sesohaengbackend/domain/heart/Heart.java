@@ -1,4 +1,4 @@
-package sesohaeng.sesohaengbackend.domain.like;
+package sesohaeng.sesohaengbackend.domain.heart;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "LIKE")
-public class Like {
+@Table(name = "HEART")
+public class Heart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,12 +24,12 @@ public class Like {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    public Like(User user, Feed feed) {
+    public Heart(User user, Feed feed) {
         this.user = user;
         this.feed = feed;
     }
 
-    public static final Like newInstance(User user, Feed feed) {
-        return new Like(user, feed);
+    public static final Heart newInstance(User user, Feed feed) {
+        return new Heart(user, feed);
     }
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.BaseTimeEntity;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImage;
-import sesohaeng.sesohaengbackend.domain.like.Like;
+import sesohaeng.sesohaengbackend.domain.heart.Heart;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.user.User;
 
@@ -36,7 +36,7 @@ public class Feed extends BaseTimeEntity {
     private List<FeedImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private List<Heart> hearts = new ArrayList<>();
 
     private Feed(String content, User user, Place place) {
         this.content = content;

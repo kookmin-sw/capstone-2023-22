@@ -89,13 +89,13 @@ public class FeedController {
                 .build();
     }
 
-    @PostMapping("/{id}/like")
-    public final CommonResponse likeFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PostMapping("/{id}/heart")
+    public final CommonResponse heartFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<Integer>builder()
                 .success(true)
                 .status(200)
                 .message("좋아요 성공")
-                .data(feedService.likeFeed(id, Long.valueOf(customUserDetails.getName())))
+                .data(feedService.heartFeed(id, Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 }

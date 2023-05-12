@@ -15,11 +15,11 @@ public class FeedServiceResponse {
     String content;
     String userName;
     String placeName;
-    LocalDateTime createdAt;
+    LocalDateTime updateAt;
     String imageUrl;
     Integer heartCount;
 
-    public static FeedServiceResponse of(Long id, String content, String userName, String placeName, LocalDateTime createdAt, String imageUrl, Integer heartCount) {
-        return new FeedServiceResponse(id, content, userName, placeName, createdAt, imageUrl, heartCount);
+    public static FeedServiceResponse of(Long id, String content, String userName, String placeName, LocalDateTime updateAt, String imageUrl, Integer heartCount) {
+        return new FeedServiceResponse(id, content, userName, placeName, updateAt, imageUrl, heartCount);
     }
 }

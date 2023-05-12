@@ -178,7 +178,7 @@ public class FeedService {
                 feed.getContent(),
                 feed.getUser().getUsername(),
                 feed.getPlace().getPlaceName(),
-                feed.getCreatedAt(),
+                feed.getUpdateAt(),
                 feedImage.getImageUrl(),
                 heartCount
         );

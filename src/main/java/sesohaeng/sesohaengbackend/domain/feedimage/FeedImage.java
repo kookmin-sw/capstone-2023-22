@@ -3,6 +3,8 @@ package sesohaeng.sesohaengbackend.domain.feedimage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
+import sesohaeng.sesohaengbackend.domain.place.Place;
+import sesohaeng.sesohaengbackend.domain.user.User;
 
 import javax.persistence.*;
 
@@ -21,4 +23,13 @@ public class FeedImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
+
+    private FeedImage(String imageUrl, Feed feed) {
+        this.imageUrl = imageUrl;
+        this.feed = feed;
+    }
+
+    public static final FeedImage newInstance(String imageUrl, Feed feed) {
+        return new FeedImage(imageUrl, feed);
+    }
 }

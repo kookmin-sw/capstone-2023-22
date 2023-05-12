@@ -102,7 +102,13 @@ public class FeedService {
     @Transactional
     public boolean deleteFeed(final Long id) {
         logger.info("피드 삭제");
+        Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+
+        feed.getImages().forEach(feedImage -> {
+            s3service.deleteImageUrl(feedImage.getImageUrl());
+        });
         feedRepository.deleteById(id);
+
         return true;
     }
 

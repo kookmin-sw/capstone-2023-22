@@ -56,4 +56,16 @@ public class GlobalExceptionController {
                 .message(e.getMessage())
                 .build();
     }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public final ErrorResponse handleIllegalArgumentException(final IllegalArgumentException e) {
+        logger.error("IllegalArgumentException 처리");
+        return ErrorResponse.builder()
+                .success(false)
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .build();
+    }
 }

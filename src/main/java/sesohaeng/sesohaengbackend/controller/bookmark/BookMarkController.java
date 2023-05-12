@@ -32,7 +32,7 @@ public class BookMarkController {
     }
 
     @PostMapping("/bookmark")
-    public final CommonResponse postBookMark(@RequestBody BookMarkRequestDto dto, CustomUserDetails customUserDetails){
+    public final CommonResponse postBookMark(@RequestBody BookMarkRequestDto dto, @AuthenticationPrincipal CustomUserDetails customUserDetails){
         return SingleResponse.<BookMarkPostResponseDto>builder()
                 .success(true)
                 .status(200)

@@ -19,6 +19,7 @@ export type RootStackParamList = {
     WritePost:{
         uri:string|undefined
     }
+    Login:undefined
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

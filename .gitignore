@@ -16,8 +16,8 @@ web-build/
 # IDE
 .idea
 
-# app.json
-app.json
+# secret files
+src/secrets.ts
 
 # config
 config/

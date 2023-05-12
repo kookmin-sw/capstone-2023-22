@@ -2,6 +2,7 @@ package sesohaeng.sesohaengbackend.controller.feed;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
@@ -23,7 +24,7 @@ public class FeedController {
     private final FeedService feedService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public final CommonResponse createFeed(HttpServletRequest request, @RequestPart @Valid final FeedCreateRequest feedCreateRequest, @RequestPart MultipartFile image, CustomUserDetails customUserDetails) {
+    public final CommonResponse createFeed(HttpServletRequest request, @RequestPart @Valid final FeedCreateRequest feedCreateRequest, @RequestPart MultipartFile image, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
@@ -79,7 +80,7 @@ public class FeedController {
     }
 
     @GetMapping("/my-posts")
-    public final CommonResponse getMyFeeds(CustomUserDetails customUserDetails) {
+    public final CommonResponse getMyFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedListServiceResponse>builder()
                 .success(true)
                 .status(200)
@@ -89,7 +90,7 @@ public class FeedController {
     }
 
     @PostMapping("/{id}/like")
-    public final CommonResponse likeFeed(@PathVariable(name = "id") final Long id, CustomUserDetails customUserDetails) {
+    public final CommonResponse likeFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<Integer>builder()
                 .success(true)
                 .status(200)

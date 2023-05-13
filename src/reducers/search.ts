@@ -1,5 +1,5 @@
 import { PlaceInfo } from "../@types/PlaceInfo";
-import { GET_SEARCH_SUCCESS, SearchActions } from "../actions/search";
+import { GET_SEARCH_SUCCESS, CHANGE_SEARCH_KEYWORD_SUCCESS, SearchActions } from "../actions/search";
 
 export type TypeSearchReducer = {
     keyword:string;
@@ -19,7 +19,13 @@ export const searchReducer = (state:TypeSearchReducer = defaultSearchState, acti
         case GET_SEARCH_SUCCESS:{
             return {
                 ...state,
-                userInfo: action.userInfo
+                searchResult: action.list
+            }
+        }
+        case CHANGE_SEARCH_KEYWORD_SUCCESS:{
+            return {
+                ...state,
+                keword: action.keyword
             }
         }
     }

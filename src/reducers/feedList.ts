@@ -1,7 +1,7 @@
 import { CREATE_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, FeedListActions, GET_FEED_LIST_SUCCESS } from "../actions/feed"
 
 export type TypeFeedListReducer ={
-    list:{id:string, content:string, writer:string, writerImg:string, imageUrl:string, likeCount:number}[]
+    list:{id:number, content:string, heartCount:number, userName:string, placeName:string, updatedAt:string, profileImage:string, imageUrl:string}[]
 }
 const defaultFeedListState:TypeFeedListReducer = {
     list:[]
@@ -31,7 +31,7 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                     if(item.id === action.feedId){
                         return {
                             ...item,
-                            likeCount:item.likeCount+1
+                            likeCount:item.heartCount+1
                         }
                     }
 

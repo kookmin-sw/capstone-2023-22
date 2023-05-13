@@ -1,6 +1,7 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { FeedInfo } from '../@types/FeedInfo';
 import { ImageSelectScreen } from '../screens/ImageSelectScreen';
 import { PlaceSearchScreen } from '../screens/PlaceSearchScreen';
 import { PostDetailScreen } from '../screens/PostDetailScreen';
@@ -9,9 +10,9 @@ import { WritePostScreen } from '../screens/WritePostScreen';
 import { BottomTabNavigation } from './BottomTabNavigation';
 
 
-export type RootStackParamList = {
+export type HomeStackParamList = {
     BottomTab:undefined
-    PostDetail:undefined
+    PostDetail: FeedInfo
     Setting:undefined
     PlaceSearch:undefined
     ImageSelect:undefined
@@ -19,13 +20,12 @@ export type RootStackParamList = {
     WritePost:{
         uri:string|undefined
     }
-    Login:undefined
 }
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const Stack = createNativeStackNavigator<HomeStackParamList>();
 
 
-export const RootStackNavigation:React.FC = ()=>{
+export const HomeStackNavigation:React.FC = ()=>{
 
     return (
         <Stack.Navigator>
@@ -50,10 +50,10 @@ export const RootStackNavigation:React.FC = ()=>{
     )
 }
 
-export const useRootNavigation = <RouteName extends keyof RootStackParamList>()=>{
-    return useNavigation<NativeStackNavigationProp<RootStackParamList, RouteName>>();
+export const useHomeNavigation = <RouteName extends keyof HomeStackParamList>()=>{
+    return useNavigation<NativeStackNavigationProp<HomeStackParamList, RouteName>>();
 }
 
-export const useRootRoute = <RouteName extends keyof RootStackParamList>()=>{
-    return useRoute<RouteProp<RootStackParamList, RouteName>>();
+export const useHomeRoute = <RouteName extends keyof HomeStackParamList>()=>{
+    return useRoute<RouteProp<HomeStackParamList, RouteName>>();
 }

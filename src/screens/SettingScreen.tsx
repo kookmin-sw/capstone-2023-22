@@ -6,7 +6,7 @@ import { Header } from '../components/Header/Header';
 import { ModifyModal } from '../components/ModifyModal';
 import { Spacer } from '../components/Spacer';
 import { Typography } from '../components/Typography';
-import {  useRootNavigation } from '../navigations/RootStackNavigation';
+import {  useHomeNavigation } from '../navigations/HomeStackNavigation';
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import dayjs from 'dayjs';
@@ -16,11 +16,11 @@ export const SettingScreen:React.FC = ()=>{
     const [modifyBirthModalVisible, setModifyBirthModalVisible] = useState(false);
     const [nickname, setNickname] = useState("");
 
-    const rootNavigation = useRootNavigation();
+    const homeNavigation = useHomeNavigation();
     const dispatch = useDispatch<TypeUserDispatch>();
 
     const onPressBack = useCallback(()=>{
-        rootNavigation.goBack();
+        homeNavigation.goBack();
     }, [])
 
     return (

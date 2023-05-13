@@ -99,10 +99,10 @@ export const signIn = ():UserThunkAction => async (dispatch)=>{
         })
     )
 }
-export const getUserInfo = ():UserThunkAction => async (dispatch)=>{
-    axios.get(`${Config.server}/user`)
+export const getUserInfo = (token:string):UserThunkAction => async (dispatch)=>{
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    await axios.get(`${Config.server}/user`)
     .then((res) => {
-        console.log(res);
         dispatch(setUserInfo({
             id: res.data.data.userId,
             name: res.data.data.userName,

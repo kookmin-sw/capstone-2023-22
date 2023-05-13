@@ -1,18 +1,24 @@
+import axios from "axios";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { BookmarkInfo } from "../@types/BookmarkInfo";
+import { Config } from "../config";
 import { RootReducer } from "../store";
-import { sleep } from "../utils/utils";
+import qs from 'qs'
+import { PlaceInfo } from "../@types/PlaceInfo";
 
 export const GET_SEARCH_REQUEST = 'GET_SEARCH_REQUEST' as const;
 export const GET_SEARCH_SUCCESS = 'GET_SEARCH_SUCCESS' as const;
 export const GET_SEARCH_FAILURE = 'GET_SEARCH_FAILURE' as const;
+
+export const CHANGE_SEARCH_KEYWORD_REQUEST = 'CHANGE_SEARCH_KEYWORD_REQUEST' as const;
+export const CHANGE_SEARCH_KEYWORD_SUCCESS = 'CHANGE_SEARCH_KEYWORD_SUCCESS' as const;
+export const CHANGE_SEARCH_KEYWORD_FAILURE = 'CHANGE_SEARCH_KEYWORD_FAILURE' as const;
 
 export const getSearchRequest = ()=>{
     return {
         type:GET_SEARCH_REQUEST,
     }
 }
-export const getSearchSuccess = (list:BookmarkInfo[])=>{
+export const getSearchSuccess = (list:PlaceInfo[])=>{
 
     return {
         type:GET_SEARCH_SUCCESS,
@@ -25,36 +31,38 @@ export const getSearchFailure = ()=>{
         type:GET_SEARCH_FAILURE
     }
 }
+export const changeSearchKeywordRequest = ()=>{
+    return {
+        type:CHANGE_SEARCH_KEYWORD_REQUEST,
+    }
+}
+export const changeSearchKeywordSuccess = (keyword:string)=>{
 
+    return {
+        type:CHANGE_SEARCH_KEYWORD_SUCCESS,
+        keyword
+    }
+}
 
-export const getSearch = ():SearchThunkAction=> async (dispatch)=>{
+export const changeSearchKeywordFailure = ()=>{
+    return {
+        type:CHANGE_SEARCH_KEYWORD_FAILURE
+    }
+}
+
+export const changeSearchKeyword = (keyword:string):SearchThunkAction=> async (dispatch)=>{
+    dispatch(changeSearchKeywordRequest());
+    dispatch(changeSearchKeywordSuccess(keyword));
+}
+
+export const getSearch = (keyword:string):SearchThunkAction=> async (dispatch)=>{
     dispatch(getSearchRequest());
+    console.log(keyword);
 // TODO: 서버 api로부터 받아오기, axios
-    await sleep(2000)
-    dispatch(
-        getSearchSuccess([
-            {
-                id:'ID_01',
-                category:'restaurants',
-                name:'용용선생1'
-            },
-            {
-                id:'ID_02',
-                category:'restaurants',
-                name:'용용선생2'
-            },
-            {
-                id:'ID_03',
-                category:'restaurants',
-                name:'용용선생3'
-            },
-            {
-                id:'ID_04',
-                category:'restaurants',
-                name:'용용선생4'
-            }
-        ]
-    ))
+    axios.get(`${Config.server}/place?keyword=${keyword}`).then(res => {
+        console.log(res.data.result);
+        dispatch(getSearchSuccess(res.data.result))
+    }).catch(err => console.log(err));
 }
 
 
@@ -64,4 +72,7 @@ export type TypeSearchDispatch = ThunkDispatch<RootReducer, undefined, SearchAct
 export type SearchActions = 
     | ReturnType<typeof getSearchRequest> 
     | ReturnType<typeof getSearchSuccess>
-    | ReturnType<typeof getSearchFailure>;
+    | ReturnType<typeof getSearchFailure>
+    | ReturnType<typeof changeSearchKeywordRequest> 
+    | ReturnType<typeof changeSearchKeywordSuccess>
+    | ReturnType<typeof changeSearchKeywordFailure>;

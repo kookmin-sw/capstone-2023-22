@@ -1,13 +1,13 @@
 import React from 'react';
 import { Header } from '../components/Header/Header';
-import { useRootNavigation, useRootRoute } from '../navigations/RootStackNavigation';
+import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapView from 'react-native-maps';
 
 export const MapScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation<'Map'>();
-    const route = useRootRoute();
+    const homeNavigation = useHomeNavigation<'Map'>();
+    const route = useHomeRoute();
 
     return (
         <>

@@ -7,22 +7,23 @@ import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
 import { RemoteImage } from '../components/RemoteImage';
 import { Typography } from '../components/Typography';
-import {  useRootNavigation } from '../navigations/RootStackNavigation';
-import { useMyFeedList } from '../selectors/user';
+import {  useHomeNavigation } from '../navigations/HomeStackNavigation';
+import { useMyFeedList, useMyInfo } from '../selectors/user';
 import { Spacer } from '../components/Spacer';
 import { Icon } from '../components/Icons';
 
 export const MyPageScreen:React.FC = ()=>{
     const {width} = useWindowDimensions();
-    const rootNavigation = useRootNavigation();
+    const homeNavigation = useHomeNavigation();
 
 
     const dispatch = useDispatch<TypeUserDispatch>();
     const data = useMyFeedList();
+    const userInfo = useMyInfo();
     const photoSize = useMemo(()=> width/3, [width]);
 
     const onPressSetting = useCallback(()=>{
-        rootNavigation.navigate('Setting');
+        homeNavigation.navigate('Setting');
     }, [])
 
     useEffect(()=>{
@@ -39,12 +40,12 @@ export const MyPageScreen:React.FC = ()=>{
             </Header>
             <View>
                 <View style={{flexDirection:'row', paddingHorizontal:10, paddingVertical:25, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF' }}>
-                    <View style={{width:70, height:70, borderRadius:70/2, backgroundColor:'black'}}/>
-                                {/* <RemoteImage url={} width={30} height={30} style={{borderRadius: 30/2} }/> */}
+                    {/* <View style={{width:70, height:70, borderRadius:70/2, backgroundColor:'black'}}/> */}
+                    <RemoteImage url={userInfo?.profileImage} width={70} height={70} style={{borderRadius: 70/2} }/>
                     <View style={{justifyContent:'center', marginLeft: 15}}>
-                        <Typography color='black' bold fontSize={20}>maru_life</Typography>
+                        <Typography color='black' bold fontSize={20}>{userInfo?.name}</Typography>
                         <Spacer space={3}/>
-                        <Typography color='#9A9A9A' fontSize={15}>카카오 계정 로그인 회원</Typography>
+                        <Typography color='#9A9A9A' fontSize={15}>구글 계정 로그인 회원</Typography>
                     </View>     
                 </View>
                 <View style={{flexDirection:'row', paddingVertical:8, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF'}}>

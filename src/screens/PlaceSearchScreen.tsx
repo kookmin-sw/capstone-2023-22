@@ -1,14 +1,20 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation } from '../navigations/RootStackNavigation';
+import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import { Typography } from '../components/Typography';
 
 export const PlaceSearchScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation();
+    const [keyword, setKeyword] = useState('');
+    const homeNavigation = useHomeNavigation();
     const onPressBack = useCallback(()=>{
-        rootNavigation.goBack();
+        homeNavigation.goBack();
+    }, [])
+    const onPressSearch = useCallback(() => {
+        if (keyword == '') {
+            
+        }
     }, [])
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
@@ -26,7 +32,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
             <View style={{paddingHorizontal:10, backgroundColor:'white'}}>
                 <View style={{paddingVertical:20, flexDirection:'row'}}>
                     <View style={{flex:1, alignSelf:'stretch', justifyContent:'center', backgroundColor:'#E4E4E4', borderRadius:4, padding:12}}>
-                        <TextInput autoCorrect={false} autoCapitalize={'none'} onSubmitEditing={()=> {}} style={{fontSize:15}} placeholder='검색할 장소를 입력하세요'></TextInput>
+                        <TextInput value='' autoCorrect={false} autoCapitalize={'none'} onSubmitEditing={()=> {}} style={{fontSize:15}} placeholder='검색할 장소를 입력하세요'></TextInput>
                     </View>
                     <Spacer space={10} horizontal/>
                     <TouchableOpacity>

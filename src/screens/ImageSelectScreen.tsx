@@ -3,13 +3,13 @@ import * as ImagePicker from 'expo-image-picker';
 import { Pressable, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation } from '../navigations/RootStackNavigation';
+import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import { Typography } from '../components/Typography';
 
 export const ImageSelectScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation();
+    const homeNavigation = useHomeNavigation();
     const onPressBack = useCallback(()=>{
-        rootNavigation.goBack();
+        homeNavigation.goBack();
     }, [])
 
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();

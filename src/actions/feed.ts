@@ -3,6 +3,7 @@ import { FeedInfo } from "../@types/FeedInfo";
 import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
 import axios from "axios";
+import { Config } from "../config";
 
 const BASE_URL = 'http://127.0.0.1:8080' 
 
@@ -77,11 +78,17 @@ export const favoriteFeedFailure = ()=>{
 
 export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
     dispatch(getFeedListRequest());
-
-    axios.defaults.headers.common['Authorization'] = `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNCIsInJvbGUiOiJST0xFX1VTRVIiLCJpc3MiOiJkZWJyYWlucyIsImV4cCI6MTY4NjMzMjIwM30.miHHbQyHEHcSGNcnN65hjCoIUpfjOuHUkpYW9qq9VH7f_JJcYdQSnv_PUA1r9FUUdNc5xIGMN3mOPzTw1IqnWg`;
-    axios.get(`${BASE_URL}/posts`).then(res => {
-        console.log(res.data.data);
+    axios.get(`${Config.server}/posts`).then(res => {
         console.log(res.data.data.feeds);
+        // TODO: 피드 좋아요 상태 조회 추가 
+        // const feedList:FeedInfo[] = res.data.data.feeds;
+        // const feedsWithLike:FeedInfo[] = feedList.map(f => {
+        //     axios.get(`${Config.server}/posts/${f.id}/heart`)
+        //     .then(res_like => {return res_like.data.data})
+        //     .catch(err_like => console.log(err_like));
+        //     return 
+        // });
+        // console.log(feedsWithLike);
         dispatch(
             getFeedListSuccess(res.data.data.feeds))    
     }).catch(err => {console.log(err.response)});

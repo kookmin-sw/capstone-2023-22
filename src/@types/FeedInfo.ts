@@ -1,10 +1,13 @@
 export type FeedInfo = {
     id:number, 
     content:string, 
+    heartCount:number,
     userName:string,
     placeName:string,
-    createdAt:string, 
-    imageUrl:string
+    updatedAt:string,
+    profileImage:string,
+    imageUrl:string,
+    isLiked:boolean
 }
 
 //     id(feed):number, 

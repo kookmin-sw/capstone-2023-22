@@ -6,6 +6,9 @@ import { PlaceInfo } from "../@types/PlaceInfo";
 export const useSearchResult = () => useSelector<RootReducer, PlaceInfo[]>((state)=>{
     return state.search.searchResult;
 })
+export const useSearchKeyword = () => useSelector<RootReducer, string>((state)=>{
+    return state.search.keyword;
+})
 
 // keyword:string;
 // searchResult:PlaceInfo[];

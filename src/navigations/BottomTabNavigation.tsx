@@ -8,7 +8,6 @@ import { TypeIconName } from '../components/Icons';
 import {RouteProp, useNavigation, useRoute} from "@react-navigation/native";
 import { MyListScreen } from '../screens/MyListScreen';
 import { SearchScreen } from '../screens/SearchScreen';
-import { LoginScreen } from '../screens/LoginScreen';
 
 export type BottomTabParamList = {
     Space:undefined,
@@ -58,7 +57,7 @@ export const BottomTabNavigation = ()=>{
             <BottomTab.Screen name='MyList' component={MyListScreen} />
             <BottomTab.Screen name='Map' component={MapScreen} />
             <BottomTab.Screen name='Search' component={SearchScreen} />
-            <BottomTab.Screen name='MyPage' component={LoginScreen} />
+            <BottomTab.Screen name='MyPage' component={MyPageScreen} />
         </BottomTab.Navigator>
     )
 }

@@ -9,12 +9,12 @@ import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
 import { Icon } from '../components/Icons';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation } from '../navigations/RootStackNavigation';
+import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import { useTotalFeedList } from '../selectors/feed';
 
 export const TotalFeedListScreen:React.FC = ()=>{
     const safeAreaInset = useSafeAreaInsets();
-    const stackNavigation = useRootNavigation();
+    const stackNavigation = useHomeNavigation();
     const dispatch = useDispatch<TypeFeedListDispatch>();
     const feedList = useTotalFeedList();
 
@@ -22,12 +22,12 @@ export const TotalFeedListScreen:React.FC = ()=>{
         dispatch(getFeedList());
     }, [])
 
-    const onPressFeed = useCallback(()=>{
-        stackNavigation.navigate('PostDetail');
+    const onPressFeed = useCallback((item:FeedInfo)=>{
+        stackNavigation.navigate('PostDetail', item);
     }, [])
 
     return (
-        <View style={{flex:1}}>
+        <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
                 <Header.Group>
                     <Header.Title title='새소행 공간'></Header.Title>
@@ -39,12 +39,14 @@ export const TotalFeedListScreen:React.FC = ()=>{
                     return (
                         <FeedListItem
                             feedId={item.id}
-                            imageUrl={item.imageUrl}
                             content={item.content}
+                            heartCount={item.heartCount}
+                            userName={item.userName}
                             placeName={item.placeName}
-                            writer={item.userName}
-                            writerImg={item.imageUrl}
-                            onPressFeed={onPressFeed}
+                            updatedAt={item.updatedAt}
+                            profileImage={item.profileImage}
+                            imageUrl={item.imageUrl}
+                            onPressFeed={() => onPressFeed(item)}
                         />
                     )
                 }}

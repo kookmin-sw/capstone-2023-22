@@ -1,24 +1,17 @@
+import { useRoute } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation } from '../navigations/RootStackNavigation';
+import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 
-export const PostDetailScreen:React.FC = ()=>{
-    const rootNavigation = useRootNavigation();
-
+export const PostDetailScreen:React.FC = () => {
+    const homeNavigation = useHomeNavigation();
+    const {params} = useHomeRoute<'PostDetail'>(); 
     const onPressBack = useCallback(()=>{
-        rootNavigation.goBack();
+        homeNavigation.goBack();
     }, [])
-    const item = {
-        id:'ID_01',
-        content:'CONTENT_01',
-        writer:'WRITER_01',
-        writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        likeCount:10,
-        imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-    }
     return (
         <View style={{flex:1}}>
             <Header>
@@ -35,11 +28,14 @@ export const PostDetailScreen:React.FC = ()=>{
             </Header>
 
             <FeedListItem
-                image={item.imageUrl}
-                comment={item.content}
-                likeCount={item.likeCount}
-                writer={item.writer}
-                writerImg={item.writerImg}
+                feedId={params.id}
+                content={params.content}
+                heartCount={params.heartCount}
+                userName={params.userName}
+                placeName={params.placeName}
+                updatedAt={params.updatedAt}
+                profileImage={params.profileImage}
+                imageUrl={params.imageUrl}
                 onPressFeed={()=>{
                     console.log('onPressFeed')
                 }}

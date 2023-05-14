@@ -4,6 +4,8 @@ import { UserInfo } from "../@types/UserInfo";
 import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
 import dayjs from "dayjs";
+import axios from "axios";
+import { Config } from "../config";
 
 export const SET_USER_INFO = 'SET_USER_INFO' as const;
 export const UPDATE_USER_NICKNAME = 'UPDATE_USER_NICKNAME' as const;
@@ -96,6 +98,20 @@ export const signIn = ():UserThunkAction => async (dispatch)=>{
             birth: dayjs().format('YY-MM-DD')
         })
     )
+}
+export const getUserInfo = (token:string):UserThunkAction => async (dispatch)=>{
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    await axios.get(`${Config.server}/user`)
+    .then((res) => {
+        dispatch(setUserInfo({
+            id: res.data.data.userId,
+            name: res.data.data.userName,
+            profileImage: res.data.data.profileImage,
+            birth: "23-05-01"
+        }));
+    }).catch(err =>{
+        console.log(err);
+    });
 }
 
 export const getMyFeedList = ():UserThunkAction => async (dispatch)=>{

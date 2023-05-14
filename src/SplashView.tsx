@@ -1,24 +1,28 @@
 import React, { useCallback, useEffect } from 'react';
 import { View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { signIn, TypeUserDispatch } from './actions/user';
-import { Typography } from './components/Typography';
+import { getUserInfo, TypeUserDispatch } from './actions/user';
 import Splash from '../assets/splash.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRootNavigation } from './RootApp';
 
-export const SplashView:React.FC<{onFinishLoad:()=>void}> = (props)=>{
+export const SplashView:React.FC = ()=>{
     const dispatch = useDispatch<TypeUserDispatch>();
-    const appInit = useCallback(async()=>{
-        await dispatch(signIn());
-        props.onFinishLoad();
-
+    const rootNavigation = useRootNavigation();
+    const appInit = useCallback(async (token:string)=>{
+        console.log("Token Exist!");
+        dispatch(getUserInfo(token));
+        rootNavigation.replace('Home');
     }, [])
     useEffect(()=>{
-        appInit();
-
+        setTimeout(() => {
+            AsyncStorage.getItem('@token').then((value) =>
+            {value === null ? rootNavigation.replace('Login') : appInit(value)});
+        },3000);
     }, [])
     return (
         <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-            <Image source={Splash} style={{width: 100 }} />
+            <Image source={Splash} style={{width: '100%', height: '100%'}} />
         </View>
     )
 }

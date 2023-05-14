@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { View, useWindowDimensions, Pressable, Keyboard, ScrollView } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useRootNavigation, useRootRoute } from '../navigations/RootStackNavigation';
+import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 import { Typography } from '../components/Typography';
 import { RemoteImage } from '../components/RemoteImage';
 import { useMyInfo } from '../selectors/user';
@@ -11,14 +11,14 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export const WritePostScreen:React.FC = ()=>{
     const {width} = useWindowDimensions();
-    const {params} = useRootRoute();
-    const rootNavigation = useRootNavigation();
+    const {params} = useHomeRoute();
+    const HomeNavigation = useHomeNavigation();
     const userInfo = useMyInfo();
     const [inputMessage, setInputMessage] = useState('');
 
 
     const onPressBack = useCallback(()=>{
-        rootNavigation.goBack();
+        HomeNavigation.goBack();
     }, [])
 
     return (

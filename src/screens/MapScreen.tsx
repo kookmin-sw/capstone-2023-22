@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Header } from '../components/Header/Header';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 
@@ -9,14 +9,20 @@ import { useDispatch } from 'react-redux';
 import { TypeAreaMarkerListDispatch, getAreaMarkerList } from '../actions/areaMarker';
 
 import AreaMarkerImage from '../../assets/area-landmark.png';
+import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
 
 
 export const MapScreen:React.FC = ()=>{
     const homeNavigation = useHomeNavigation<'Map'>();
+    const stackNavigation = useHomeNavigation();
     const route = useHomeRoute();
 
     const dispatch = useDispatch<TypeAreaMarkerListDispatch>();
     const areaMarkerList = useTotalAreaMarkerList();
+
+    const onPressLandmark = useCallback((item: AreaMarkerInfo)=>{
+        stackNavigation.navigate('AreaSelected', item);
+    }, [])
 
     useEffect(()=>{
       dispatch(getAreaMarkerList());
@@ -41,10 +47,18 @@ export const MapScreen:React.FC = ()=>{
                 {
                     areaMarkerList.map((e): any => {
                         return (
-                            <Marker key={e.areaName} image={AreaMarkerImage} coordinate={{
-                                latitude: e.latitude,
-                                longitude: e.longitude
-                            }} />
+                            <Marker
+                                key={e.areaId}
+                                image={AreaMarkerImage}
+                                onPress={(pressedE) => {
+                                    console.log(pressedE.nativeEvent, "clicked");
+                                    onPressLandmark(e)
+                                }}
+                                coordinate={{
+                                    latitude: e.latitude,
+                                    longitude: e.longitude
+                                }}
+                            />
                         );
                     })
                 }

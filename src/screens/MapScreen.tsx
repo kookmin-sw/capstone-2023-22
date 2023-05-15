@@ -27,22 +27,22 @@ export const MapScreen:React.FC = ()=>{
                 </Header.Group>
             </Header>
             <MapView
-            provider={ PROVIDER_GOOGLE }
-            style={{ flex: 1 }}
-            initialRegion={{
-            latitude: 37.541,
-            longitude: 126.986,
-            latitudeDelta: 0.5,
-            longitudeDelta: 0.5,
-            }}>
+                provider={ PROVIDER_GOOGLE }
+                style={{ flex: 1 }}
+                initialRegion={{
+                    latitude: 37.541,
+                    longitude: 126.986,
+                    latitudeDelta: 0.5,
+                    longitudeDelta: 0.5,
+                }}>
                 {
                     areaMarkerList.map((e): any => {
                         console.log("좌표정보:", e.latitude, e.longitude);
                         return (
-                        <Marker key={e.areaName} coordinate={{
-                            latitude: e.latitude,
-                            longitude: e.longitude
-                        }}></Marker>
+                            <Marker key={e.areaName} coordinate={{
+                                latitude: e.latitude,
+                                longitude: e.longitude
+                            }}></Marker>
                         );
                     })
                 }

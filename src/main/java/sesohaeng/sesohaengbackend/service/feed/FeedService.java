@@ -184,6 +184,7 @@ public class FeedService {
                 feed.getContent(),
                 feed.getUser().getUsername(),
                 feed.getUser().getProfileImage(),
+                feed.getPlace().getId(),
                 feed.getPlace().getPlaceName(),
                 feed.getUpdatedAt(),
                 feedImage.getImageUrl(),

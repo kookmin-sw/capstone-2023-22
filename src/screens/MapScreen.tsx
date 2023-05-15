@@ -8,6 +8,9 @@ import { useTotalAreaMarkerList } from '../selectors/areamarker';
 import { useDispatch } from 'react-redux';
 import { TypeAreaMarkerListDispatch, getAreaMarkerList } from '../actions/areaMarker';
 
+import AreaMarkerImage from '../../assets/area-landmark.png';
+
+
 export const MapScreen:React.FC = ()=>{
     const homeNavigation = useHomeNavigation<'Map'>();
     const route = useHomeRoute();
@@ -37,12 +40,11 @@ export const MapScreen:React.FC = ()=>{
                 }}>
                 {
                     areaMarkerList.map((e): any => {
-                        console.log("좌표정보:", e.latitude, e.longitude);
                         return (
-                            <Marker key={e.areaName} coordinate={{
+                            <Marker key={e.areaName} image={AreaMarkerImage} coordinate={{
                                 latitude: e.latitude,
                                 longitude: e.longitude
-                            }}></Marker>
+                            }} />
                         );
                     })
                 }

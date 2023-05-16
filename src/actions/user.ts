@@ -6,6 +6,7 @@ import { sleep } from "../utils/utils";
 import dayjs from "dayjs";
 import axios from "axios";
 import { Config } from "../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const SET_USER_INFO = 'SET_USER_INFO' as const;
 export const UPDATE_USER_NICKNAME = 'UPDATE_USER_NICKNAME' as const;
@@ -99,8 +100,8 @@ export const signIn = ():UserThunkAction => async (dispatch)=>{
         })
     )
 }
-export const getUserInfo = (token:string):UserThunkAction => async (dispatch)=>{
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const getUserInfo = ():UserThunkAction => async (dispatch)=>{
+    AsyncStorage.getItem('@token').then(async (token) => {
     await axios.get(`${Config.server}/user`)
     .then((res) => {
         dispatch(setUserInfo({
@@ -112,36 +113,42 @@ export const getUserInfo = (token:string):UserThunkAction => async (dispatch)=>{
     }).catch(err =>{
         console.log(err);
     });
+    }).catch(err => console.log(err));
 }
 
 export const getMyFeedList = ():UserThunkAction => async (dispatch)=>{
     dispatch(getMyFeedListRequest());
+    await axios.get(`${Config.server}/posts/my-posts`)
+    .then((res) => {
+        dispatch(getMyFeedListSuccess(res.data.data.feeds));
+    }).catch(err =>{
+        console.log(err);
+    });
 
-    await sleep(2000);
-    dispatch(getMyFeedListSuccess([
-        {
-            id:'ID_01',
-            content:'CONTENT_01',
-            writer:'WRITER_01',
-            writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            likeCount:10,
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        },{
-            id:'ID_02',
-            content:'CONTENT_02',
-            writer:'WRITER_02',
-            writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            likeCount:10,
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        },{
-            id:'ID_03',
-            content:'CONTENT_03',
-            writer:'WRITER_03',
-            writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-            likeCount:10,
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
-        }]
-    ))
+    // dispatch(getMyFeedListSuccess([
+    //     {
+    //         id:'ID_01',
+    //         content:'CONTENT_01',
+    //         writer:'WRITER_01',
+    //         writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //         likeCount:10,
+    //         imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //     },{
+    //         id:'ID_02',
+    //         content:'CONTENT_02',
+    //         writer:'WRITER_02',
+    //         writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //         likeCount:10,
+    //         imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //     },{
+    //         id:'ID_03',
+    //         content:'CONTENT_03',
+    //         writer:'WRITER_03',
+    //         writerImg:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //         likeCount:10,
+    //         imageUrl:'https://docs.expo.dev/static/images/tutorial/background-image.png',
+    //     }]
+    // ))
 }
 export const getMyFavoriteList = ():UserThunkAction => async (dispatch)=>{
     dispatch(getMyFavoriteListRequest());
@@ -154,7 +161,7 @@ export const getMyFavoriteList = ():UserThunkAction => async (dispatch)=>{
             writer:'WRITER_01',
             writerImg:'https://docs.expo.dev/static/images/tutorial/splash.png',
             likeCount:10,
-            imageUrl:'https://docs.expo.dev/static/images/tutorial/splash.png',
+            imageUrl:'https://mlops-models-bucket.s3.ap-northeast-2.amazonaws.com/wordcloud/%EC%97%AC%EC%9D%98%EB%8F%84/%EC%97%AC%EC%9D%98%EB%8F%84.jpg',
         },{
             id:'ID_02',
             content:'CONTENT_02',

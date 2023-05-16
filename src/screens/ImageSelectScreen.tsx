@@ -1,12 +1,13 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Pressable, View } from 'react-native';
+import { Alert, Pressable, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
-import { useHomeNavigation } from '../navigations/HomeStackNavigation';
+import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 import { Typography } from '../components/Typography';
 
 export const ImageSelectScreen:React.FC = ()=>{
+    const {params} = useHomeRoute<'ImageSelect'>();
     const homeNavigation = useHomeNavigation();
     const onPressBack = useCallback(()=>{
         homeNavigation.goBack();
@@ -18,7 +19,7 @@ export const ImageSelectScreen:React.FC = ()=>{
         if (!status?.granted) {
             const permission = await requestPermission();
             if (!permission.granted) {
-                return null;
+                return alert("게시글을 업로드 하려면 사진 권한이 필요합니다.");
             }
         }
 
@@ -29,13 +30,16 @@ export const ImageSelectScreen:React.FC = ()=>{
             aspect:[1,1]
         });
         if (result.canceled) {
-            return null;
+            return alert("게시글을 업로드 하려면 사진 선택이 필요합니다.");
         }
 
         console.log(result);
         setImageUrl(result.assets[0].uri);
-        rootNavigation.navigate('WritePost', {uri:imageUrl})
+        homeNavigation.navigate('WritePost', {image:result.assets[0].uri, placeName: params.placeName})
     };
+    useEffect(() => {
+        uploadImage()
+    }, []);
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>

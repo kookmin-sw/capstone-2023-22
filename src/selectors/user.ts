@@ -8,3 +8,7 @@ export const useMyInfo = () => useSelector<RootReducer, UserInfo | null>((state)
 export const useMyFeedList = () => useSelector<RootReducer, FeedInfo[]>((state)=>{
     return state.userInfo.myFeedList;
 })
+
+export const useMyFavoriteList = () => useSelector<RootReducer, FeedInfo[]>((state)=>{
+    return state.userInfo.myFavoriteList;
+})

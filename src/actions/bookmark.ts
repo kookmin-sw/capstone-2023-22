@@ -57,20 +57,19 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
         const res = await axios.post(`${Config.server}/bookmark`, 
         JSON.stringify({
             // TODO: id 변경
-            id: 325016,
-            type: 'cafe'
+            placeId: id
         }), {headers: {"Content-Type": `application/json`}});
         if (res.status == 200) {
             console.log("bookmark Posting OK");
             console.log(res.data.data)
             dispatch(postBookmarkSuccess({
-                "bookmarkId": res.data.data.id,
-                "placeId": 325016,
-                "placeName":res.data.data.placeName
+                "bookmarkId": res.data.data.bookmarkId,
+                "placeId": id,
+                "placeName": res.data.data.placeName,
         }))
         }
     } catch(err) {
-        console.log(err.response);
+        console.log(err);
     }
     
 

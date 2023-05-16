@@ -1,33 +1,40 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
-import { FlatList, useWindowDimensions, View } from 'react-native';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
+import { FlatList, Pressable, useWindowDimensions, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
-import { getMyFeedList, TypeUserDispatch } from '../actions/user';
+import { getMyFavoriteList, getMyFeedList, getUserInfo, TypeUserDispatch } from '../actions/user';
 import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
 import { RemoteImage } from '../components/RemoteImage';
 import { Typography } from '../components/Typography';
 import {  useHomeNavigation } from '../navigations/HomeStackNavigation';
-import { useMyFeedList, useMyInfo } from '../selectors/user';
+import { useMyFavoriteList, useMyFeedList, useMyInfo } from '../selectors/user';
 import { Spacer } from '../components/Spacer';
 import { Icon } from '../components/Icons';
 
 export const MyPageScreen:React.FC = ()=>{
+    const [isFocusedOnMyFeedList, setIsFocusedOnMyFeedList] = useState(true);
     const {width} = useWindowDimensions();
     const homeNavigation = useHomeNavigation();
 
-
     const dispatch = useDispatch<TypeUserDispatch>();
-    const data = useMyFeedList();
+    const myFeeds = useMyFeedList();
+    const myFavorites = useMyFavoriteList();
     const userInfo = useMyInfo();
     const photoSize = useMemo(()=> width/3, [width]);
 
     const onPressSetting = useCallback(()=>{
         homeNavigation.navigate('Setting');
     }, [])
+    const onPressContent = useCallback((item:FeedInfo)=>{
+        homeNavigation.navigate('PostDetail', item);
+    }, [])
+
 
     useEffect(()=>{
+        dispatch(getUserInfo())
         dispatch(getMyFeedList());
+        dispatch(getMyFavoriteList());
     }, [])
 
     return (
@@ -49,26 +56,39 @@ export const MyPageScreen:React.FC = ()=>{
                     </View>     
                 </View>
                 <View style={{flexDirection:'row', paddingVertical:8, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF'}}>
-                    <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                    <Pressable onPress={() => setIsFocusedOnMyFeedList(true)} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='albums-outline' size={20} color='black'/>
-                    </View>
-                    <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                    </Pressable>
+                    <Pressable onPress={() => setIsFocusedOnMyFeedList(false)} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='heart-outline' size={20} color='black'/>
-                    </View>
+                    </Pressable>
                 </View>
-                <FlatList<FeedInfo>
-                    data={data}
+                {
+                    isFocusedOnMyFeedList ? 
+                    <FlatList<FeedInfo>
+                    data={myFeeds}
                     numColumns={3}
                     renderItem={({item})=>{
                         return (
-                            <Button onPress={()=>{}}>
+                            <Button onPress={()=>{onPressContent(item)}}>
                                 <RemoteImage url={item.imageUrl} width={photoSize} height={photoSize} />
                             </Button>
                         )
                     }}
-                />
+                    /> :
+                    <FlatList<FeedInfo>
+                    data={myFavorites}
+                    numColumns={3}
+                    renderItem={({item})=>{
+                        return (
+                            <Button onPress={()=>{onPressContent(item)}}>
+                                <RemoteImage url={item.imageUrl} width={photoSize} height={photoSize} />
+                            </Button>
+                        )
+                    }}
+                    />
+                }
             </View>
-            
         </View>
     )
 }

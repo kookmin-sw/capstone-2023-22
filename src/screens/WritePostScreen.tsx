@@ -8,19 +8,26 @@ import { RemoteImage } from '../components/RemoteImage';
 import { useMyInfo } from '../selectors/user';
 import { MultiLineInput } from '../components/MultiLineInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useDispatch } from 'react-redux';
+import { createFeed, TypeFeedListDispatch } from '../actions/feed';
 
 export const WritePostScreen:React.FC = ()=>{
     const {width} = useWindowDimensions();
-    const {params} = useHomeRoute();
-    const HomeNavigation = useHomeNavigation();
+    const {params} = useHomeRoute<'WritePost'>();
+    const HomeNavigation = useHomeNavigation<'WritePost'>();
     const userInfo = useMyInfo();
     const [inputMessage, setInputMessage] = useState('');
+    const dispatch = useDispatch<TypeFeedListDispatch>();
+
 
 
     const onPressBack = useCallback(()=>{
         HomeNavigation.goBack();
     }, [])
 
+    const onPressPost = useCallback((input:string) =>{
+        dispatch(createFeed({content:input, placeName:params.placeName, imageUrl:params.image}));
+    }, [])
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
@@ -45,20 +52,20 @@ export const WritePostScreen:React.FC = ()=>{
                                 <Typography fontSize={12}>{userInfo?.name}</Typography>
                             </View>
                         </View>
-                        <RemoteImage url={params?.uri} width={width} height={width}/>
+                        <RemoteImage url={params.image} width={width} height={width}/>
                     </Pressable>
 
                     <View style={{paddingVertical:10, paddingHorizontal:10}}>
                         <MultiLineInput
                                 value={inputMessage}
                                 onChangeText={setInputMessage}
-                                onSubmitEditing={()=>{}}
+                                onSubmitEditing={() => onPressPost(inputMessage)}
                                 placeholder='영감이 떠오르는 한마디를 작성해주세요!...'
                                 height={100}
                                 fontSize={16}
                             />
                         <Spacer space={10} />
-                        <Pressable style={{alignSelf:'flex-end', alignItems:'center', justifyContent:'center',paddingHorizontal:20,paddingVertical:10, width:72, height:37, borderRadius:5, backgroundColor:'#764AF1'}}>
+                        <Pressable onPress={() => onPressPost(inputMessage)} style={{alignSelf:'flex-end', alignItems:'center', justifyContent:'center',paddingHorizontal:20,paddingVertical:10, width:72, height:37, borderRadius:5, backgroundColor:'#764AF1'}}>
                             <Typography fontSize={15} color='white'>게시</Typography>
                         </Pressable>
                     </View>

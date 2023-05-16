@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
 import { getFeedList, TypeFeedListDispatch } from '../actions/feed';
+import { getUserInfo } from '../actions/user';
 import { Button } from '../components/Button';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
@@ -42,6 +43,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
                             content={item.content}
                             heartCount={item.heartCount}
                             userName={item.userName}
+                            placeId={item.placeId}
                             placeName={item.placeName}
                             updatedAt={item.updatedAt}
                             profileImage={item.profileImage}

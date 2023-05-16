@@ -1,21 +1,58 @@
-import React, { useCallback, useState } from 'react';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, TextInput, TouchableOpacity, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import { Typography } from '../components/Typography';
+import { useDispatch } from 'react-redux';
+import { getSearch, getSearchSuccess, TypeSearchDispatch } from '../actions/search';
+import { useSearchResult } from '../selectors/search';
+import { PlaceInfo } from '../@types/PlaceInfo';
+import { Button } from '../components/Button';
+import { TabIcon } from '../components/TabIcon';
+
 
 export const PlaceSearchScreen:React.FC = ()=>{
     const [keyword, setKeyword] = useState('');
     const homeNavigation = useHomeNavigation();
+    const dispatch = useDispatch<TypeSearchDispatch>();
+    const searchResults = useSearchResult();
+
     const onPressBack = useCallback(()=>{
+        dispatch(getSearchSuccess([]));
+        setKeyword('');
         homeNavigation.goBack();
     }, [])
-    const onPressSearch = useCallback(() => {
-        if (keyword == '') {
-            
-        }
+
+    const onPressEnter = useCallback((query:string) => {
+        dispatch(getSearch(query));
     }, [])
+
+    const onPressButton = useCallback((item:PlaceInfo) => {
+        homeNavigation.navigate('ImageSelect', item);
+    }, [])
+
+    // useMemo(() => {return use(); return searchKeyword},[keyword]); 
+    useEffect(() =>{dispatch(getSearchSuccess([]))},[]);
+
+    const renderItem = (item:PlaceInfo) => {
+        return (
+            <View style={{paddingHorizontal:10, paddingVertical:10}}>
+                <Button onPress={() => {onPressButton(item)}}>
+                <View style={{flexDirection:'row'}}>
+                    <View style={{backgroundColor:'#EDCAE9', width: 60, height:60, alignItems: 'center', justifyContent:'center', borderRadius:60/2}}>
+                        <TabIcon iconName='restaurant' iconColor='black'></TabIcon>
+                    </View>
+                    <Spacer space={15} horizontal/>
+                    <View style={{justifyContent:'center'}}>
+                        <Typography fontSize={20} bold>{item.placeName}</Typography>
+                    </View>
+                </View>
+                </Button>
+            </View>
+        )
+    }
+
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
@@ -32,18 +69,35 @@ export const PlaceSearchScreen:React.FC = ()=>{
             <View style={{paddingHorizontal:10, backgroundColor:'white'}}>
                 <View style={{paddingVertical:20, flexDirection:'row'}}>
                     <View style={{flex:1, alignSelf:'stretch', justifyContent:'center', backgroundColor:'#E4E4E4', borderRadius:4, padding:12}}>
-                        <TextInput value='' autoCorrect={false} autoCapitalize={'none'} onSubmitEditing={()=> {}} style={{fontSize:15}} placeholder='검색할 장소를 입력하세요'></TextInput>
+                        <TextInput value={keyword} autoCorrect={false} onChangeText={setKeyword} autoCapitalize={'none'} onSubmitEditing={() => onPressEnter(keyword)} style={{fontSize:15}} placeholder='검색할 장소를 입력하세요'></TextInput>
                     </View>
                     <Spacer space={10} horizontal/>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => onPressEnter(keyword)}>
                         <View style={{justifyContent:'center', backgroundColor:'#764AF1', paddingHorizontal:20, paddingVertical:10, borderRadius:5, width:67, height:52}}>
                             <Typography color='white' fontSize={15}>검색</Typography>
                         </View>
                     </TouchableOpacity>
                 </View>
-                <View style={{paddingVertical:20}}>
-                    
+                <View>
+                    {searchResults.length > 0 ?
+                    <View>
+                        <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
+                            <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
+                        </View> 
+                        <View>
+                            <FlatList<PlaceInfo>
+                            data={searchResults}
+                            keyExtractor={(item:PlaceInfo) => `${item.placeId}`}
+                            renderItem={({item}) => renderItem(item)}
+                            />
+                        </View>
+                    </View> : 
+                    <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
+                        <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
+                    </View> 
+                    }
                 </View>
+                
             </View>
             
         </View>

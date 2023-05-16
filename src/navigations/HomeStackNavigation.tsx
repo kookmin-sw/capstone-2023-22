@@ -11,16 +11,19 @@ import { PostDetailScreen } from '../screens/PostDetailScreen';
 import { SettingScreen } from '../screens/SettingScreen';
 import { WritePostScreen } from '../screens/WritePostScreen';
 import { BottomTabNavigation } from './BottomTabNavigation';
+import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
+import { AreaSelectedScreen } from '../screens/AreaSelectedScreen';
 
 
 export type HomeStackParamList = {
-    BottomTab:undefined
+    BottomTab: undefined
     PostDetail: FeedInfo
     Setting:undefined
     PlaceSearch:undefined
     ImageSelect:PlaceInfo
     Map:undefined
     WritePost: Omit<RequestPostCreate,'content'>
+    AreaSelected: AreaMarkerInfo
 }
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -46,6 +49,7 @@ export const HomeStackNavigation:React.FC = ()=>{
                 <Stack.Screen name='PlaceSearch' component={PlaceSearchScreen}></Stack.Screen>
                 <Stack.Screen name='ImageSelect' component={ImageSelectScreen}></Stack.Screen>
                 <Stack.Screen name='WritePost' component={WritePostScreen}></Stack.Screen>
+                <Stack.Screen name='AreaSelected' component={AreaSelectedScreen}></Stack.Screen>
             </Stack.Group>
         </Stack.Navigator>
     )

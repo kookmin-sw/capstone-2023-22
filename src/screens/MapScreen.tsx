@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Header } from '../components/Header/Header';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 
@@ -8,12 +8,21 @@ import { useTotalAreaMarkerList } from '../selectors/areamarker';
 import { useDispatch } from 'react-redux';
 import { TypeAreaMarkerListDispatch, getAreaMarkerList } from '../actions/areaMarker';
 
+import AreaMarkerImage from '../../assets/area-landmark.png';
+import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
+
+
 export const MapScreen:React.FC = ()=>{
     const homeNavigation = useHomeNavigation<'Map'>();
+    const stackNavigation = useHomeNavigation();
     const route = useHomeRoute();
 
     const dispatch = useDispatch<TypeAreaMarkerListDispatch>();
     const areaMarkerList = useTotalAreaMarkerList();
+
+    const onPressLandmark = useCallback((item: AreaMarkerInfo)=>{
+        stackNavigation.navigate('AreaSelected', item);
+    }, [])
 
     useEffect(()=>{
       dispatch(getAreaMarkerList());
@@ -27,22 +36,29 @@ export const MapScreen:React.FC = ()=>{
                 </Header.Group>
             </Header>
             <MapView
-            provider={ PROVIDER_GOOGLE }
-            style={{ flex: 1 }}
-            initialRegion={{
-            latitude: 37.541,
-            longitude: 126.986,
-            latitudeDelta: 0.5,
-            longitudeDelta: 0.5,
-            }}>
+                provider={ PROVIDER_GOOGLE }
+                style={{ flex: 1 }}
+                initialRegion={{
+                    latitude: 37.541,
+                    longitude: 126.986,
+                    latitudeDelta: 0.5,
+                    longitudeDelta: 0.5,
+                }}>
                 {
                     areaMarkerList.map((e): any => {
-                        console.log("좌표정보:", e.latitude, e.longitude);
                         return (
-                        <Marker key={e.areaName} coordinate={{
-                            latitude: e.latitude,
-                            longitude: e.longitude
-                        }}></Marker>
+                            <Marker
+                                key={e.areaId}
+                                image={AreaMarkerImage}
+                                onPress={(pressedE) => {
+                                    console.log(pressedE.nativeEvent, "clicked");
+                                    onPressLandmark(e)
+                                }}
+                                coordinate={{
+                                    latitude: e.latitude,
+                                    longitude: e.longitude
+                                }}
+                            />
                         );
                     })
                 }

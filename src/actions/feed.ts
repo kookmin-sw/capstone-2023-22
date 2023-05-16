@@ -6,7 +6,6 @@ import axios from "axios";
 import { Config } from "../config";
 import FormData from 'form-data';
 import { RequestPostCreate } from "../@types/RequestPostCreate";
-const BASE_URL = 'http://127.0.0.1:8080' 
 
 export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const;
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const;
@@ -97,12 +96,11 @@ export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
         //         console.log(err)
         //         return f
         //     }
-        // });
         console.log(feedList[0]);
         dispatch(
-            getFeedListSuccess(res.data.data.feeds))    
+            getFeedListSuccess(res.data.data.feeds))
     }).catch(err => {console.log(err.response)});
-    
+
 }
 
 
@@ -152,8 +150,8 @@ export const favoriteFeed = (item:FeedInfo):FeedListThunkAction => async (dispat
 
 export type FeedListThunkAction = ThunkAction<void, RootReducer, undefined, FeedListActions>;
 export type TypeFeedListDispatch = ThunkDispatch<RootReducer, undefined, FeedListActions>;
-export type FeedListActions = 
-    | ReturnType<typeof getFeedListSuccess> 
+export type FeedListActions =
+    | ReturnType<typeof getFeedListSuccess>
     | ReturnType<typeof getFeedListRequest>
     | ReturnType<typeof getFeedListFailure>
     | ReturnType<typeof createFeedRequest>

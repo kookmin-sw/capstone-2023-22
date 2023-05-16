@@ -37,6 +37,7 @@ public class CafeServiceImpl implements CafeService{
             Cafe cafe = opCafe.get();
             responseDtos.add(new CafeResponseDto(
                     cafe.getId(),
+                    cafe.getPlace().getId(),
                     cafe.getCafe_name(),
                     cafe.getPlace().getLatitude(),
                     cafe.getPlace().getLongitude(),

@@ -37,6 +37,8 @@ public class CultureServiceImpl implements CultureService{
             }
             for (Culture culture: cultures) {
                 responseDtos.add(new CultureResponseDto(
+                        culture.getId(),
+                        culture.getPlace().getId(),
                         culture.getPlace().getLatitude(),
                         culture.getPlace().getLongitude(),
                         culture.getClassification(),

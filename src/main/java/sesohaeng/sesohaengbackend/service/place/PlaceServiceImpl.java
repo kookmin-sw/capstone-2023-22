@@ -75,6 +75,7 @@ public class PlaceServiceImpl implements PlaceService{
             return new PlaceResponseDto(
                     new CafeResponseDto(
                     cafe.get().getId(),
+                    cafe.get().getPlace().getId(),
                     cafe.get().getCafe_name(),
                     place.getLatitude(),
                     place.getLongitude(),
@@ -85,6 +86,8 @@ public class PlaceServiceImpl implements PlaceService{
             for (Culture culture : cultures) {
                 cultureResponseDtos.add(
                         new CultureResponseDto(
+                                culture.getId(),
+                                culture.getPlace().getId(),
                                 place.getLatitude(),
                                 place.getLongitude(),
                                 culture.getClassification(),

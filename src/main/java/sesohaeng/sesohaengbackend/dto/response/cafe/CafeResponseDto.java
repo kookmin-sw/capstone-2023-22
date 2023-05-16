@@ -13,6 +13,8 @@ import javax.persistence.Id;
 public class CafeResponseDto {
     Long id;
 
+    Long placeId;
+
     String cafe_name;
 
     Double latitude;

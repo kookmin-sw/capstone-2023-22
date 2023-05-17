@@ -1,4 +1,5 @@
 export type AreaCultureInfo = {
+    placeId: number,
     latitude: number,
     longitude: number,
     classification: string,

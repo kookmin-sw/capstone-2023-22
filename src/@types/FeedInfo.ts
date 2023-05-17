@@ -3,11 +3,11 @@ export type FeedInfo = {
     content:string, 
     heartCount:number,
     userName:string,
+    placeId:number,
     placeName:string,
     updatedAt:string,
     profileImage:string,
-    imageUrl:string,
-    isLiked:boolean
+    imageUrl:string
 }
 
 //     id(feed):number, 

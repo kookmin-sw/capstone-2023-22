@@ -13,6 +13,10 @@ export const CHANGE_SEARCH_KEYWORD_REQUEST = 'CHANGE_SEARCH_KEYWORD_REQUEST' as 
 export const CHANGE_SEARCH_KEYWORD_SUCCESS = 'CHANGE_SEARCH_KEYWORD_SUCCESS' as const;
 export const CHANGE_SEARCH_KEYWORD_FAILURE = 'CHANGE_SEARCH_KEYWORD_FAILURE' as const;
 
+export const GET_WORDCLOUD_REQUEST = 'GET_WORDCLOUD_REQUEST' as const;
+export const GET_WORDCLOUD_SUCCESS = 'GET_WORDCLOUD_SUCCESS' as const;
+export const GET_WORDCLOUD_FAILURE = 'GET_WORDCLOUD_FAILURE' as const;
+
 export const getSearchRequest = ()=>{
     return {
         type:GET_SEARCH_REQUEST,
@@ -31,6 +35,7 @@ export const getSearchFailure = ()=>{
         type:GET_SEARCH_FAILURE
     }
 }
+
 export const changeSearchKeywordRequest = ()=>{
     return {
         type:CHANGE_SEARCH_KEYWORD_REQUEST,
@@ -64,7 +69,6 @@ export const getSearch = (keyword:string):SearchThunkAction=> async (dispatch)=>
         dispatch(getSearchSuccess(res.data.result))
     }).catch(err => console.log(err));
 }
-
 
 
 export type SearchThunkAction = ThunkAction<void, RootReducer, undefined, SearchActions>;

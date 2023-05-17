@@ -4,6 +4,8 @@ import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";
 import axios from "axios";
 import { Config } from "../config";
+import FormData from 'form-data';
+import { RequestPostCreate } from "../@types/RequestPostCreate";
 
 export const GET_FEED_LIST_REQUEST = 'GET_FEED_LIST_REQUEST' as const;
 export const GET_FEED_LIST_SUCCESS = 'GET_FEED_LIST_SUCCESS' as const;
@@ -76,35 +78,65 @@ export const favoriteFeedFailure = ()=>{
 
 export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
     dispatch(getFeedListRequest());
-    axios.get(`${Config.server}/posts`).then(res => {
-        console.log(res.data.data.feeds);
-        // TODO: 피드 좋아요 상태 조회 추가
-        // const feedList:FeedInfo[] = res.data.data.feeds;
-        // const feedsWithLike:FeedInfo[] = feedList.map(f => {
-        //     axios.get(`${Config.server}/posts/${f.id}/heart`)
-        //     .then(res_like => {return res_like.data.data})
-        //     .catch(err_like => console.log(err_like));
-        //     return
-        // });
-        // console.log(feedsWithLike);
+    axios.interceptors.request.clear();
+    axios.get(`${Config.server}/posts`).then(async(res) => {
+        // console.log(res.data.data.feeds);
+        // TODO: 피드 좋아요 상태 조회 추가 => 백엔드로부터 받을 예정.
+        const feedList:FeedInfo[] = res.data.data.feeds;
+        // const feedListNew = feedList.map((f) => {
+        //     try {
+        //         const response = axios.get(`${Config.server}/posts/${f.id}/heart`).then(liked => {return liked.data.data})
+        //         // console.log(response.data)
+        //         return {
+        //             ...f,
+        //             isLiked : response.data.data
+        //         }
+
+        //     } catch (err) {
+        //         console.log(err)
+        //         return f
+        //     }
+        console.log(feedList[0]);
         dispatch(
             getFeedListSuccess(res.data.data.feeds))
     }).catch(err => {console.log(err.response)});
 
 }
 
-export const createFeed = (item:Omit<FeedInfo, 'id'|'writer'|'likeCount'>):FeedListThunkAction => async (dispatch, getState)=>{
-    dispatch(createFeedRequest());
 
-    await sleep(2000);
-    dispatch(createFeedSuccess({
-        id:'ID_001',
-        content:item.content,
-        writer:getState().userInfo.userInfo?.name ||'Unkown Wirter',
-        writerImg: item.writerImg,
-        imageUrl:item.imageUrl,
-        likeCount:0,
-    }));
+export const createFeed = (item:Omit<FeedInfo, 'id'|'heartCount'|'userName'|'updatedAt'|'profileImage'|'isLiked'>):FeedListThunkAction => async (dispatch, getState)=>{
+    dispatch(createFeedRequest());
+    // axios 로그 확인용
+    axios.interceptors.request.clear(); 
+    axios.interceptors.request.use(request => {
+        console.log('Starting Request', JSON.stringify(request, null, 2))
+        return request
+      });
+    // post formdata 
+    const formData = new FormData();
+    // content
+    // formData.append('feedCreateRequest', new Blob([JSON.stringify({"content":item.content, "placeName":item.placeName})]
+    // , {type: "application/json"}));
+    // formData.append('feedCreateRequest', new Blob([JSON.stringify({"content":item.content})], {type: "application/json"}));
+    // formData.append('feedCreateRequest', new Blob([JSON.stringify({"placName":item.placeName})], {type: "application/json"}));
+    formData.append('content', item.content);
+    formData.append('placeName', item.placeName);
+    // 이미지 전처리
+    const filename = item.imageUrl.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename ?? '');
+    const type = match ? `image/${match[1]}` : 'image';
+    
+    formData.append('image', {uri: item.imageUrl, name: filename, type});
+    // Post 
+    await axios.post(`${Config.server}/posts`,formData ,{ 
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW'}
+        ,
+        transformRequest: formData => formData,
+    })
+    .then(res => console.log(res))
+    .catch(err => {console.log(err)});
 }
 
 export const favoriteFeed = (item:FeedInfo):FeedListThunkAction => async (dispatch)=>{

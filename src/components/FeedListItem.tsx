@@ -7,6 +7,7 @@ import { RemoteImage } from './RemoteImage';
 import { Spacer } from './Spacer';
 import { Typography } from './Typography';
 import { useDispatch } from 'react-redux';
+import dayjs from 'dayjs';
 
 // id:number, 
 //     content:string, 
@@ -16,7 +17,7 @@ import { useDispatch } from 'react-redux';
 //     updatedAt:string,
 //     profileImage:string,
 //     imageUrl:string
-export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:number, userName:string, placeName:string, updatedAt:string, profileImage:string, imageUrl:string, onPressFeed:()=>void}> = (props)=>{
+export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:number, userName:string, placeId:number, placeName:string, updatedAt:string, profileImage:string, imageUrl:string, onPressFeed:()=>void}> = (props)=>{
     const {width} = useWindowDimensions();
     const dispatch = useDispatch<TypeBookmarkListDispatch>();
 
@@ -34,12 +35,13 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
                             <Typography fontSize={11} color={'gray'}>{props.placeName}</Typography>
                             <Spacer space={10} horizontal />
                             {/* TODO: onPressBookmark에 placeId 추가 */}
-                            <Pressable onPress={() => onPressBookmark()} style={{backgroundColor:'#764AF1', paddingHorizontal:6, paddingVertical:2, borderRadius:8, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+                            <Pressable onPress={() => onPressBookmark(props.placeId)} style={{backgroundColor:'#764AF1', paddingHorizontal:6, paddingVertical:2, borderRadius:8, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
                                 <Icon name='star-outline' size={9} color='white'/>
                                 <Spacer space={4} horizontal/>
                                 <Typography fontSize={9} color={'white'}>{'장소추가'}</Typography>
                             </Pressable>
                         </View>
+                        <Spacer space={3}/>
                         <Typography fontSize={12} bold>{props.userName}</Typography>
                     </View>
                 </View>
@@ -48,7 +50,7 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
 
                 <View style={{paddingHorizontal:12, paddingVertical:12, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                     <Icon name='heart-outline' size={20} color='black'/>
-                    <Typography fontSize={12} color='gray'>{props.updatedAt}</Typography>
+                    <Typography fontSize={12} color='gray'>{dayjs(props.updatedAt).format("YYYY-MM-DD")}</Typography>
                 </View>
                 <View style={{paddingHorizontal:12 }}>
                     <Typography fontSize={12} color='black'>좋아요 {props.heartCount}개</Typography>

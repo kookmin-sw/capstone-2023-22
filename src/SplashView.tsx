@@ -5,13 +5,15 @@ import { getUserInfo, TypeUserDispatch } from './actions/user';
 import Splash from '../assets/splash.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRootNavigation } from './RootApp';
+import axios from 'axios';
 
 export const SplashView:React.FC = ()=>{
     const dispatch = useDispatch<TypeUserDispatch>();
     const rootNavigation = useRootNavigation();
     const appInit = useCallback(async (token:string)=>{
         console.log("Token Exist!");
-        dispatch(getUserInfo(token));
+        dispatch(getUserInfo());
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         rootNavigation.replace('Home');
     }, [])
     useEffect(()=>{

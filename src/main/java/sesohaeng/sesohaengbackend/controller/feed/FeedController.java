@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
+import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.feed.FeedService;
@@ -38,11 +39,11 @@ public class FeedController {
 
     @GetMapping()
     public final CommonResponse getFeeds() {
-        return SingleResponse.<FeedListServiceResponse>builder()
+        return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 리스트 가져오기 성공")
-                .data(feedService.getFeeds())
+                .result(feedService.getFeeds())
                 .build();
     }
 
@@ -81,11 +82,11 @@ public class FeedController {
 
     @GetMapping("/my-posts")
     public final CommonResponse getMyFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return SingleResponse.<FeedListServiceResponse>builder()
+        return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("내가 쓴 게시물 가져오기 성공")
-                .data(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
+                .result(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 
@@ -121,11 +122,11 @@ public class FeedController {
 
     @GetMapping("/my-heart-posts")
     public final CommonResponse getMyHeartFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return SingleResponse.<FeedListServiceResponse>builder()
+        return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("내가 좋아요한 게시물 가져오기 성공")
-                .data(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
+                .result(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 }

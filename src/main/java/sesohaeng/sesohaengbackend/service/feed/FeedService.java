@@ -25,6 +25,7 @@ import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -66,14 +67,17 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getFeeds() {
+    public List<FeedServiceResponse> getFeeds() {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAll();
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed -> convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
-        );
+        feeds.forEach(feed -> {
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     @Transactional
@@ -113,18 +117,19 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getMyFeeds(Long userId) {
+    public List<FeedServiceResponse> getMyFeeds(Long userId) {
         logger.info("내가 쓴 게시물");
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-
         List<Feed> feeds = feedRepository.findByUser(user);
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed ->
-                        convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
-        );
+        feeds.forEach(feed -> {
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     @Transactional
@@ -164,18 +169,19 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getMyHeartFeeds(Long userId) {
+    public List<FeedServiceResponse> getMyHeartFeeds(Long userId) {
         logger.info("내가 좋아요한 게시물");
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-
         List<Heart> hearts = heartRepository.findByUser(user);
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                hearts.stream().map(heart ->
-                        convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId()))).collect(Collectors.toList())
-        );
+        hearts.forEach(heart -> {
+            feedServiceResponses.add(convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount) {

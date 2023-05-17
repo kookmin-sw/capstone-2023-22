@@ -4,12 +4,17 @@ import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigat
 
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapView from 'react-native-maps';
-import { useTotalAreaCultureList } from '../selectors/areaCulture';
-import { useDispatch } from 'react-redux';
-import { TypeAreaCultureListDispatch, getAreaCultureList } from '../actions/areaCulture';
 
-import PlaceMarkerImage from '../../assets/place-landmark.png';
-import AreaMarkerImage from '../../assets/area-landmark.png';
+import { useDispatch } from 'react-redux';
+import { useTotalAreaCultureList } from '../selectors/areaCulture';
+import { useTotalAreaCafeList } from '../selectors/areaCafe';
+import { TypeAreaCultureListDispatch, getAreaCultureList } from '../actions/areaCulture';
+import { TypeAreaCafeListDispatch, getAreaCafeList } from '../actions/areaCafe';
+
+import CultureLandmarkImage from '../../assets/culture-landmark.png';
+import CafeLandmarkImage from '../../assets/cafe-landmark.png';
+import { AreaCultureInfo } from '../@types/AreaCultureInfo';
+import { AreaCafeInfo } from '../@types/AreaCafeInfo';
 
 
 export const AreaSelectedScreen:React.FC = ()=>{
@@ -20,11 +25,18 @@ export const AreaSelectedScreen:React.FC = ()=>{
         homeNavigation.goBack();
     }, [])
 
-    const dispatch = useDispatch<TypeAreaCultureListDispatch>();
+    const onPressPlace = useCallback((item: AreaCafeInfo | AreaCultureInfo)=>{
+        homeNavigation.navigate('PlaceDetail', item);
+    }, [])
+
+    const dispatchCulture = useDispatch<TypeAreaCultureListDispatch>();
+    const dispatchCafe = useDispatch<TypeAreaCafeListDispatch>();
     const areaCultureList = useTotalAreaCultureList();
+    const areaCafeList = useTotalAreaCafeList();
 
     useEffect(()=>{
-      dispatch(getAreaCultureList(params.areaId));
+      dispatchCulture(getAreaCultureList(params.areaId));
+      dispatchCafe(getAreaCafeList(params.areaId));
     }, [])
 
     return (
@@ -35,8 +47,6 @@ export const AreaSelectedScreen:React.FC = ()=>{
                 </Header.Group>
                 <Header.Group>
                     <Header.Title title={params.areaName}></Header.Title>
-                </Header.Group>
-                <Header.Group>
                 </Header.Group>
                 <Header.Group>
                 </Header.Group>
@@ -54,7 +64,28 @@ export const AreaSelectedScreen:React.FC = ()=>{
                     areaCultureList.map((e): any => {
                         return (
                             <Marker
-                                image={AreaMarkerImage}
+                                key={e.cultureName}
+                                image={CultureLandmarkImage}
+                                onPress={(pressedE) => {
+                                    onPressPlace(e)
+                                }}
+                                coordinate={{
+                                    latitude: e.latitude,
+                                    longitude: e.longitude
+                                }}
+                            />
+                        );
+                    })
+                }
+                {
+                    areaCafeList.map((e): any => {
+                        return (
+                            <Marker
+                                key={e.id}
+                                image={CafeLandmarkImage}
+                                onPress={(pressedE) => {
+                                    onPressPlace(e)
+                                }}
                                 coordinate={{
                                     latitude: e.latitude,
                                     longitude: e.longitude

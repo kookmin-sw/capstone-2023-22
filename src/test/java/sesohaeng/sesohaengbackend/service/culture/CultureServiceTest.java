@@ -105,7 +105,7 @@ class CultureServiceTest {
 
         when(areaRepository.findById(anyLong())).thenReturn(Optional.of(area));
         when(placeRepository.findAllByArea(area)).thenReturn(places);
-        when(cultureRepository.findByPlace(any(Place.class))).thenReturn(optionalCulture);
+//        when(cultureRepository.findByPlace(any(Place.class))).thenReturn(optionalCulture);
 
 
         // when

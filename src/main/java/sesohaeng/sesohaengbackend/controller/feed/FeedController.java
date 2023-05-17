@@ -12,7 +12,6 @@ import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.feed.FeedService;
 import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
-import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedListServiceResponse;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,27 +37,27 @@ public class FeedController {
     }
 
     @GetMapping()
-    public final CommonResponse getFeeds() {
+    public final CommonResponse getFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 리스트 가져오기 성공")
-                .result(feedService.getFeeds())
+                .result(feedService.getFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 
     @GetMapping("/{id}")
-    public final CommonResponse getFeed(@PathVariable(name = "id") final Long id) {
+    public final CommonResponse getFeed(@PathVariable(name = "id") final Long id, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 상세 페이지 가져오기 성공")
-                .data(feedService.getFeed(id))
+                .data(feedService.getFeed(id, Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 
     @PutMapping("/{id}")
-    public final CommonResponse updateFeed(@PathVariable(name = "id") final Long id, @RequestBody @Valid final FeedCreateRequest feedCreateRequest) {
+    public final CommonResponse updateFeed(@PathVariable(name = "id") final Long id, @RequestBody @Valid final FeedCreateRequest feedCreateRequest, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
@@ -66,7 +65,7 @@ public class FeedController {
                 .data(feedService.updateFeed(id, FeedServiceRequest.newInstance(
                         feedCreateRequest.getContent(),
                         feedCreateRequest.getPlaceName()
-                )))
+                ), Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 

@@ -20,7 +20,6 @@ import sesohaeng.sesohaengbackend.dto.response.FileRequestDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 import sesohaeng.sesohaengbackend.service.S3service;
 import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
-import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedListServiceResponse;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.transaction.Transactional;
@@ -28,7 +27,6 @@ import javax.validation.Valid;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -63,44 +61,50 @@ public class FeedService {
             feedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), feed));
         }
 
-        return convertFeedResponse(feed, feedImage, heartRepository.countByFeedId(feed.getId()));
+        return convertFeedResponse(feed, feedImage, heartRepository.countByFeedId(feed.getId()), false);
     }
 
     @Transactional
-    public List<FeedServiceResponse> getFeeds() {
+    public List<FeedServiceResponse> getFeeds(Long userId) {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAll();
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {
-            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+            Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(feed.getId(), userId));
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart));
         });
 
         return feedServiceResponses;
     }
 
     @Transactional
-    public FeedServiceResponse getFeed(final Long id) {
+    public FeedServiceResponse getFeed(final Long feedId, Long userId) {
         logger.info("피드 상세 페이지");
 
-        Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+        Heart heart = heartRepository.findByFeedIdAndUserId(feedId, userId);
 
-        return convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()));
+        Boolean isHeart = !Objects.isNull(heart);
+        return convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart);
     }
 
     @Transactional
-    public FeedServiceResponse updateFeed(final Long id, @Valid final FeedServiceRequest feedServiceRequest) {
+    public FeedServiceResponse updateFeed(final Long feedId, @Valid final FeedServiceRequest feedServiceRequest, Long userId) {
         logger.info("피드 수정");
 
-        Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
+        Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
         Place place = placeRepository.findByPlaceName(feedServiceRequest.getPlaceName());
+        Heart heart = heartRepository.findByFeedIdAndUserId(feedId, userId);
+
+        Boolean isHeart = !Objects.isNull(heart);
         feed.setContent(feedServiceRequest.getContent());
         feed.setPlace(place);
 
         Feed modifyFeed = feedRepository.save(feed);
 
-        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed), heartRepository.countByFeedId(modifyFeed.getId()));
+        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed), heartRepository.countByFeedId(modifyFeed.getId()), isHeart);
     }
 
     @Transactional
@@ -126,7 +130,8 @@ public class FeedService {
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {
-            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+            Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(feed.getId(), userId));
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart));
         });
 
         return feedServiceResponses;
@@ -178,13 +183,14 @@ public class FeedService {
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         hearts.forEach(heart -> {
-            feedServiceResponses.add(convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId())));
+            Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(heart.getFeed().getId(), userId));
+            feedServiceResponses.add(convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId()), isHeart));
         });
 
         return feedServiceResponses;
     }
 
-    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount) {
+    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount, Boolean isHeart) {
         return FeedServiceResponse.of(
                 feed.getId(),
                 feed.getContent(),
@@ -194,7 +200,8 @@ public class FeedService {
                 feed.getPlace().getPlaceName(),
                 feed.getUpdatedAt(),
                 feedImage.getImageUrl(),
-                heartCount
+                heartCount,
+                isHeart
         );
     }
 }

@@ -20,8 +20,9 @@ public class FeedServiceResponse {
     LocalDateTime updatedAt;
     String imageUrl;
     Integer heartCount;
+    Boolean isHeart;
 
-    public static FeedServiceResponse of(Long id, String content, String userName, String profileImage, Long placeId, String placeName, LocalDateTime updatedAt, String imageUrl, Integer heartCount) {
-        return new FeedServiceResponse(id, content, userName, profileImage, placeId, placeName, updatedAt, imageUrl, heartCount);
+    public static FeedServiceResponse of(Long id, String content, String userName, String profileImage, Long placeId, String placeName, LocalDateTime updatedAt, String imageUrl, Integer heartCount, Boolean isHeart) {
+        return new FeedServiceResponse(id, content, userName, profileImage, placeId, placeName, updatedAt, imageUrl, heartCount, isHeart);
     }
 }

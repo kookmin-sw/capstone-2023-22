@@ -122,11 +122,11 @@ public class FeedController {
 
     @GetMapping("/my-heart-posts")
     public final CommonResponse getMyHeartFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return SingleResponse.<FeedListServiceResponse>builder()
+        return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("내가 좋아요한 게시물 가져오기 성공")
-                .data(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
+                .result(feedService.getMyHeartFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 }

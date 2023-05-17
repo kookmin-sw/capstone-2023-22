@@ -169,18 +169,19 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getMyHeartFeeds(Long userId) {
+    public List<FeedServiceResponse> getMyHeartFeeds(Long userId) {
         logger.info("내가 좋아요한 게시물");
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-
         List<Heart> hearts = heartRepository.findByUser(user);
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                hearts.stream().map(heart ->
-                        convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId()))).collect(Collectors.toList())
-        );
+        hearts.forEach(heart -> {
+            feedServiceResponses.add(convertFeedResponse(heart.getFeed(), feedImageRepository.findByFeed(heart.getFeed()), heartRepository.countByFeedId(heart.getFeed().getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount) {

@@ -98,6 +98,12 @@ public class FeedService {
         Place place = placeRepository.findByPlaceName(feedServiceRequest.getPlaceName());
         Heart heart = heartRepository.findByFeedIdAndUserId(feedId, userId);
 
+        userRepository.findById(userId).orElseThrow(() -> new NoDataException("user가 존재하지 않습니다."));
+
+        if(feed.getUser().getId() != userId) {
+            throw new IllegalArgumentException("수정 권한이 없습니다");
+        }
+
         Boolean isHeart = !Objects.isNull(heart);
         feed.setContent(feedServiceRequest.getContent());
         feed.setPlace(place);

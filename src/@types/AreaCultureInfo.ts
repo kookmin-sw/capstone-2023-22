@@ -5,6 +5,7 @@ export type AreaCultureInfo = {
     classification: string,
     borough: string,
     cultureName: string,
+    cultureImage: string,
     cultureDateTime: string,
     targetUser: string,
     fee: string,

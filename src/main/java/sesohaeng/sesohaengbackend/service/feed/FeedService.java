@@ -25,6 +25,7 @@ import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -66,14 +67,17 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getFeeds() {
+    public List<FeedServiceResponse> getFeeds() {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAll();
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed -> convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
-        );
+        feeds.forEach(feed -> {
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     @Transactional

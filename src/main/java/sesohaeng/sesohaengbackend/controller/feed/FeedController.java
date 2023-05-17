@@ -82,11 +82,11 @@ public class FeedController {
 
     @GetMapping("/my-posts")
     public final CommonResponse getMyFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return SingleResponse.<FeedListServiceResponse>builder()
+        return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("내가 쓴 게시물 가져오기 성공")
-                .data(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
+                .result(feedService.getMyFeeds(Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 

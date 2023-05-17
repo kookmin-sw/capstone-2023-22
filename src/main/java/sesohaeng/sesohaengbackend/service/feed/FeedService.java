@@ -117,18 +117,19 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedListServiceResponse getMyFeeds(Long userId) {
+    public List<FeedServiceResponse> getMyFeeds(Long userId) {
         logger.info("내가 쓴 게시물");
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-
         List<Feed> feeds = feedRepository.findByUser(user);
+        List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        return FeedListServiceResponse.newInstance(
-                feeds.stream().map(feed ->
-                        convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()))).collect(Collectors.toList())
-        );
+        feeds.forEach(feed -> {
+            feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId())));
+        });
+
+        return feedServiceResponses;
     }
 
     @Transactional

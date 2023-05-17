@@ -4,12 +4,13 @@ import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigat
 
 import { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapView from 'react-native-maps';
-import { useTotalAreaMarkerList } from '../selectors/areamarker';
+
 import { useDispatch } from 'react-redux';
 import { TypeAreaMarkerListDispatch, getAreaMarkerList } from '../actions/areaMarker';
+import { useTotalAreaMarkerList } from '../selectors/areamarker';
+import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
 
 import AreaMarkerImage from '../../assets/area-landmark.png';
-import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
 
 
 export const MapScreen:React.FC = ()=>{

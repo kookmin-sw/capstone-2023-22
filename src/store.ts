@@ -8,6 +8,7 @@ import thunk from 'redux-thunk'
 import { searchReducer, TypeSearchReducer } from './reducers/search';
 import { areaMarkerListReducer, TypeAreaMarkerListReducer } from './reducers/areaMarkerList';
 import { areaCultureListReducer, TypeAreaCultureListReducer } from './reducers/areaCultureList';
+import { areaCafeListReducer, TypeAreaCafeListReducer } from './reducers/areaCafeList';
 
 const rootReducer = combineReducers({
     userInfo: userInfoReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     search: searchReducer,
     areaMarker: areaMarkerListReducer,
     areaCulture: areaCultureListReducer,
+    areaCafe: areaCafeListReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk, logger))
@@ -27,4 +29,5 @@ export type RootReducer = {
     search: TypeSearchReducer,
     areaMarker: TypeAreaMarkerListReducer,
     areaCulture: TypeAreaCultureListReducer,
+    areaCafe: TypeAreaCafeListReducer
 };

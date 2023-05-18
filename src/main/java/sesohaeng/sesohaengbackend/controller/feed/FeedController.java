@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import sesohaeng.sesohaengbackend.common.FormDataModel;
 import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.ListResponse;
@@ -23,16 +23,18 @@ import javax.validation.Valid;
 public class FeedController {
     private final FeedService feedService;
 
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public final CommonResponse createFeed(HttpServletRequest request, @RequestPart @Valid final FeedCreateRequest feedCreateRequest, @RequestPart MultipartFile image, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public final CommonResponse createFeed(HttpServletRequest request,
+                                           @ModelAttribute FormDataModel wrapper,
+                                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 작성 성공")
                 .data(feedService.saveFeed(FeedServiceRequest.newInstance(
-                        feedCreateRequest.getContent(),
-                        feedCreateRequest.getPlaceName()
-                ), Long.valueOf(customUserDetails.getName()), image))
+                        wrapper.getFeedCreateRequest().getContent(),
+                        wrapper.getFeedCreateRequest().getPlaceName()
+                ), Long.valueOf(customUserDetails.getName()), wrapper.getImage()))
                 .build();
     }
 

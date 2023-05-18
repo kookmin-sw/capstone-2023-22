@@ -3,13 +3,28 @@ import numpy as np
 from prophet import Prophet
 from datetime import datetime, timedelta
 import holidays
-from fbprophet.plot import add_changepoints_to_plot
+import os
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
+import boto3
+from matplotlib import rc, font_manager
+# from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
+import matplotlib as mpl
+import io
+import schedule
+import time
 
-from sklearn.metrics import mean_absolute_error, mean_absolute_percentage_error
+# def job():
+# S3 버킷 및 파일 경로
+bucket_name = 'mlops-api-output'
+file_key = '2023/2023.csv'
 
-df = pd.read_csv('/Users/sunho99/PycharmProjects/python_Project/캡스톤디자인/series_data_modeling/2023.csv', index_col=0)
+# S3 클라이언트 생성
+s3 = boto3.client('s3', aws_access_key_id="{HIDDEN}", aws_secret_access_key="{HIDDEN}")
+
+# CSV 파일 다운로드 및 읽기
+response = s3.get_object(Bucket=bucket_name, Key=file_key)
+df = pd.read_csv(io.BytesIO(response["Body"].read()))
 
 df_index_list = df.index
 df.insert(0,"지역",df_index_list)
@@ -37,35 +52,32 @@ for i in local_list:
     # 날짜를 기준으로 정렬
     filtered_local_df = filtered_local_df.sort_values('ds', ascending=False)
 
-    # 최신 날짜 가져오기
-    latest_date = filtered_local_df.iloc[0]['ds']
+    # 오늘 날짜 가져오기
+    # latest_date = filtered_local_df.iloc[0]['ds']
+    today = datetime.today().strftime("%Y-%m-%d 00:00:00")
+    latest_date = datetime.today().strptime(today, "%Y-%m-%d 00:00:00")
+
     # 최근 n 일 동안의 데이터 선택
     start_date = latest_date - timedelta(days=30)
 
     new_df = filtered_local_df[filtered_local_df['ds'] >= start_date]
 
-    test_day = "2023-05-08 00:00:00"
+    test_day = latest_date
     new_df = new_df[new_df['ds'] <= test_day]
 
     # print(df['ds'])
     new_df = new_df.sort_values('ds', ascending=True)
-    print(new_df)
     model = Prophet(
-                    #Trend
-                    growth="linear",
-                    changepoints=None,
-                    n_changepoints=10,
-                    changepoint_range=1,
-                    changepoint_prior_scale=0.05,
-                    interval_width=0.95,
-                    #Seasonlaity
-                    seasonality_mode='additive',
-                    yearly_seasonality='auto',
-                    weekly_seasonality='auto',
-                    daily_seasonality='auto',
+                #Trend
+                growth="linear",
+                changepoints=None,
+                n_changepoints=10,
+                changepoint_range=1,
+                changepoint_prior_scale=0.5,
+                interval_width=0.95,
 
-                    #Holiday
-                    holidays=None)
+                #Holiday
+                holidays=None)
     model.fit(new_df)
     # 미래 예측 생성
     future = model.make_future_dataframe(freq="H",periods=24)
@@ -73,16 +85,15 @@ for i in local_list:
     # 미래 예측
     forecast = model.predict(future)
 
-    start_day = "2023-05-07 00:00:00"
-    test_day = "2023-05-08 00:00:00"
+    test_day = latest_date
+    start_day = test_day - timedelta(days=1)
 
     test = new_df[new_df['ds'] > start_day]
 
     train = forecast[forecast['ds'] <= test_day]
     train = train[train['ds'] > start_day]
-    print(train)
+    # print(train)
     # print(train.info())
-    print("@@@")
 
     predict = forecast[forecast['ds'] >= test_day]
 
@@ -98,15 +109,16 @@ for i in local_list:
     # 시각화
     fig = model.plot(forecast)
     ax = fig.gca()
-
     # x 축 눈금 설정
     locator = mdates.HourLocator(interval=2)  # 2시간 간격으로 눈금 설정
     formatter = mdates.DateFormatter('%m-%d %H')  # 날짜 형식 지정
     ax.xaxis.set_major_locator(locator)
     ax.xaxis.set_major_formatter(formatter)
+    plt.rcParams["font.family"] = 'NanumGothic' # 한글 폰트 적용
+    mpl.rcParams['axes.unicode_minus'] = False
     # x축 눈금 설정
     plt.gca().spines['right'].set_visible(False)  # 오른쪽 테두리 제거
-    plt.gca().spines['top'].set_visible(False)  # 위 테두리 제거
+    #plt.gca().spines['top'].set_visible(False)  # 위 테두리 제거
     plt.gca().spines['left'].set_visible(False)  # 왼쪽 테두리 제거
     plt.gca().set_facecolor('#E6F0F8')  # 배경색
 
@@ -121,17 +133,33 @@ for i in local_list:
     line3,= ax.plot(train['ds'], train['yhat'], color='#e64f3e', label='model data') # 실제값 추이
 
     # yticks = list(ax.get_yticks())  ## y축 눈금을 가져온다.
-    #
+ #
     # for y in yticks:
     #     ax.axhline(y, linestyle=(0, (5, 2)), color='grey', alpha=0.5)  ## 눈금선 생성
 
+    plt.title("%s 인구혼잡도" % i, weight='bold',fontsize=10)
+    plt.xlabel("날짜")
+    plt.xticks(rotation=45, ha='right',weight='bold')
+    plt.ylabel('인구혼잡도', rotation='vertical', ha='right',weight='bold')
+    ax.legend(handles=[line0, line1, line2, line3], loc='upper left', fontsize=8,
+          labels=['예측값범위', '실제 값', '예측 값','모델 결과값'], edgecolor='black', shadow=True)
 
-    plt.xticks(rotation=45, ha='right')
-    ax.legend(handles=[line0,line1, line2, line3], loc='upper left', fontsize=8,
-              labels=['bound', 'Predict data', 'Real data','model data'], edgecolor='black', shadow=True)
-
-    plt.savefig("%s_model.png" % i) # 각 구에 맞는 나이 비율 이미지
-    # plt.show()
+    plt.savefig("%s_model.png" % i,bbox_inches = 'tight') # 각 구에 맞는 나이 비율 이미지
+# plt.show()
     plt.close()
 
-    # break
+    output_filename = "%s_model.png" % i
+    file_name = output_filename
+
+    file_path = os.path.realpath(output_filename)
+# # # S3 버킷 이름과 업로드할 객체 키를 지정합니다.
+    bucket_name = 'mlops-models-bucket'
+    object_key = "prophet/" + "%s/" % i + file_name
+    # 로컬 파일을 S3에 업로드합니다.
+    s3.upload_file(file_path, bucket_name, object_key)
+# break
+# schedule.every().day.at("00:05").do(job)
+#
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)

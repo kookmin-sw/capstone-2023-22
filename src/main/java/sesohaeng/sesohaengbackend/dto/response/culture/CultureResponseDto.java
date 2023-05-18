@@ -11,6 +11,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 public class CultureResponseDto {
+
+    String areaName;
     Long id;
     Long placeId;
     Double latitude;

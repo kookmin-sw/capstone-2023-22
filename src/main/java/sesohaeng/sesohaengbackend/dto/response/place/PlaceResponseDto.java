@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class PlaceResponseDto {
 
+    String areaName;
+
     CafeResponseDto cafeResponseDto;
 
     List<CultureResponseDto> cultureResponseDtos;

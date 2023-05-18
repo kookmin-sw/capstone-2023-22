@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sesohaeng.sesohaengbackend.common.FormDataModel;
-import sesohaeng.sesohaengbackend.controller.feed.dto.request.FeedCreateRequest;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
@@ -15,7 +14,6 @@ import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
 import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,10 +29,12 @@ public class FeedController {
                 .success(true)
                 .status(200)
                 .message("피드 작성 성공")
-                .data(feedService.saveFeed(FeedServiceRequest.newInstance(
-                        wrapper.getFeedCreateRequest().getContent(),
-                        wrapper.getFeedCreateRequest().getPlaceName()
-                ), Long.valueOf(customUserDetails.getName()), wrapper.getImage()))
+                .data(feedService.saveFeed(
+                        FeedServiceRequest.newInstance(
+                                wrapper.getFeedCreateRequest().getContent(),
+                                wrapper.getFeedCreateRequest().getPlaceName()),
+                        Long.valueOf(customUserDetails.getName()),
+                        wrapper.getImage()))
                 .build();
     }
 
@@ -58,16 +58,22 @@ public class FeedController {
                 .build();
     }
 
-    @PutMapping("/{id}")
-    public final CommonResponse updateFeed(@PathVariable(name = "id") final Long id, @RequestBody @Valid final FeedCreateRequest feedCreateRequest, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public final CommonResponse updateFeed(HttpServletRequest request,
+                                           @PathVariable(name = "id") final Long id,
+                                           @ModelAttribute FormDataModel wrapper,
+                                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return SingleResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 수정 성공")
-                .data(feedService.updateFeed(id, FeedServiceRequest.newInstance(
-                        feedCreateRequest.getContent(),
-                        feedCreateRequest.getPlaceName()
-                ), Long.valueOf(customUserDetails.getName())))
+                .data(feedService.updateFeed(
+                        id,
+                        FeedServiceRequest.newInstance(
+                                wrapper.getFeedCreateRequest().getContent(),
+                                wrapper.getFeedCreateRequest().getPlaceName()),
+                        Long.valueOf(customUserDetails.getName()),
+                        wrapper.getImage()))
                 .build();
     }
 

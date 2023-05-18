@@ -91,7 +91,7 @@ public class FeedService {
     }
 
     @Transactional
-    public FeedServiceResponse updateFeed(final Long feedId, @Valid final FeedServiceRequest feedServiceRequest, Long userId) {
+    public FeedServiceResponse updateFeed(final Long feedId, @Valid final FeedServiceRequest feedServiceRequest, Long userId, MultipartFile image) {
         logger.info("피드 수정");
 
         Feed feed = feedRepository.findById(feedId).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
@@ -110,7 +110,17 @@ public class FeedService {
 
         Feed modifyFeed = feedRepository.save(feed);
 
-        return convertFeedResponse(modifyFeed, feedImageRepository.findByFeed(modifyFeed), heartRepository.countByFeedId(modifyFeed.getId()), isHeart);
+        FeedImage newFeedImage = null;
+        if(!image.isEmpty()) {
+            modifyFeed.getImages().forEach(feedImage -> {
+                s3service.deleteImageUrl(feedImage.getImageUrl());
+                feedImageRepository.delete(feedImage);
+            });
+            FileRequestDto storedFile = s3service.upload(image);
+            newFeedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), modifyFeed));
+        }
+
+        return convertFeedResponse(modifyFeed, newFeedImage, heartRepository.countByFeedId(modifyFeed.getId()), isHeart);
     }
 
     @Transactional

@@ -3,8 +3,6 @@ package sesohaeng.sesohaengbackend.domain.feedimage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
-import sesohaeng.sesohaengbackend.domain.place.Place;
-import sesohaeng.sesohaengbackend.domain.user.User;
 
 import javax.persistence.*;
 

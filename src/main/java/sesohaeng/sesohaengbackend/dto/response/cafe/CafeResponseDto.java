@@ -11,6 +11,8 @@ import javax.persistence.Id;
 @Data
 @AllArgsConstructor
 public class CafeResponseDto {
+
+    String areaName;
     Long id;
 
     Long placeId;

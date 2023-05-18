@@ -62,6 +62,8 @@ public class PlaceServiceImpl implements PlaceService{
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(NoDataException::new);
 
+
+
         // 카페인지 컬쳐인지 검증
         List<Culture> cultures = cultureRepository.findAllByPlace(place);
         Optional<Cafe> cafe = cafeRepository.findByPlace(place);
@@ -73,7 +75,8 @@ public class PlaceServiceImpl implements PlaceService{
     private PlaceResponseDto judgeCafeOrCulture(Place place, List<Culture> cultures, Optional<Cafe> cafe) {
         if (cultures.isEmpty() && cafe.isPresent()) {
             return new PlaceResponseDto(
-                    new CafeResponseDto(
+                    place.getArea().getAreaName(),
+                    new CafeResponseDto(place.getArea().getAreaName(),
                     cafe.get().getId(),
                     cafe.get().getPlace().getId(),
                     cafe.get().getCafe_name(),
@@ -86,6 +89,7 @@ public class PlaceServiceImpl implements PlaceService{
             for (Culture culture : cultures) {
                 cultureResponseDtos.add(
                         new CultureResponseDto(
+                                place.getArea().getAreaName(),
                                 culture.getId(),
                                 culture.getPlace().getId(),
                                 place.getLatitude(),
@@ -104,7 +108,7 @@ public class PlaceServiceImpl implements PlaceService{
                                 culture.getEndDatetime()
                         ));
             }
-            return new PlaceResponseDto(null,cultureResponseDtos);
+            return new PlaceResponseDto(place.getArea().getAreaName(),null,cultureResponseDtos);
 
         }else{
             return null;

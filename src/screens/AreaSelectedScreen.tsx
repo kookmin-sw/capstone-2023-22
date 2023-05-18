@@ -15,6 +15,7 @@ import CultureLandmarkImage from '../../assets/culture-landmark.png';
 import CafeLandmarkImage from '../../assets/cafe-landmark.png';
 import { AreaCultureInfo } from '../@types/AreaCultureInfo';
 import { AreaCafeInfo } from '../@types/AreaCafeInfo';
+import { AreaDetailSheet } from './AreaDetailSheet';
 
 
 export const AreaSelectedScreen:React.FC = ()=>{
@@ -94,8 +95,8 @@ export const AreaSelectedScreen:React.FC = ()=>{
                         );
                     })
                 }
-
             </MapView>
+            <AreaDetailSheet name={params.areaName} />
         </>
     )
 }

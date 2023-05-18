@@ -4,5 +4,6 @@ export type AreaCafeInfo = {
     cafe_name: string,
     latitude: number,
     longitude: number,
-    address: string
+    address: string,
+    areaName: string
 }

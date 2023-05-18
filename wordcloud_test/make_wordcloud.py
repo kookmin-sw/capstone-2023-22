@@ -1,11 +1,7 @@
-import time
-import json
+
 from konlpy.tag import Okt
-from soynlp.word import WordExtractor
 from soynlp.normalizer import *
 from wordcloud import WordCloud
-from soynlp.word import pmi as pmi_func
-from soynlp.tokenizer import RegexTokenizer
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
@@ -23,7 +19,7 @@ def fileread(): # 리뷰 데이터파일 읽고 긍정 부정 분류후 데이�
     okt = Okt()
     normalization_total_review = [] # 전처리 할 데이터 리스트
     # 문장 이상한거 수정 및 정규화 진행 전처리
-    for review in total_reviews:  # 긍정리뷰
+    for review in total_reviews:  # 토탈 리뷰
         review = emoticon_normalize(review,num_repeats=3) #반복되는 이모티콘 정리 최대 3회
         review = repeat_normalize(review,num_repeats=3) # 반복되는 문구 정리 최대 3회
         review = only_hangle(review) # 리뷰중 영어 제외
@@ -97,10 +93,10 @@ def text_TAG(normalization_review):
     #  'Unknown': '미등록어',
     #  'Verb': '동사'}
     tag_reviews = []
-    for i in pos_reviews: #Adjective 동사, 형용사 , 명사 가져오기
+    for i in pos_reviews: #형용사 , 명사 가져오기
         for j in i:
             text_tag = j.split("/") #'편리하다/Adjective'
-            if text_tag[1] == "Adjective" or text_tag[1] == "Noun" :
+            if text_tag[1] == "Adjective" or text_tag[1] == "Noun":
                 tag_reviews.append(text_tag[0])
 
     count_tag_reviews = Counter(tag_reviews)
@@ -111,26 +107,27 @@ tag_reviews_list = text_TAG(normalize_review)
 
 
 
-# 가장 많이 나온 단어부터 40개를 저장한다.
+# 가장 많이 나온 단어부터 150개를 저장한다.
 counts = Counter(tag_reviews_list )
-tags = counts.most_common(40)
+tags = counts.most_common(150)
 
 
 # WordCloud를 생성한다.
 # 한글을 분석하기위해 font를 한글로 지정해주어야 된다. macOS는 .otf , window는 .ttf 파일의 위치를
 # 지정해준다. (ex. '/Font/GodoM.otf')
-masking_image = np.array(Image.open("/Users/sunho99/PycharmProjects/python_Project/캡스톤디자인/wordcloud_test/img.png"))
+masking_image = np.array(Image.open("/Users/sunho99/PycharmProjects/python_Project/캡스톤디자인/wordcloud_test/img2.png"))
 wc = WordCloud(font_path="/System/Library/Fonts/Supplemental/AppleGothic.ttf",
-               background_color="black", max_font_size=60,max_words=50,
+               random_state = 123,background_color="white", max_font_size=200,max_words=130,
                width=2000, height=1000,
-               mask=masking_image  # masking
+               mask=masking_image,  # masking
+               colormap='rainbow'
                )
 
 cloud = wc.generate_from_frequencies(dict(tags))
 
 # 생성된 WordCloud를 test.jpg로 보낸다.
-cloud.to_file('test.jpg')
-plt.figure(figsize=(10, 8))
+cloud.to_file('test2.jpg')
+plt.figure(figsize=(10, 10))
 plt.axis('off')
 plt.imshow(cloud, interpolation='bilinear')
 plt.show()

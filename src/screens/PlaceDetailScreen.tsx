@@ -10,6 +10,7 @@ import { AreaCafeInfo } from '../@types/AreaCafeInfo';
 import { AreaCultureInfo } from '../@types/AreaCultureInfo';
 
 import * as WebBrowser from 'expo-web-browser';
+import { AreaDetailSheet } from './AreaDetailSheet';
 
 export const PlaceDetailScreen:React.FC = ()=>{
     const homeNavigation = useHomeNavigation();
@@ -18,27 +19,28 @@ export const PlaceDetailScreen:React.FC = ()=>{
         homeNavigation.goBack();
     }, [])
 
-    const GetPlace: React.FC = () => {
-        const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
-        const [placeType, setPlaceType] = useState<string>("");
+    const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
+    const [placeType, setPlaceType] = useState<string>("");
 
-        useEffect(() => {
-            axios.get(`${Config.server}/place/${params.placeId}`, {})
-            .then(response => {
-                if (response.data.data.cafeResponseDto === null) {
-                    setPlaceType("culture");
-                    setPlaceInfo(response.data.data.cultureResponseDtos[0]);
-                    console.log("setPlaceInfo", response.data.data.cultureResponseDtos[0]);
-                } else {
-                    setPlaceType("cafe");
-                    setPlaceInfo(response.data.data.cafeResponseDto);
-                    console.log("setPlaceInfo", response.data.data.cafeResponseDto);
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        }, [])
+    useEffect(() => {
+        axios.get(`${Config.server}/place/${params.placeId}`, {})
+        .then(response => {
+            if (response.data.data.cafeResponseDto === null) {
+                setPlaceType("culture");
+                setPlaceInfo(response.data.data.cultureResponseDtos[0]);
+                console.log("setPlaceInfo", response.data.data.cultureResponseDtos[0]);
+            } else {
+                setPlaceType("cafe");
+                setPlaceInfo(response.data.data.cafeResponseDto);
+                console.log("setPlaceInfo", response.data.data.cafeResponseDto);
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, [])
+
+    const GetPlace: React.FC = () => {
         return (
             <View>
                 {
@@ -119,6 +121,9 @@ export const PlaceDetailScreen:React.FC = ()=>{
                     <GetPlace />
                 </View>
             </View>
+            {
+                placeInfo && <AreaDetailSheet name={placeInfo.areaName} />
+            }
         </View>
     )
 

@@ -10,5 +10,6 @@ export type AreaCultureInfo = {
     targetUser: string,
     fee: string,
     cast: string | null,
-    culture_url: string
+    culture_url: string,
+    areaName: string
 }

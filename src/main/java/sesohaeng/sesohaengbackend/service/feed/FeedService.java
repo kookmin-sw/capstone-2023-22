@@ -142,7 +142,7 @@ public class FeedService {
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-        List<Feed> feeds = feedRepository.findByUser(user);
+        List<Feed> feeds = feedRepository.findByUserOrderByCreatedAtDesc(user);
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {

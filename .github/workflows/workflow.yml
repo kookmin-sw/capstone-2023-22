@@ -10,7 +10,7 @@
 name: Sesohaeng CI with GitActions
 
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 
 # permissions:

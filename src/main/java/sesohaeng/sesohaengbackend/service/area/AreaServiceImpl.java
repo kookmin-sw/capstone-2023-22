@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.area.AreaRepository;
-import sesohaeng.sesohaengbackend.domain.place.Place;
-import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.dto.response.area.AreaResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
+import sesohaeng.sesohaengbackend.service.area.dto.AreaRankResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,4 +43,12 @@ public class AreaServiceImpl implements AreaService{
         return new AreaResponseDto(byId.getId(), byId.getAreaName(), byId.getLatitude(),byId.getLongitude());
     }
 
+    @Transactional
+    public List<AreaRankResponse> getAreaRanking() {
+        List<Area> areas = areaRepository.findAllByOrderByFeedCountDesc();
+
+        return areas.stream()
+                .map(area -> new AreaRankResponse(area.getAreaName(), area.getFeedCount()))
+                .collect(Collectors.toList());
+    }
 }

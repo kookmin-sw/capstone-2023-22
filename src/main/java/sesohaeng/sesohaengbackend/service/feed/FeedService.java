@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import sesohaeng.sesohaengbackend.domain.area.Area;
+import sesohaeng.sesohaengbackend.domain.area.AreaRepository;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.feed.FeedRepository;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImage;
@@ -36,6 +38,7 @@ public class FeedService {
     private final PlaceRepository placeRepository;
     private final FeedImageRepository feedImageRepository;
     private final HeartRepository heartRepository;
+    private final AreaRepository areaRepository;
 
     @Autowired
     private S3service s3service;
@@ -60,6 +63,11 @@ public class FeedService {
             FileRequestDto storedFile = s3service.upload(image);
             feedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), feed));
         }
+
+        // Area의 feedCount 증가
+        Area area = place.getArea();
+        area.setFeedCount(area.getFeedCount() + 1);
+        areaRepository.save(area);
 
         return convertFeedResponse(feed, feedImage, heartRepository.countByFeedId(feed.getId()), false);
     }
@@ -127,6 +135,11 @@ public class FeedService {
         logger.info("피드 삭제");
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
 
+        // Area의 feedCount 감소
+        Area area = feed.getPlace().getArea();
+        area.setFeedCount(area.getFeedCount() - 1);
+        areaRepository.save(area);
+      
         FeedImage feedImage = feed.getImage();
         s3service.deleteImageUrl(feedImage.getImageUrl());
         feedRepository.deleteById(id);

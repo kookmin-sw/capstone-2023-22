@@ -28,4 +28,15 @@ public class UserServiceImpl implements UserService{
                 byId.getProfileImage()
         );
     }
+
+    @Transactional
+    public String updateUsername(Long userId, String nickname) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new NoDataException("user가 존재하지 않습니다."));
+
+        user.setUsername(nickname);
+        User updatedUser = userRepository.save(user);
+
+        return updatedUser.getUsername();
+    }
 }

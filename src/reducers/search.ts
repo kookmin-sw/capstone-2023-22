@@ -1,5 +1,6 @@
 import { PlaceInfo } from "../@types/PlaceInfo";
-import { GET_SEARCH_SUCCESS, CHANGE_SEARCH_KEYWORD_SUCCESS, SearchActions } from "../actions/search";
+import { GET_SEARCH_SUCCESS, CHANGE_SEARCH_KEYWORD_SUCCESS, SearchActions, GET_WORDCLOUD_SUCCESS } from "../actions/search";
+import { Config } from "../config";
 
 export type TypeSearchReducer = {
     keyword:string;
@@ -26,6 +27,12 @@ export const searchReducer = (state:TypeSearchReducer = defaultSearchState, acti
             return {
                 ...state,
                 keword: action.keyword
+            }
+        }
+        case GET_WORDCLOUD_SUCCESS:{
+            return {
+                ...state,
+                wordCloud:`${Config.wordcloudBaseUrl}`+ action.uri + '/' + action.uri +'.jpg'
             }
         }
     }

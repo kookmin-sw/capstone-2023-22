@@ -1,16 +1,19 @@
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { FlatList, Pressable, useWindowDimensions, View } from 'react-native';
+import { Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
-import { getMyFavoriteList, getMyFeedList, getUserInfo, TypeUserDispatch } from '../actions/user';
+import { getUserInfo, TypeUserDispatch } from '../actions/user';
 import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
 import { RemoteImage } from '../components/RemoteImage';
 import { Typography } from '../components/Typography';
 import {  useHomeNavigation } from '../navigations/HomeStackNavigation';
-import { useMyFavoriteList, useMyFeedList, useMyInfo } from '../selectors/user';
+import { useMyInfo } from '../selectors/user';
 import { Spacer } from '../components/Spacer';
 import { Icon } from '../components/Icons';
+import { useMyFavoriteList, useMyFeedList } from '../selectors/feed';
+import { getMyFavoriteList, getMyFeedList } from '../actions/feed';
 
 export const MyPageScreen:React.FC = ()=>{
     const [isFocusedOnMyFeedList, setIsFocusedOnMyFeedList] = useState(true);
@@ -26,8 +29,12 @@ export const MyPageScreen:React.FC = ()=>{
     const onPressSetting = useCallback(()=>{
         homeNavigation.navigate('Setting');
     }, [])
-    const onPressContent = useCallback((item:FeedInfo)=>{
-        homeNavigation.navigate('PostDetail', item);
+    const onPressMyListOne = useCallback((item:FeedInfo)=>{
+        homeNavigation.navigate('PostDetail', {item:item, type:'mylist'});
+    }, [])
+
+    const onPressMyFavoriteListOne = useCallback((item:FeedInfo)=>{
+        homeNavigation.navigate('PostDetail', {item:item, type:'myfavorite'});
     }, [])
 
 
@@ -48,7 +55,21 @@ export const MyPageScreen:React.FC = ()=>{
             <View>
                 <View style={{flexDirection:'row', paddingHorizontal:10, paddingVertical:25, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF' }}>
                     {/* <View style={{width:70, height:70, borderRadius:70/2, backgroundColor:'black'}}/> */}
-                    <RemoteImage url={userInfo?.profileImage} width={70} height={70} style={{borderRadius: 70/2} }/>
+                    <View style={{...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 3,
+                            height: 7,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        },
+                        })}}>
+                        <RemoteImage url={userInfo?.profileImage} width={70} height={70} style={{borderRadius: 70/2} }/>
+                    </View>
                     <View style={{justifyContent:'center', marginLeft: 15}}>
                         <Typography color='black' bold fontSize={20}>{userInfo?.name}</Typography>
                         <Spacer space={3}/>
@@ -70,7 +91,7 @@ export const MyPageScreen:React.FC = ()=>{
                     numColumns={3}
                     renderItem={({item})=>{
                         return (
-                            <Button onPress={()=>{onPressContent(item)}}>
+                            <Button onPress={()=>{onPressMyListOne(item)}}>
                                 <RemoteImage url={item.imageUrl} width={photoSize} height={photoSize} />
                             </Button>
                         )
@@ -81,7 +102,7 @@ export const MyPageScreen:React.FC = ()=>{
                     numColumns={3}
                     renderItem={({item})=>{
                         return (
-                            <Button onPress={()=>{onPressContent(item)}}>
+                            <Button onPress={()=>{onPressMyFavoriteListOne(item)}}>
                                 <RemoteImage url={item.imageUrl} width={photoSize} height={photoSize} />
                             </Button>
                         )

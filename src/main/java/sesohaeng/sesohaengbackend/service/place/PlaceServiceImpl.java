@@ -92,8 +92,6 @@ public class PlaceServiceImpl implements PlaceService{
                 feedResponse.add(
                         new FeedWithResponseDto(
                         feed.getId(),
-                        feed.getContent(),
-                        feed.getUser().getUsername(),
                         place.getPlaceName(),
                                 new FeedImageDto(
                                         byFeed.getId(),

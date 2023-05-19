@@ -18,10 +18,6 @@ public class FeedWithResponseDto {
 
     Long id;
 
-    String content;
-
-    String userName;
-
     String placeName;
 
     FeedImageDto image;

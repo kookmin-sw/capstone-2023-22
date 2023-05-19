@@ -14,6 +14,8 @@ import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.service.place.PlaceService;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j
@@ -40,6 +42,7 @@ public class PlaceController {
     ){
         return SingleResponse.<PlaceResponseDto>builder()
                 .success(true)
+                .status(200)
                 .message("장소 상세 검색 성공")
                 .data(placeService.getPlace(placeId))
                 .build();

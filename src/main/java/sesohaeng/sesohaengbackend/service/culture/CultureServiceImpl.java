@@ -9,6 +9,7 @@ import sesohaeng.sesohaengbackend.domain.culture.Culture;
 import sesohaeng.sesohaengbackend.domain.culture.CultureRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
+import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseAreaDto;
 import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 
@@ -25,10 +26,10 @@ public class CultureServiceImpl implements CultureService{
     private final PlaceRepository placeRepository;
 
     @Transactional
-    public List<CultureResponseDto> getCulturesByArea(Long areaId){
+    public List<CultureResponseAreaDto> getCulturesByArea(Long areaId){
         Area area = areaRepository.findById(areaId).orElseThrow(()->new NoDataException("특구가 존재하지 않습니다."));
         List<Place> places = placeRepository.findAllByArea(area);
-        List<CultureResponseDto> responseDtos = new ArrayList<>();
+        List<CultureResponseAreaDto> responseDtos = new ArrayList<>();
 
         for(Place place : places){
             List<Culture> cultures = cultureRepository.findAllByPlace(place);
@@ -36,7 +37,10 @@ public class CultureServiceImpl implements CultureService{
                 continue;
             }
             for (Culture culture: cultures) {
-                responseDtos.add(new CultureResponseDto(
+                responseDtos.add(new CultureResponseAreaDto(
+                        place.getArea().getAreaName(),
+                        culture.getId(),
+                        culture.getPlace().getId(),
                         culture.getPlace().getLatitude(),
                         culture.getPlace().getLongitude(),
                         culture.getClassification(),

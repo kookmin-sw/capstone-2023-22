@@ -120,10 +120,9 @@ public class FeedService {
 
         FeedImage newFeedImage = null;
         if(!image.isEmpty()) {
-            modifyFeed.getImages().forEach(feedImage -> {
-                s3service.deleteImageUrl(feedImage.getImageUrl());
-                feedImageRepository.delete(feedImage);
-            });
+            FeedImage feedImage = modifyFeed.getImage();
+            s3service.deleteImageUrl(feedImage.getImageUrl());
+            feedImageRepository.delete(feedImage);
             FileRequestDto storedFile = s3service.upload(image);
             newFeedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), modifyFeed));
         }
@@ -140,10 +139,9 @@ public class FeedService {
         Area area = feed.getPlace().getArea();
         area.setFeedCount(area.getFeedCount() - 1);
         areaRepository.save(area);
-
-        feed.getImages().forEach(feedImage -> {
-            s3service.deleteImageUrl(feedImage.getImageUrl());
-        });
+      
+        FeedImage feedImage = feed.getImage();
+        s3service.deleteImageUrl(feedImage.getImageUrl());
         feedRepository.deleteById(id);
 
         return true;

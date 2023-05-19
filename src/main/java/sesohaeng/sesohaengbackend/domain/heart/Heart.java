@@ -1,5 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.heart;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
@@ -20,6 +21,7 @@ public class Heart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;

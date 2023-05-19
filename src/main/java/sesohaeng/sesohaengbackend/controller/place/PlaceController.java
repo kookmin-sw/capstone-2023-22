@@ -14,6 +14,8 @@ import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.service.place.PlaceService;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @Slf4j

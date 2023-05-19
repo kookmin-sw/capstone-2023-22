@@ -1,5 +1,8 @@
 package sesohaeng.sesohaengbackend.domain.feed;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.BaseTimeEntity;
@@ -24,17 +27,21 @@ public class Feed extends BaseTimeEntity {
     @Column
     private String content;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<FeedImage> images = new ArrayList<>();
+    @JsonManagedReference
+    @OneToOne(mappedBy = "feed", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private FeedImage image;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Heart> hearts = new ArrayList<>();
 

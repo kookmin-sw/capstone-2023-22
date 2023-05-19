@@ -1,5 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.feedimage;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sesohaeng.sesohaengbackend.domain.feed.Feed;
@@ -18,7 +19,8 @@ public class FeedImage {
     @Column
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;
 

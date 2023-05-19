@@ -1,6 +1,7 @@
 package sesohaeng.sesohaengbackend.domain.feed;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.user.User;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface FeedRepository extends JpaRepository<Feed,Long> {
     List<Feed> findByUser(User user);
     @Override
     void deleteById(Long id);
+
+    List<Feed> findByPlace(Place place);
 }

@@ -2,17 +2,15 @@ package sesohaeng.sesohaengbackend.dto.response.culture;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.lang.Nullable;
 import sesohaeng.sesohaengbackend.dto.response.feed.FeedWithResponseDto;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class CultureResponseDto {
+public class CultureResponseAreaDto {
 
     String areaName;
     Long id;
@@ -44,5 +42,4 @@ public class CultureResponseDto {
 
     LocalDateTime endDatetime;
 
-    List<FeedWithResponseDto> feeds;
 }

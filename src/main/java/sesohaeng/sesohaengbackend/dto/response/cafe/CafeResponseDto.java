@@ -27,6 +27,6 @@ public class CafeResponseDto {
     Double longitude;
 
     String address;
-    @Nullable
+
     List<FeedWithResponseDto> feeds;
 }

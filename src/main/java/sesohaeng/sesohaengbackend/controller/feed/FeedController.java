@@ -39,12 +39,20 @@ public class FeedController {
     }
 
     @GetMapping()
-    public final CommonResponse getFeeds(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public final CommonResponse getFeeds(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam("loadedCount") int loadedCount,
+            @RequestParam("batchSize") int batchSize
+    ) {
         return ListResponse.<FeedServiceResponse>builder()
                 .success(true)
                 .status(200)
                 .message("피드 리스트 가져오기 성공")
-                .result(feedService.getFeeds(Long.valueOf(customUserDetails.getName())))
+                .result(feedService.getFeeds(
+                        Long.valueOf(customUserDetails.getName()),
+                        loadedCount,
+                        batchSize
+                ))
                 .build();
     }
 

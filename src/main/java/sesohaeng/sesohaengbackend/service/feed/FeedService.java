@@ -73,13 +73,22 @@ public class FeedService {
     }
 
     @Transactional
-    public List<FeedServiceResponse> getFeeds(Long userId) {
+    public List<FeedServiceResponse> getFeeds(Long userId, int loadedCount, int batchSize) {
         logger.info("피드 리스트");
 
         List<Feed> feeds = feedRepository.findAllByOrderByCreatedAtDesc();
+
+        // 로드된 피드 개수로부터 페이지 계산
+        int page = loadedCount / batchSize;
+
+        // 특정 범위의 피드만 선택
+        int fromIndex = Math.min(loadedCount, feeds.size());
+        int toIndex = Math.min(loadedCount + batchSize, feeds.size());
+        List<Feed> selectedFeeds = feeds.subList(fromIndex, toIndex);
+
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        feeds.forEach(feed -> {
+        selectedFeeds.forEach(feed -> {
             Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(feed.getId(), userId));
             feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart));
         });
@@ -139,7 +148,7 @@ public class FeedService {
         Area area = feed.getPlace().getArea();
         area.setFeedCount(area.getFeedCount() - 1);
         areaRepository.save(area);
-      
+
         FeedImage feedImage = feed.getImage();
         s3service.deleteImageUrl(feedImage.getImageUrl());
         feedRepository.deleteById(id);

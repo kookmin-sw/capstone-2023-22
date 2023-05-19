@@ -11,11 +11,7 @@ import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
 import sesohaeng.sesohaengbackend.service.area.AreaService;
-import sesohaeng.sesohaengbackend.service.area.AreaServiceImpl;
-import sesohaeng.sesohaengbackend.service.feed.dto.request.FeedServiceRequest;
-import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
-
-import java.util.List;
+import sesohaeng.sesohaengbackend.service.area.dto.AreaRankResponse;
 
 
 @Slf4j
@@ -41,6 +37,16 @@ public class AreaController {
                 .status(200)
                 .message("특구 로딩 성공")
                 .data(areaService.getArea(id))
+                .build();
+    }
+
+    @GetMapping("rank")
+    public final CommonResponse getRank() {
+        return ListResponse.<AreaRankResponse>builder()
+                .success(true)
+                .status(200)
+                .message("area 순위 가져오기 성공")
+                .result(areaService.getAreaRanking())
                 .build();
     }
 }

@@ -68,7 +68,7 @@ public class FeedService {
     public List<FeedServiceResponse> getFeeds(Long userId) {
         logger.info("피드 리스트");
 
-        List<Feed> feeds = feedRepository.findAll();
+        List<Feed> feeds = feedRepository.findAllByOrderByCreatedAtDesc();
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {

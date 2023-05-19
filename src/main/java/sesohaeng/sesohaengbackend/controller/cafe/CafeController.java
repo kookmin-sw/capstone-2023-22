@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseAreaDto;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.ListResponse;
@@ -22,7 +23,7 @@ public class CafeController {
 
     @GetMapping("/area/{areaId}/cafe")
     public final CommonResponse getCafesByArea(@PathVariable Long areaId){
-        return ListResponse.<CafeResponseDto>builder()
+        return ListResponse.<CafeResponseAreaDto>builder()
                 .success(true)
                 .status(200)
                 .message("해당 특구 관련 카페 로딩 성공")

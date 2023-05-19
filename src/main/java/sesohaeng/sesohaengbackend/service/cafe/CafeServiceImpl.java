@@ -9,6 +9,7 @@ import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
 import sesohaeng.sesohaengbackend.domain.cafe.CafeRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
+import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseAreaDto;
 import sesohaeng.sesohaengbackend.dto.response.cafe.CafeResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
 
@@ -25,17 +26,17 @@ public class CafeServiceImpl implements CafeService{
     private final PlaceRepository placeRepository;
     @Transactional
     @Override
-    public List<CafeResponseDto> getCafesByArea(Long areaId){
+    public List<CafeResponseAreaDto> getCafesByArea(Long areaId){
         Area area = areaRepository.findById(areaId).orElseThrow(()->new NoDataException("특구가 존재하지 않습니다."));
         List<Place> places = placeRepository.findAllByArea(area);
-        List<CafeResponseDto> responseDtos = new ArrayList<>();
+        List<CafeResponseAreaDto> responseDtos = new ArrayList<>();
         for (Place place : places) {
             Optional<Cafe> opCafe = cafeRepository.findByPlace(place);
             if (opCafe.isEmpty()) {
                 continue;
             }
             Cafe cafe = opCafe.get();
-            responseDtos.add(new CafeResponseDto(
+            responseDtos.add(new CafeResponseAreaDto(
                     place.getArea().getAreaName(),
                     cafe.getId(),
                     cafe.getPlace().getId(),

@@ -112,10 +112,9 @@ public class FeedService {
 
         FeedImage newFeedImage = null;
         if(!image.isEmpty()) {
-            modifyFeed.getImages().forEach(feedImage -> {
-                s3service.deleteImageUrl(feedImage.getImageUrl());
-                feedImageRepository.delete(feedImage);
-            });
+            FeedImage feedImage = modifyFeed.getImage();
+            s3service.deleteImageUrl(feedImage.getImageUrl());
+            feedImageRepository.delete(feedImage);
             FileRequestDto storedFile = s3service.upload(image);
             newFeedImage = feedImageRepository.save(FeedImage.newInstance(storedFile.getImageUrl(), modifyFeed));
         }
@@ -128,9 +127,8 @@ public class FeedService {
         logger.info("피드 삭제");
         Feed feed = feedRepository.findById(id).orElseThrow(() -> new NoDataException("피드가 존재하지 않습니다."));
 
-        feed.getImages().forEach(feedImage -> {
-            s3service.deleteImageUrl(feedImage.getImageUrl());
-        });
+        FeedImage feedImage = feed.getImage();
+        s3service.deleteImageUrl(feedImage.getImageUrl());
         feedRepository.deleteById(id);
 
         return true;

@@ -1,7 +1,10 @@
 package sesohaeng.sesohaengbackend.domain.place;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 import sesohaeng.sesohaengbackend.domain.area.Area;
 import sesohaeng.sesohaengbackend.domain.cafe.Cafe;
 import sesohaeng.sesohaengbackend.domain.culture.Culture;
@@ -33,6 +36,8 @@ public class Place {
     @JoinColumn(name = "area_id")
     private Area area;
 
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Feed> feeds = new ArrayList<>();
 

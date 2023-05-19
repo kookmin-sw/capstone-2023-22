@@ -17,6 +17,7 @@ import sesohaeng.sesohaengbackend.domain.culture.Culture;
 import sesohaeng.sesohaengbackend.domain.culture.CultureRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
+import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseAreaDto;
 import sesohaeng.sesohaengbackend.dto.response.culture.CultureResponseDto;
 import sesohaeng.sesohaengbackend.service.area.AreaServiceImpl;
 
@@ -109,7 +110,7 @@ class CultureServiceTest {
 
 
         // when
-        List<CultureResponseDto> culturesByArea = cultureService.getCulturesByArea(20172894L);
+        List<CultureResponseAreaDto> culturesByArea = cultureService.getCulturesByArea(20172894L);
 
         // then
         assertThat(culturesByArea.get(0).getCultureName()).isEqualTo("CultureSeyeol");

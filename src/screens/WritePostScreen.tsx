@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, useWindowDimensions, Pressable, Keyboard, ScrollView } from 'react-native';
+import { View, useWindowDimensions, Pressable, Keyboard, ScrollView, Platform } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
@@ -10,6 +10,7 @@ import { MultiLineInput } from '../components/MultiLineInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useDispatch } from 'react-redux';
 import { createFeed, TypeFeedListDispatch } from '../actions/feed';
+import { useSelectedFeed } from '../selectors/feed';
 
 export const WritePostScreen:React.FC = ()=>{
     const {width} = useWindowDimensions();
@@ -27,6 +28,7 @@ export const WritePostScreen:React.FC = ()=>{
 
     const onPressPost = useCallback((input:string) =>{
         dispatch(createFeed({content:input, placeName:params.placeName, imageUrl:params.image}));
+        HomeNavigation.replace('BottomTab')
     }, [])
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
@@ -45,27 +47,83 @@ export const WritePostScreen:React.FC = ()=>{
                 <ScrollView>
                     <Pressable style={{backgroundColor:'white'}} onPress={Keyboard.dismiss}>
                         <View style={{flexDirection:'row', alignItems:'center', paddingVertical:10, paddingHorizontal:7}}>
-                            <RemoteImage url={userInfo?.profileImage} width={30} height={30} style={{borderRadius: 30/2}}/>
+                            <View style={{...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 3,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        }
+                        })}}>
+                                <RemoteImage url={userInfo?.profileImage} width={30} height={30} style={{borderRadius: 30/2}}/>
+                            </View>
                             <Spacer space={5} horizontal/>
                             <View style={{justifyContent: 'flex-start'}}>
-                                <Typography fontSize={10} color={'gray'}>{`프리모바치오바치`}</Typography>
+                                <Typography fontSize={10} color={'gray'}>{params.placeName}</Typography>
                                 <Typography fontSize={12}>{userInfo?.name}</Typography>
                             </View>
                         </View>
-                        <RemoteImage url={params.image} width={width} height={width}/>
+                        <View style={{...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 3,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        }
+                        })}}>
+                            <RemoteImage url={params.image} width={width} height={width}/>
+                        </View>
                     </Pressable>
 
                     <View style={{paddingVertical:10, paddingHorizontal:10}}>
-                        <MultiLineInput
+                        <View style={{...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 3,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        }
+                        })}}>
+
+                            <MultiLineInput
                                 value={inputMessage}
                                 onChangeText={setInputMessage}
                                 onSubmitEditing={() => onPressPost(inputMessage)}
                                 placeholder='영감이 떠오르는 한마디를 작성해주세요!...'
                                 height={100}
                                 fontSize={16}
+                                
                             />
+                        </View>
                         <Spacer space={10} />
-                        <Pressable onPress={() => onPressPost(inputMessage)} style={{alignSelf:'flex-end', alignItems:'center', justifyContent:'center',paddingHorizontal:20,paddingVertical:10, width:72, height:37, borderRadius:5, backgroundColor:'#764AF1'}}>
+                        <Pressable onPress={() => onPressPost(inputMessage)} style={{alignSelf:'flex-end', alignItems:'center', justifyContent:'center',paddingHorizontal:20,paddingVertical:10, width:72, height:37, borderRadius:5, backgroundColor:'#764AF1',...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 3,
+                            height: 3,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        }
+                        }) }}>
                             <Typography fontSize={15} color='white'>게시</Typography>
                         </Pressable>
                     </View>

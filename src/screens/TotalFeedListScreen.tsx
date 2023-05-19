@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
 import { getFeedList, TypeFeedListDispatch } from '../actions/feed';
-import { getUserInfo } from '../actions/user';
 import { Button } from '../components/Button';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
@@ -24,7 +23,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
     }, [])
 
     const onPressFeed = useCallback((item:FeedInfo)=>{
-        stackNavigation.navigate('PostDetail', item);
+        stackNavigation.navigate('PostDetail', {item: item, type:'feed'});
     }, [])
 
     return (
@@ -48,6 +47,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
                             updatedAt={item.updatedAt}
                             profileImage={item.profileImage}
                             imageUrl={item.imageUrl}
+                            isHeart={item.isHeart}
                             onPressFeed={() => onPressFeed(item)}
                         />
                     )
@@ -56,7 +56,19 @@ export const TotalFeedListScreen:React.FC = ()=>{
                     <Spacer space={24}/>
                 )}
             />
-            <View style={{position:'absolute', right:24, bottom:10 + safeAreaInset.bottom}}>
+            <View style={{position:'absolute', right:24, bottom:10 + safeAreaInset.bottom, ...Platform.select({
+                        ios: {
+                        shadowColor: 'black',shadowOffset: {
+                            width: 5,
+                            height: 10,
+                        },
+                        shadowOpacity: 0.25,
+                        shadowRadius: 3,
+                        },
+                        android: {
+                            elevation: 10,
+                        },
+                        })}}>
                 <Button onPress={()=>{console.log("Button clicked"); stackNavigation.navigate('PlaceSearch');}}>
                     <View style={{width:78, height:78, borderRadius:78/2, alignItems:'center', justifyContent:'center', backgroundColor:"#764AF1"}}>
                         <Icon name='albums-outline' color='white' size={30}/>

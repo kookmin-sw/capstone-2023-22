@@ -22,7 +22,7 @@ const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 export const BottomTabNavigation = ()=>{
 
     return (
-        <BottomTab.Navigator screenOptions={({route})=>{
+        <BottomTab.Navigator initialRouteName='Map' screenOptions={({route})=>{
             const getIconName = ():TypeIconName=>{
                 if (route.name === 'MyPage'){
                     return 'person';

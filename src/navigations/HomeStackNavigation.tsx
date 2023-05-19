@@ -2,7 +2,6 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { FeedInfo } from '../@types/FeedInfo';
-import { LocalImage } from '../@types/LocalImage';
 import { PlaceInfo } from '../@types/PlaceInfo';
 import { RequestPostCreate } from '../@types/RequestPostCreate';
 import { ImageSelectScreen } from '../screens/ImageSelectScreen';
@@ -16,18 +15,19 @@ import { AreaSelectedScreen } from '../screens/AreaSelectedScreen';
 import { PlaceDetailScreen } from '../screens/PlaceDetailScreen';
 import { AreaCafeInfo } from '../@types/AreaCafeInfo';
 import { AreaCultureInfo } from '../@types/AreaCultureInfo';
+import { BookmarkInfo } from '../@types/BookmarkInfo';
 
 
 export type HomeStackParamList = {
     BottomTab: undefined
-    PostDetail: FeedInfo
+    PostDetail: {item:FeedInfo, type:string} 
     Setting:undefined
     PlaceSearch:undefined
     ImageSelect:PlaceInfo
     Map:undefined
     WritePost: Omit<RequestPostCreate,'content'>
     AreaSelected: AreaMarkerInfo
-    PlaceDetail: AreaCafeInfo | AreaCultureInfo
+    PlaceDetail: AreaCafeInfo | AreaCultureInfo | BookmarkInfo
 }
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();

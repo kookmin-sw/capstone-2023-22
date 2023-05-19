@@ -2,7 +2,6 @@ import axios from "axios";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Config } from "../config";
 import { RootReducer } from "../store";
-import qs from 'qs'
 import { PlaceInfo } from "../@types/PlaceInfo";
 
 export const GET_SEARCH_REQUEST = 'GET_SEARCH_REQUEST' as const;
@@ -70,6 +69,24 @@ export const getSearch = (keyword:string):SearchThunkAction=> async (dispatch)=>
     }).catch(err => console.log(err));
 }
 
+export const getWordcloudRequest = ()=>{
+    return {
+        type:GET_WORDCLOUD_REQUEST,
+    }
+}
+export const getWordcloudSuccess = (uri:string)=>{
+
+    return {
+        type:GET_WORDCLOUD_SUCCESS,
+        uri
+    }
+}
+
+export const getWordcloudFailure = ()=>{
+    return {
+        type:GET_WORDCLOUD_FAILURE
+    }
+}
 
 export type SearchThunkAction = ThunkAction<void, RootReducer, undefined, SearchActions>;
 export type TypeSearchDispatch = ThunkDispatch<RootReducer, undefined, SearchActions>;
@@ -77,6 +94,9 @@ export type SearchActions =
     | ReturnType<typeof getSearchRequest> 
     | ReturnType<typeof getSearchSuccess>
     | ReturnType<typeof getSearchFailure>
+    | ReturnType<typeof getWordcloudRequest> 
+    | ReturnType<typeof getWordcloudSuccess>
+    | ReturnType<typeof getWordcloudFailure>
     | ReturnType<typeof changeSearchKeywordRequest> 
     | ReturnType<typeof changeSearchKeywordSuccess>
     | ReturnType<typeof changeSearchKeywordFailure>;

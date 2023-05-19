@@ -1,13 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { getUserInfo, signIn, TypeUserDispatch } from './actions/user';
 import { HomeStackNavigation } from './navigations/HomeStackNavigation';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { SplashView } from './SplashView';
-import { useDispatch } from 'react-redux';
 import { LoginScreen } from './screens/LoginScreen';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import * as Font from "expo-font";
 
 
 
@@ -21,23 +19,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 
 export const RootApp:React.FC = ()=>{
-    // const [initialize, setInitialize] = useState(false)
-    // const dispatch = useDispatch<TypeUserDispatch>();
-    
-    // useEffect(() => {
-    //     removeStorage('@token');
-    //     getStorage('@token').then((token) => {
-    //     if (token) {
-    //         getUserInfo();
-    //     } else {
-    //         console.log("no token");
-    //     }
-    //     })
-    //   }, []);
-    
-    // if (!initialize) {
-    //     return <LoginScreen />
-    // }
+    const [isFont, setIsFont] = useState(false);
+
+    // 폰트 적용
+    useEffect(() => {
+      const loadFont =  async function fetchFont() { 
+        await Font.loadAsync({
+          "notosans-black": require('../assets/NotoSansKR-Black.otf'),
+          "notosans-bold": require('../assets/NotoSansKR-Bold.otf'),
+          "notosans-medium": require('../assets/NotoSansKR-Medium.otf'),
+          "notosans-light": require('../assets/NotoSansKR-Light.otf'),
+        }); 
+        setIsFont(true);
+      }
+      loadFont();
+    },[]);
 
     return (
         <NavigationContainer>
@@ -49,21 +45,6 @@ export const RootApp:React.FC = ()=>{
         </NavigationContainer>
     )
 };
-// // get
-// export const getStorage = async (key:string) => {
-//     const result = await AsyncStorage.getItem(key);
-//     return result && JSON.parse(result);
-//   };
-  
-//   // set
-//   export const setStorage = async (key:string, value:any) => {
-//     return await AsyncStorage.setItem(key, JSON.stringify(value));
-//   };
-  
-//   // remove
-//   export const removeStorage = async (key:string) => {
-//     return await AsyncStorage.removeItem(key);
-//   };
 
 export const useRootNavigation = <RouteName extends keyof RootStackParamList>()=>{
   return useNavigation<NativeStackNavigationProp<RootStackParamList, RouteName>>();

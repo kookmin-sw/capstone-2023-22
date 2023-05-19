@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import { Alert, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
-import { Typography } from '../components/Typography';
+import { Icon } from '../components/Icons';
 
 export const ImageSelectScreen:React.FC = ()=>{
     const {params} = useHomeRoute<'ImageSelect'>();
@@ -14,7 +14,6 @@ export const ImageSelectScreen:React.FC = ()=>{
     }, [])
 
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
-    const [imageUrl, setImageUrl] = useState("");
     const uploadImage = async () => {
         if (!status?.granted) {
             const permission = await requestPermission();
@@ -34,14 +33,13 @@ export const ImageSelectScreen:React.FC = ()=>{
         }
 
         console.log(result);
-        setImageUrl(result.assets[0].uri);
         homeNavigation.navigate('WritePost', {image:result.assets[0].uri, placeName: params.placeName})
     };
     useEffect(() => {
         uploadImage()
     }, []);
     return (
-        <View style={{flex:1, backgroundColor:'white'}}>
+        <View style={{flex:1}}>
             <Header>
                 <Header.Group>
                     <Header.Icon iconName='chevron-back' onPress={onPressBack}/>
@@ -53,11 +51,9 @@ export const ImageSelectScreen:React.FC = ()=>{
                     <Spacer horizontal space={28}/>
                 </Header.Group>
             </Header>
-            <View style={{paddingHorizontal:10, backgroundColor:'white'}}>
+            <View style={{flex:1, paddingHorizontal:10, backgroundColor:'white', alignItems:'center',justifyContent:'center'}}>
                 <Pressable onPress={uploadImage}>
-                    <Typography fontSize={15}>
-                        이미지업로드하기
-                    </Typography>
+                    <Icon name='image-outline' size={40} color='black'/>
                 </Pressable>
             </View>
         </View>

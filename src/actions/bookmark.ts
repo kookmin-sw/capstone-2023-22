@@ -59,7 +59,7 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
             // TODO: id 변경
             placeId: id
         }), {headers: {"Content-Type": `application/json`}});
-        if (res.status == 200) {
+        if (res.status === 200) {
             console.log("bookmark Posting OK");
             console.log(res.data.data)
             dispatch(postBookmarkSuccess({
@@ -68,7 +68,10 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
                 "placeName": res.data.data.placeName,
         }))
         }
-    } catch(err) {
+    } catch (err) {
+        if (err.response.status === 400 ) {
+            return alert("이미 추가한 장소입니다");
+        }
         console.log(err);
     }
     

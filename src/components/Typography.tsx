@@ -18,6 +18,7 @@ import { Text as RNText } from 'react-native';
 export const Typography:React.FC<{
     color?:string,
     fontSize?:number,
+    font?:string,
     bold?:boolean,
     numberOfLines?:number,
     children:React.ReactNode | string
@@ -27,6 +28,7 @@ export const Typography:React.FC<{
       color: props.color ?? 'black',
       fontWeight: props.bold ? 'bold': 'normal',
       fontSize: props.fontSize ?? 10,
+      fontFamily:props.font ?? "Arial"
     }}
     numberOfLines={props.numberOfLines}
   >

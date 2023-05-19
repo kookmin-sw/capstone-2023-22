@@ -31,12 +31,11 @@ jobs:
     - name: make application.yml
       run: |
           echo ">> mkdir & touch"
-          mkdir -p ./src/main/resources
-          cd ./src/main/resources
-          touch ./application.yml
-          echo ">> copy application.yml"
-          echo "${{ secrets.APPLICATION_YML }}" >> ./application.yml
-          echo "server.port=8080" >> ./application.yml
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          echo "server.port=8080" >> src/main/resources/application.yml
+          find src
+          
           
       shell: bash
       

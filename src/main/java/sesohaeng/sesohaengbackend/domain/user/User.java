@@ -1,7 +1,6 @@
 package sesohaeng.sesohaengbackend.domain.user;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,6 +56,10 @@ public class User {
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Heart> hearts = new ArrayList<>();
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     private User(Long id, String email){
         this.id = id;

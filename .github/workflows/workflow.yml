@@ -69,4 +69,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
             docker tag ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7} sesohaeng
             docker stop sesohaeng
-            docker run -d --rm --name server -p 8080:8080 sesohaeng
+            docker run -d --rm --name sesohaeng -p 8080:8080 sesohaeng

@@ -45,7 +45,7 @@ public class AreaServiceImpl implements AreaService{
 
     @Transactional
     public List<AreaRankResponse> getAreaRanking() {
-        List<Area> areas = areaRepository.findAllByOrderByFeedCountDesc();
+        List<Area> areas = areaRepository.findFirst10ByOrderByFeedCountDesc();
 
         return areas.stream()
                 .map(area -> new AreaRankResponse(area.getAreaName(), area.getFeedCount()))

@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface AreaRepository extends JpaRepository<Area,Long> {
     List<Area> findAll();
-    List<Area> findAllByOrderByFeedCountDesc();
+    List<Area> findFirst10ByOrderByFeedCountDesc();
 }

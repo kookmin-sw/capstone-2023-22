@@ -10,7 +10,8 @@ public interface FeedRepository extends JpaRepository<Feed,Long> {
     Feed save(Feed feed);
     Optional<Feed> findById(Long id);
     List<Feed> findAll();
-    List<Feed> findByUser(User user);
+    List<Feed> findAllByOrderByCreatedAtDesc();
+    List<Feed> findByUserOrderByCreatedAtDesc(User user);
     @Override
     void deleteById(Long id);
 }

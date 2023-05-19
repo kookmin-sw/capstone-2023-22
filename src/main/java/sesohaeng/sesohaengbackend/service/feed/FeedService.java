@@ -68,7 +68,7 @@ public class FeedService {
     public List<FeedServiceResponse> getFeeds(Long userId) {
         logger.info("피드 리스트");
 
-        List<Feed> feeds = feedRepository.findAll();
+        List<Feed> feeds = feedRepository.findAllByOrderByCreatedAtDesc();
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {
@@ -142,7 +142,7 @@ public class FeedService {
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-        List<Feed> feeds = feedRepository.findByUser(user);
+        List<Feed> feeds = feedRepository.findByUserOrderByCreatedAtDesc(user);
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         feeds.forEach(feed -> {
@@ -195,7 +195,7 @@ public class FeedService {
 
         User user = userRepository.findById(userId).orElseThrow(
                 () -> new NoDataException("user가 존재하지 않습니다."));
-        List<Heart> hearts = heartRepository.findByUser(user);
+        List<Heart> hearts = heartRepository.findByUserOrderByFeedCreatedAtDesc(user);
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
         hearts.forEach(heart -> {

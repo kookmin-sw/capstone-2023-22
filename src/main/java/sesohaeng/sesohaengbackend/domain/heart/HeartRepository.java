@@ -15,5 +15,5 @@ public interface HeartRepository extends JpaRepository<Heart,Long> {
     Heart findByUserId(Long userId);
 
     Heart findByFeedIdAndUserId(Long feedId, Long userId);
-    List<Heart> findByUser(User user);
+    List<Heart> findByUserOrderByFeedCreatedAtDesc(User user);
 }

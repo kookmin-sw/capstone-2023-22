@@ -48,6 +48,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
                             profileImage={item.profileImage}
                             imageUrl={item.imageUrl}
                             isHeart={item.isHeart}
+                            type='feed'
                             onPressFeed={() => onPressFeed(item)}
                         />
                     )

@@ -11,11 +11,13 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useDispatch } from 'react-redux';
 import { createFeed, TypeFeedListDispatch } from '../actions/feed';
 import { useSelectedFeed } from '../selectors/feed';
+import { userBottomTabNavigation } from '../navigations/BottomTabNavigation';
 
 export const WritePostScreen:React.FC = ()=>{
     const {width} = useWindowDimensions();
     const {params} = useHomeRoute<'WritePost'>();
     const HomeNavigation = useHomeNavigation<'WritePost'>();
+    const bottomTabNavigation = userBottomTabNavigation();
     const userInfo = useMyInfo();
     const [inputMessage, setInputMessage] = useState('');
     const dispatch = useDispatch<TypeFeedListDispatch>();
@@ -28,7 +30,7 @@ export const WritePostScreen:React.FC = ()=>{
 
     const onPressPost = useCallback((input:string) =>{
         dispatch(createFeed({content:input, placeName:params.placeName, imageUrl:params.image}));
-        HomeNavigation.replace('BottomTab')
+        bottomTabNavigation.navigate('Space');
     }, [])
     return (
         <View style={{flex:1, backgroundColor:'white'}}>

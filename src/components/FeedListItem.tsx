@@ -29,15 +29,16 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
     }, []);
 
 
-    const onPressLike = useCallback((placeId:number)=> {
+    const onPressLike = useCallback(()=> {
         setIsLiked(true);
-        dispatchFeed(favoriteFeed(placeId,'feed'));
+        dispatchFeed(favoriteFeed(props.feedId, props.type));
     }, []);
 
     const onPressUnLike = useCallback((placeId:number)=> {
         setIsLiked(false);
         dispatchFeed(deleteFavoriteFeed(placeId, 'feed'));
     }, []);
+
     useEffect(()=>{
         if (props.isHeart === true) setIsLiked(true);
         else setIsLiked(false);
@@ -120,7 +121,7 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
                         android: {
                             elevation: 1,
                         },
-                        })}} onPress={() => { isLiked ? onPressUnLike(props.feedId): onPressLike(props.feedId)}}>
+                        })}} onPress={() => { isLiked ? onPressUnLike(props.feedId): onPressLike()}}>
                         <Icon name={isLiked ? 'heart' : 'heart-outline'} size={20} color={isLiked ? 'red' : 'black'}/>
                     </Pressable>
                     <Typography fontSize={12} color='gray'>{props.updatedAt}</Typography>

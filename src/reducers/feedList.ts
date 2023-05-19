@@ -30,24 +30,58 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
         }
 
         case FAVORITE_FEED_SUCCESS:{
+            if (action.feedtype === 'feed') {
                 return {
                     ...state,
-                    list:state.list.map((item)=>{
-                        if(item.id === action.feedId){
+                    list: state.list.map((item) => {
+                        if (item.id === action.feedId){
                             return {
                                 ...item,
-                                heartCount:item.heartCount+1,
+                                heartCount: item.heartCount+1,
                                 isHeart: true
                             }
                         }
-                        return {
-                            ...item
+                    })
+                }
+            }
+            if (action.feedtype === 'mylist') {
+                return {
+                    ...state,
+                    myFeedList: state.myFeedList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount: item.heartCount+1,
+                                isHeart: true
+                            }
                         }
                     })
                 }
-            
+            }
+            if (action.feedtype === 'myfavorite') {
+                return {
+                    ...state,
+                    myFavoriteList: state.myFavoriteList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount: item.heartCount+1,
+                                isHeart: true
+                            }
+                        }
+                    })
+                }
+            }
+            return {
+                ...state
+            }
         }
-
+        case GET_MY_FAVORITE_LIST_SUCCESS:{
+            return {
+                ...state,
+                myFavoriteList:[action.item, ...state.myFavoriteList]
+            }
+        }
         case DELETE_FAVORITE_FEED_SUCCESS:{
             return {
                 ...state,
@@ -71,15 +105,9 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                 myFeedList: action.list
             }
         }
-        case GET_MY_FAVORITE_LIST_SUCCESS:{
-            return {
-                ...state,
-                myFavoriteList: action.list
-            }
-        }
     }
-
     return {
-        ...state,
+            ...state,
     }
+    
 }

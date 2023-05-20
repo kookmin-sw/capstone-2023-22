@@ -1,14 +1,11 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { FeedInfo } from "../@types/FeedInfo";
 import { RootReducer } from "../store";
-import { sleep } from "../utils/utils";
 import axios from "axios";
 import { Config } from "../config";
 import FormData from 'form-data';
-import { RequestPostCreate } from "../@types/RequestPostCreate";
 import dayjs, { Dayjs } from 'dayjs';
 import duration, { Duration } from 'dayjs/plugin/duration';
-import { useHomeNavigation } from "../navigations/HomeStackNavigation";
 dayjs.extend(duration);
 
 // 경과 시간 계산 함수
@@ -76,11 +73,13 @@ export const getFeedListRequest = ()=>{
         type:GET_FEED_LIST_REQUEST,
     }
 }
-export const getFeedListSuccess = (list:FeedInfo[])=>{
+export const getFeedListSuccess = (list:FeedInfo[], count:number, isRefresh:boolean)=>{
 
     return {
         type:GET_FEED_LIST_SUCCESS,
-        list
+        list,
+        count,
+        isRefresh
     }
 }
 
@@ -195,21 +194,21 @@ export const getMyFavoriteListFailure = ()=>{
     }
 }
 // 토탈 피드 리스트 가져오기
-export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
+export const getFeedList = (isRefresh:boolean):FeedListThunkAction=> async (dispatch, getState)=>{
     dispatch(getFeedListRequest());
-    axios.interceptors.request.clear();
-    axios.get(`${Config.server}/posts`).then(async(res) => {
+    const loadedCount = isRefresh ? 0 : getState().feedList.count
+    axios.get(`${Config.server}/posts?loadedCount=${loadedCount}&batchSize=5`).then(async(res) => {
         // console.log(res.data.result);
         // TODO: 피드 좋아요 상태 조회 추가 => 백엔드로부터 받을 예정.
         const feedList:FeedInfo[] = res.data.result;
+        const count = feedList.length;
         const feedListNew = feedList.map(item => {return {...item, updatedAt: getTimeDiff(dayjs(item.updatedAt.replace('T', ' ')))}});
-        dispatch(
-            getFeedListSuccess(feedListNew)) 
+        dispatch(getFeedListSuccess(feedListNew, count, isRefresh));
     }).catch(err => {console.log(err.response)});
 
 }
 // 피드 쓰기
-export const createFeed = (item:Omit<FeedInfo, 'id'|'heartCount'|'userName'|'updatedAt'|'profileImage'|'isHeart'|'placeId'>):FeedListThunkAction => async (dispatch, getState)=>{
+export const createFeed = (item:Omit<FeedInfo, 'id'|'heartCount'|'userName'|'updatedAt'|'profileImage'|'isHeart'|'placeId'>):FeedListThunkAction => async (dispatch)=>{
     dispatch(createFeedRequest());
     // axios 로그 확인용
     axios.interceptors.request.clear(); 

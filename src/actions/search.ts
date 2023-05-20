@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Config } from "../config";
 import { RootReducer } from "../store";
 import { PlaceInfo } from "../@types/PlaceInfo";
+import { AreaInfo } from "../@types/AreaInfo";
 
 export const GET_SEARCH_REQUEST = 'GET_SEARCH_REQUEST' as const;
 export const GET_SEARCH_SUCCESS = 'GET_SEARCH_SUCCESS' as const;
@@ -15,6 +16,10 @@ export const CHANGE_SEARCH_KEYWORD_FAILURE = 'CHANGE_SEARCH_KEYWORD_FAILURE' as 
 export const GET_WORDCLOUD_REQUEST = 'GET_WORDCLOUD_REQUEST' as const;
 export const GET_WORDCLOUD_SUCCESS = 'GET_WORDCLOUD_SUCCESS' as const;
 export const GET_WORDCLOUD_FAILURE = 'GET_WORDCLOUD_FAILURE' as const;
+
+export const GET_AREA_RANKING_REQUEST = 'GET_AREA_RANKING_REQUEST' as const;
+export const GET_AREA_RANKING_SUCCESS = 'GET_AREA_RANKING_SUCCESS' as const;
+export const GET_AREA_RANKING_FAILURE = 'GET_AREA_RANKING_FAILURE' as const;
 
 export const getSearchRequest = ()=>{
     return {
@@ -87,6 +92,33 @@ export const getWordcloudFailure = ()=>{
         type:GET_WORDCLOUD_FAILURE
     }
 }
+export const getAreaRankingRequest = ()=>{
+    return {
+        type:GET_AREA_RANKING_REQUEST,
+    }
+}
+export const getAreaRankingSuccess = (ranking:AreaInfo[])=>{
+
+    return {
+        type:GET_AREA_RANKING_SUCCESS,
+        ranking
+    }
+}
+
+export const getAreaRankingFailure = ()=>{
+    return {
+        type:GET_AREA_RANKING_FAILURE
+    }
+}
+
+export const getAreaRanking = ():SearchThunkAction=> async (dispatch)=>{
+    dispatch(getAreaRankingRequest());
+// TODO: 서버 api로부터 받아오기, axios
+    axios.get(`${Config.server}/rank`).then(res => {
+        console.log(res.data.result);
+        dispatch(getAreaRankingSuccess(res.data.result))
+    }).catch(err => console.log(err));
+}
 
 export type SearchThunkAction = ThunkAction<void, RootReducer, undefined, SearchActions>;
 export type TypeSearchDispatch = ThunkDispatch<RootReducer, undefined, SearchActions>;
@@ -97,6 +129,9 @@ export type SearchActions =
     | ReturnType<typeof getWordcloudRequest> 
     | ReturnType<typeof getWordcloudSuccess>
     | ReturnType<typeof getWordcloudFailure>
+    | ReturnType<typeof getAreaRankingRequest> 
+    | ReturnType<typeof getAreaRankingSuccess>
+    | ReturnType<typeof getAreaRankingFailure>
     | ReturnType<typeof changeSearchKeywordRequest> 
     | ReturnType<typeof changeSearchKeywordSuccess>
     | ReturnType<typeof changeSearchKeywordFailure>;

@@ -1,20 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, Keyboard, Pressable, View, Platform } from 'react-native';
+import { Keyboard, Pressable, View, Platform, Text } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { SingleLineInput } from '../components/SingleLineInput';
 import { Typography } from '../components/Typography';
 import { Icon } from '../components/Icons';
-import { getSearch, getSearchSuccess, getWordcloudSuccess, TypeSearchDispatch } from '../actions/search';
+import { getAreaRanking, getSearch, getSearchSuccess, getWordcloudSuccess, TypeSearchDispatch } from '../actions/search';
 import { useDispatch } from 'react-redux';
-import { useSearchResult, useWordCloudUri } from '../selectors/search';
+import { useAreaRanking, useSearchResult, useWordCloudUri } from '../selectors/search';
 import { PlaceInfo } from '../@types/PlaceInfo';
 import { Button } from '../components/Button';
 import { TabIcon } from '../components/TabIcon';
 import { RemoteImage } from '../components/RemoteImage';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import ModalSelector from 'react-native-modal-selector';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, FlatList } from 'react-native-gesture-handler';
+import { AreaInfo } from '../@types/AreaInfo';
 
 export const SearchScreen:React.FC = ()=>{
     const [keyword, setKeyword] = useState('');
@@ -23,6 +24,7 @@ export const SearchScreen:React.FC = ()=>{
     const searchResults = useSearchResult();
     const homeNavigation = useHomeNavigation();
     const wordCloudUri = useWordCloudUri();
+    const popularArea = useAreaRanking();
     const [selectedArea, setSelectedArea] = useState('');
 
     const onPressEnter = useCallback((query:string) => {
@@ -40,7 +42,10 @@ export const SearchScreen:React.FC = ()=>{
     }, [])
 
     // useMemo(() => {return use(); return searchKeyword},[keyword]); 
-    useEffect(() =>{dispatch(getSearchSuccess([]))},[]);
+    useEffect(() =>{
+        dispatch(getSearchSuccess([]));
+        dispatch(getAreaRanking());
+    },[]);
     
     const data = [
         { key: 1, section: true, label: '특구'},
@@ -53,19 +58,56 @@ export const SearchScreen:React.FC = ()=>{
 
     const renderItem = (item:PlaceInfo) => {
         return (
-            <View style={{paddingHorizontal:10, paddingVertical:10}}>
-                <Button onPress={onPressButton}>
+            <View style={{paddingHorizontal:7}}>
+                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} 
+                style={{backgroundColor:'white', paddingHorizontal:10, paddingVertical:10, borderRadius:22,marginBottom:10, ...Platform.select({
+                ios: {
+                shadowColor: 'black',shadowOffset: {
+                    width: 1,
+                    height: 1,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                },
+                android: {
+                    elevation: 2,
+                },
+                })}}>
                 <View style={{flexDirection:'row'}}>
-                    <View style={{backgroundColor:'#EDCAE9', width: 60, height:60, alignItems: 'center', justifyContent:'center', borderRadius:60/2}}>
+                    <View style={{
+                         backgroundColor:'#EDCAE9', width: 50, height:50, alignItems: 'center', justifyContent:'center', borderRadius:50/2}}>
                         <TabIcon iconName='restaurant' iconColor='black'></TabIcon>
+                        {/* <Image source={require('../../assets/kitchen-pack.png')} style={{width:30, height:30}}/> */}
                     </View>
                     <Spacer space={15} horizontal/>
-                    <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} style={{justifyContent:'center'}}>
-                        <Typography fontSize={20} bold>{item.placeName}</Typography>
-                    </Pressable>
+                    <View style={{justifyContent:'center'}}>
+                        <Typography fontSize={16} font='notosans-medium'>{item.placeName}</Typography>
+                    </View>
                 </View>
-                </Button>
+                </Pressable>
             </View>
+        )
+    }
+    const renderRankingItem = ({item, index}:{item:AreaInfo, index:number}) => {
+        return (
+            <Pressable style={{justifyContent:'center',width:353,paddingBottom:10}}>
+                <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal:'10%',borderRadius:11, backgroundColor:'white', height:50, ...Platform.select({
+                ios: {
+                shadowColor: 'black',shadowOffset: {
+                    width: 2,
+                    height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 3,
+                },
+                android: {
+                    elevation: 2,
+                },
+                })}}>
+                    <Text style={{fontSize:16, fontWeight:'bold', width:'15%'}}>{index+1}</Text>
+                    <Text style={{color:'#764AF1', fontSize:16, fontWeight:'bold'}}>{item.areaName}</Text>
+                </View>
+            </Pressable>
         )
     }
 
@@ -80,7 +122,7 @@ export const SearchScreen:React.FC = ()=>{
                 <View style={{paddingVertical:20}}>
                     <SingleLineInput value={keyword} onChangeText={setKeyword} onSubmitEditing={()=>{onPressEnter(keyword); console.log(useSearchResult)}} placeholder='지금 궁금한 장소는?' fontSize={15}/>
                 </View>
-                {searchResults.length > 0 ?
+                {(searchResults.length > 0 || keyword !== '') ?
                 <View style={{height:'82.5%'}}>
                     <View>
                         <FlatList<PlaceInfo> 
@@ -89,24 +131,25 @@ export const SearchScreen:React.FC = ()=>{
                         renderItem={({item}) => renderItem(item)}
                         ListHeaderComponent={
                             <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
-                                <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
+                                <Typography fontSize={11}>총 {searchResults.length}개</Typography>
                             </View> 
                         }
                         />
                     </View>
                 </View> : 
                 <View>
-                    <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
-                        <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
-                    </View>
                     <View style={{paddingVertical:20}}>
                     <View style={{flexDirection:'row', alignItems:'center'}}>
                         <View style={{flex:1}}>
-                            <Typography color='black' fontSize={18} bold>실시간 트렌드</Typography>
+                            <Typography color='black' bold fontSize={18} >실시간 트렌드</Typography>
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <View style={{backgroundColor:'#D9D9D9', padding:5, borderRadius:2}}>
-                                <Pressable onPress={() => setIsWordcloudSelected(false)}>
+                                <Pressable onPress={() => 
+                                    {
+                                        dispatch(getAreaRanking());
+                                        setIsWordcloudSelected(false);
+                                    }}>
                                     <Icon name='list' size={20} color={isWordcloudSelected ? 'gray' : 'black'}/>
                                 </Pressable>
                             </View>
@@ -158,6 +201,14 @@ export const SearchScreen:React.FC = ()=>{
                     </View>
                      :
                         <View>
+                            <FlatList<AreaInfo> 
+                            data={popularArea}
+                            renderItem={renderRankingItem}
+                            style={{width:'100%', marginTop:'7%', alignSelf:'center',height:'82%'}}
+                            contentContainerStyle={{alignItems:'center'}}
+                            showsVerticalScrollIndicator={true}
+                            
+                            />
                         </View>
                     }
                     </View>

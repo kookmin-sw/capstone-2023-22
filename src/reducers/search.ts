@@ -1,11 +1,12 @@
+import { AreaInfo } from "../@types/AreaInfo";
 import { PlaceInfo } from "../@types/PlaceInfo";
-import { GET_SEARCH_SUCCESS, CHANGE_SEARCH_KEYWORD_SUCCESS, SearchActions, GET_WORDCLOUD_SUCCESS } from "../actions/search";
+import { GET_SEARCH_SUCCESS, CHANGE_SEARCH_KEYWORD_SUCCESS, SearchActions, GET_WORDCLOUD_SUCCESS, GET_AREA_RANKING_SUCCESS } from "../actions/search";
 import { Config } from "../config";
 
 export type TypeSearchReducer = {
     keyword:string;
     searchResult:PlaceInfo[];
-    popularArea:PlaceInfo[];
+    popularArea:AreaInfo[];
     wordCloud:string;
 }
 const defaultSearchState:TypeSearchReducer = {
@@ -33,6 +34,12 @@ export const searchReducer = (state:TypeSearchReducer = defaultSearchState, acti
             return {
                 ...state,
                 wordCloud:`${Config.wordcloudBaseUrl}`+ action.uri + '/' + action.uri +'.jpg'
+            }
+        }
+        case GET_AREA_RANKING_SUCCESS:{
+            return {
+                ...state,
+                popularArea: action.ranking
             }
         }
     }

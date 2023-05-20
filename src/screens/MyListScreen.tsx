@@ -28,33 +28,33 @@ export const MyListScreen:React.FC = () => {
     
     const renderItem = (item:BookmarkInfo) => {
         return (
-            <View style={{paddingHorizontal:10, paddingVertical:10}}>
-                <Button onPress={onPress}>
+            <View style={{paddingHorizontal:7}}>
+                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} 
+                style={{backgroundColor:'white', paddingHorizontal:10, paddingVertical:10, borderRadius:30,marginBottom:10, ...Platform.select({
+                ios: {
+                shadowColor: 'black',shadowOffset: {
+                    width: 1,
+                    height: 1,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 2,
+                },
+                android: {
+                    elevation: 1,
+                },
+                })}}>
                 <View style={{flexDirection:'row'}}>
-                    <View style={{ ...Platform.select({
-                        ios: {
-                        shadowColor: 'black',shadowOffset: {
-                            width: 3,
-                            height: 3,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3,
-                        },
-                        android: {
-                            elevation: 10,
-                        },
-                        }), backgroundColor:'#EDCAE9', width: 60, height:60, alignItems: 'center', justifyContent:'center', borderRadius:60/2}}>
+                    <View style={{
+                         backgroundColor:'#EDCAE9', width: 50, height:50, alignItems: 'center', justifyContent:'center', borderRadius:50/2}}>
                         <TabIcon iconName='restaurant' iconColor='black'></TabIcon>
                         {/* <Image source={require('../../assets/kitchen-pack.png')} style={{width:30, height:30}}/> */}
                     </View>
                     <Spacer space={15} horizontal/>
-                    <Pressable onPress={() => {
-                        homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})
-                        }} style={{justifyContent:'center'}}>
-                        <Typography fontSize={20} bold font='notosans-medium'>{item.placeName}</Typography>
-                    </Pressable>
+                    <View style={{justifyContent:'center'}}>
+                        <Typography fontSize={16} font='notosans-medium'>{item.placeName}</Typography>
+                    </View>
                 </View>
-                </Button>
+                </Pressable>
             </View>
         )
     }
@@ -72,7 +72,7 @@ export const MyListScreen:React.FC = () => {
                     renderItem={({item}) => renderItem(item)}
                     ListHeaderComponent={
                         <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingVertical:20}}>
-                            <Typography fontSize={12} bold>총 {bookmarkList.length}개</Typography>
+                            <Typography fontSize={11} >총 {bookmarkList.length}개</Typography>
                         </View>
                     }
                 />

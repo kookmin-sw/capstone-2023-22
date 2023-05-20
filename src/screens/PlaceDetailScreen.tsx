@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
@@ -8,9 +8,34 @@ import axios from 'axios';
 import { Config } from '../config';
 import { AreaCafeInfo } from '../@types/AreaCafeInfo';
 import { AreaCultureInfo } from '../@types/AreaCultureInfo';
+import { Icon } from '../components/Icons';
 
 import * as WebBrowser from 'expo-web-browser';
 import { AreaDetailSheet } from './AreaDetailSheet';
+
+type propsType = {
+    iconName: string,
+    content: string,
+    iconColor: string,
+    fontColor: string
+}
+
+const PlaceDetailInfo: React.FC = (props: propsType) => {
+    return (
+        <View>
+            <View style={styles.placeInfo}>
+                <View style={{marginRight: 12}}>
+                    <Icon name={props.iconName} size={18} color={props.iconColor} />
+                </View>
+                <View style={{width: "90%"}}>
+                    <Typography fontSize={14} color={props.fontColor}>{props.content}</Typography>
+                </View>
+            </View>
+            <Spacer space={8} />
+        </View>
+
+    );
+}
 
 export const PlaceDetailScreen:React.FC = ()=>{
     const homeNavigation = useHomeNavigation();
@@ -42,15 +67,15 @@ export const PlaceDetailScreen:React.FC = ()=>{
 
     const GetPlace: React.FC = () => {
         return (
-            <View>
+            <View style={{flex: 1, marginLeft: 10}}>
                 {
                     placeInfo && placeType === "cafe" && (
-                        <View>
+                        <View style={styles.placeContainer}>
                             <Typography fontSize={24} bold={true}>{placeInfo.cafe_name}</Typography>
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>장소 정보</Typography>
                             <Spacer space={8} />
-                            <Typography fontSize={14}>주소 | {placeInfo.address}</Typography>
+                            <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address}/>
                         </View>
                     )
                 }
@@ -58,20 +83,20 @@ export const PlaceDetailScreen:React.FC = ()=>{
                     placeInfo && placeType === "culture" && (
                         <View>
                             <Typography fontSize={24} bold={true}>{placeInfo.cultureName}</Typography>
-                            <Spacer space={20} />
+                            <Spacer space={24} />
                             <Typography fontSize={20} bold={true}>장소 정보</Typography>
-                            <Spacer space={8} />
-                            <Typography fontSize={14}>분류 | {placeInfo.classification}</Typography>
-                            <Spacer space={4} />
-                            <Typography fontSize={14}>관리구 | {placeInfo.borough}</Typography>
-                            <Spacer space={4} />
-                            <Typography fontSize={14}>대상 이용자 | {placeInfo.targetUser}</Typography>
-                            <Spacer space={4} />
-                            <TouchableOpacity onPress={() => {
-                                WebBrowser.openBrowserAsync(`${placeInfo.culture_url}`);
-                            }
-                            }><Typography fontSize={14} color="blue">홈페이지 링크</Typography>
+                            <Spacer space={12} />
+                            <PlaceDetailInfo iconName="calendar" iconColor="gray" content={placeInfo.cultureDatetime}/>
+                            <PlaceDetailInfo iconName="bookmark" iconColor="gray" content={placeInfo.classification}/>
+                            <PlaceDetailInfo iconName="map" iconColor="gray" content={placeInfo.borough}/>
+                            <PlaceDetailInfo iconName="calculator" iconColor="gray" content={placeInfo.fee}/>
+                            <PlaceDetailInfo iconName="person-circle" iconColor="gray" content={placeInfo.targetUser}/>
+                            <TouchableOpacity onPress={() => { WebBrowser.openBrowserAsync(`${placeInfo.culture_url}`); }}>
+                                <PlaceDetailInfo iconName="earth" iconColor="blue" content="홈페이지" fontColor="blue"/>
                             </TouchableOpacity>
+                            <Spacer space={20} />
+                            <Typography fontSize={20} bold={true}>세소행 공간</Typography>
+                            {/* todo: 커뮤니티 사진 넣기 */}
                             <Spacer space={4} />
                         </View>
                     )
@@ -126,5 +151,15 @@ export const PlaceDetailScreen:React.FC = ()=>{
             }
         </View>
     )
-
 }
+
+
+const styles = StyleSheet.create({
+    placeContainer: {
+        width: "100%",
+    },
+    placeInfo: {
+        flexDirection: "row",
+    }
+});
+

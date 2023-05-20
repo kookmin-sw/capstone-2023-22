@@ -33,7 +33,7 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
             const jsonParser = new XMLParser;
             const jsonData = jsonParser.parse(xmlData);
             setLivePopulationLevel(jsonData["SeoulRtd.citydata"]["CITYDATA"]["LIVE_PPLTN_STTS"]["LIVE_PPLTN_STTS"]["AREA_CONGEST_LVL"]);
-            setLivePopulationMessage(jsonData["SeoulRtd.citydata"]["CITYDATA"]["LIVE_PPLTN_STTS"]["LIVE_PPLTN_STTS"]["AREA_CONGEST_MSG"])
+            setLivePopulationMessage(jsonData["SeoulRtd.citydata"]["CITYDATA"]["LIVE_PPLTN_STTS"]["LIVE_PPLTN_STTS"]["AREA_CONGEST_MSG"]);
         }).catch(err => {console.log(err.response)});
     }, []);
 

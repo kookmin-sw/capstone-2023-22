@@ -48,7 +48,7 @@ public class AreaServiceImpl implements AreaService{
         List<Area> areas = areaRepository.findFirst10ByOrderByFeedCountDesc();
 
         return areas.stream()
-                .map(area -> new AreaRankResponse(area.getAreaName(), area.getFeedCount()))
+                .map(area -> new AreaRankResponse(area.getId(), area.getAreaName(), area.getFeedCount()))
                 .collect(Collectors.toList());
     }
 }

@@ -5,7 +5,6 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import {setUserInfo, TypeUserDispatch } from '../actions/user';
 import googleLogin from "../../assets/google-login.png";
-import { EXPO_CLIENT_ID, EXPO_IOS_ID } from '../secrets';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Config } from '../config';
@@ -19,8 +18,9 @@ export const LoginScreen:React.FC = () => {
     const dispatch = useDispatch<TypeUserDispatch>();
 
     const [request, response, promptAsync] = Google.useAuthRequest({
-        expoClientId: EXPO_CLIENT_ID,
-        iosClientId: EXPO_IOS_ID,
+        expoClientId: `${Config.EXPO_CLIENT_ID}`,
+        iosClientId: `${Config.EXPO_IOS_ID}`,
+        androidClientId: `${Config.EXPO_ANDROID_ID}`,
         responseType: "id_token"
     });
 
@@ -46,7 +46,7 @@ export const LoginScreen:React.FC = () => {
       }).catch(function (error) {
         console.log("ERROR:", error);
       });
-    } 
+    }
     //Todo err handling
   }, [response]);
 

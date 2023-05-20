@@ -9,6 +9,9 @@ export const useSearchResult = () => useSelector<RootReducer, PlaceInfo[]>((stat
 export const useSearchKeyword = () => useSelector<RootReducer, string>((state)=>{
     return state.search.keyword;
 })
+export const useWordCloudUri = () => useSelector<RootReducer, string>((state)=>{
+    return state.search.wordCloud;
+})
 
 // keyword:string;
 // searchResult:PlaceInfo[];

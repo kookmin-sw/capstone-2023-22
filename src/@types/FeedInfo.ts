@@ -7,7 +7,8 @@ export type FeedInfo = {
     placeName:string,
     updatedAt:string,
     profileImage:string,
-    imageUrl:string
+    imageUrl:string,
+    isHeart:boolean
 }
 
 //     id(feed):number, 

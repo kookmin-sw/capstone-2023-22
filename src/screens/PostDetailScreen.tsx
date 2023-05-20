@@ -1,4 +1,4 @@
-import { useRoute } from '@react-navigation/native';
+
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { FeedListItem } from '../components/FeedListItem';
@@ -8,10 +8,11 @@ import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigat
 
 export const PostDetailScreen:React.FC = () => {
     const homeNavigation = useHomeNavigation();
-    const {params} = useHomeRoute<'PostDetail'>(); 
+    const {params} = useHomeRoute<'PostDetail'>();
     const onPressBack = useCallback(()=>{
         homeNavigation.goBack();
     }, [])
+    
     return (
         <View style={{flex:1}}>
             <Header>
@@ -28,17 +29,20 @@ export const PostDetailScreen:React.FC = () => {
             </Header>
 
             <FeedListItem
-                feedId={params.id}
-                content={params.content}
-                heartCount={params.heartCount}
-                userName={params.userName}
-                placeName={params.placeName}
-                updatedAt={params.updatedAt}
-                profileImage={params.profileImage}
-                imageUrl={params.imageUrl}
+                feedId={params.item.id}
+                content={params.item.content}
+                heartCount={params.item.heartCount}
+                userName={params.item.userName}
+                placeName={params.item.placeName}
+                updatedAt={params.item.updatedAt}
+                profileImage={params.item.profileImage}
+                imageUrl={params.item.imageUrl}
+                isHeart={params.item.isHeart}
+                placeId={params.item.placeId}
                 onPressFeed={()=>{
                     console.log('onPressFeed')
                 }}
+                type={params.type}
             />
         </View>
     )

@@ -33,7 +33,6 @@ jobs:
           echo ">> mkdir & touch"
           mkdir -p src/main/resources
           echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
-          echo "server.port=8080" >> src/main/resources/application.yml
           find src
           
           

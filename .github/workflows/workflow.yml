@@ -70,4 +70,5 @@ jobs:
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
             sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7} sesohaeng
             sudo docker stop server
+            sudo docker rm server
             sudo docker run -d --name server -p 8080:8080 sesohaeng

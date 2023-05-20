@@ -43,7 +43,9 @@ jobs:
       run: chmod +x gradlew
         
     - name: Build with Gradle
-      run: ./gradlew build
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: build
         
     - name: Login to Docker Hub
       uses: docker/login-action@v2
@@ -53,7 +55,7 @@ jobs:
         
     - name: Docker build
       run: |
-        docker build --platform linux/amd64 -t sesohaeng .
+        docker build -t sesohaeng .
         docker tag sesohaeng ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
         
@@ -67,5 +69,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
+            docker tag ${{ secrets.DOCKERHUB_USERNAME }}/tutti:${GITHUB_SHA::7} sesohaeng
             sudo docker stop server
-            sudo docker run -d --rm --name server -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
+            sudo docker run -d --rm --name server -p 8080:8080 sesohaeng

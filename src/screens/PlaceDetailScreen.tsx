@@ -16,16 +16,16 @@ import { AreaDetailSheet } from './AreaDetailSheet';
 type propsType = {
     iconName: string,
     content: string,
-    iconColor: string,
-    fontColor: string
+    iconColor?: string,
+    fontColor?: string
 }
 
-const PlaceDetailInfo: React.FC = (props: propsType) => {
+const PlaceDetailInfo: React.FC<propsType> = (props: propsType) => {
     return (
         <View>
             <View style={styles.placeInfo}>
                 <View style={{marginRight: 12}}>
-                    <Icon name={props.iconName} size={18} color={props.iconColor} />
+                    <Icon name={props.iconName} size={18} color={props.iconColor!} />
                 </View>
                 <View style={{width: "90%"}}>
                     <Typography fontSize={14} color={props.fontColor}>{props.content}</Typography>
@@ -46,6 +46,7 @@ export const PlaceDetailScreen:React.FC = ()=>{
 
     const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
     const [placeType, setPlaceType] = useState<string>("");
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         axios.get(`${Config.server}/place/${params.placeId}`, {})
@@ -65,6 +66,17 @@ export const PlaceDetailScreen:React.FC = ()=>{
         });
     }, [])
 
+    useEffect(() => {
+        axios.get(`${Config.server}/posts/1`, {})
+        .then(response => {
+            console.log("THIS:", response.data.data);
+            setPosts(response.data.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, [])
+
     const GetPlace: React.FC = () => {
         return (
             <View style={{flex: 1, marginLeft: 10}}>
@@ -76,6 +88,9 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <Typography fontSize={20} bold={true}>장소 정보</Typography>
                             <Spacer space={8} />
                             <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address}/>
+                            <Spacer space={20} />
+                            <Typography fontSize={20} bold={true}>세소행 공간</Typography>
+                            {/* todo: 커뮤니티 사진 넣기 */}
                         </View>
                     )
                 }

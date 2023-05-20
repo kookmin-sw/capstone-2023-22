@@ -53,7 +53,7 @@ export const BottomTabNavigation = ()=>{
                 }
             }
         }}>
-            <BottomTab.Screen name='Space' component={TotalFeedListScreen} />
+            <BottomTab.Screen name='Space' component={TotalFeedListScreen} options={{ unmountOnBlur: true }}/>
             <BottomTab.Screen name='MyList' component={MyListScreen} />
             <BottomTab.Screen name='Map' component={MapScreen} />
             <BottomTab.Screen name='Search' component={SearchScreen} />

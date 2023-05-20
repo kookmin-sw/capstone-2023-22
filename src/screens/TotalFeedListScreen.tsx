@@ -12,6 +12,7 @@ import { Spacer } from '../components/Spacer';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import { useTotalFeedList } from '../selectors/feed';
 
+
 export const TotalFeedListScreen:React.FC = ()=>{
     const safeAreaInset = useSafeAreaInsets();
     const stackNavigation = useHomeNavigation();
@@ -20,7 +21,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
 
     useEffect(()=>{
         dispatch(getFeedList());
-    }, [])
+    },[]);
 
     const onPressFeed = useCallback((item:FeedInfo)=>{
         stackNavigation.navigate('PostDetail', {item: item, type:'feed'});
@@ -48,6 +49,7 @@ export const TotalFeedListScreen:React.FC = ()=>{
                             profileImage={item.profileImage}
                             imageUrl={item.imageUrl}
                             isHeart={item.isHeart}
+                            type='feed'
                             onPressFeed={() => onPressFeed(item)}
                         />
                     )

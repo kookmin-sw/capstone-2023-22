@@ -18,8 +18,14 @@ export const bookmarkListReducer = (state:TypeBookmarkListReducer = defaultBookm
             }
         }
         case POST_BOOKMARK_SUCCESS: {
+            if (state.bookmarkList.some(item => item.placeId === action.bookmarkInfo.placeId)){
+                return {
+                    ...state
+                }
+            }
             return {
-                bookmarkList:[action.bookmarkInfo, ...state.bookmarkList]
+                ...state,
+                bookmarkList: [action.bookmarkInfo, ...state.bookmarkList]
             }
         }
     }

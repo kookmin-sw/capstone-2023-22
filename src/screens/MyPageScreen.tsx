@@ -77,10 +77,17 @@ export const MyPageScreen:React.FC = ()=>{
                     </View>     
                 </View>
                 <View style={{flexDirection:'row', paddingVertical:8, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF'}}>
-                    <Pressable onPress={() => setIsFocusedOnMyFeedList(true)} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                    <Pressable onPress={() => {
+                        setIsFocusedOnMyFeedList(true);
+                        dispatch(getMyFeedList());
+                    }} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='albums-outline' size={20} color='black'/>
                     </Pressable>
-                    <Pressable onPress={() => setIsFocusedOnMyFeedList(false)} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                    <Pressable onPress={() => 
+                    {
+                        setIsFocusedOnMyFeedList(false);         
+                        dispatch(getMyFavoriteList());
+                    }} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='heart-outline' size={20} color='black'/>
                     </Pressable>
                 </View>

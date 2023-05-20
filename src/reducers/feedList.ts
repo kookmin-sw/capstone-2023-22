@@ -30,13 +30,15 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
         }
 
         case FAVORITE_FEED_SUCCESS:{
+            if (action.feedtype === 'feed') {
+                console.log(`------------reducer-----------`)
                 return {
                     ...state,
-                    list:state.list.map((item)=>{
-                        if(item.id === action.feedId){
+                    list: state.list.map((item) => {
+                        if (item.id === action.feedId){
                             return {
                                 ...item,
-                                heartCount:item.heartCount+1,
+                                heartCount: item.heartCount+1,
                                 isHeart: true
                             }
                         }
@@ -45,25 +47,108 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                         }
                     })
                 }
-            
+            }
+            else if (action.feedtype === 'mylist') {
+                return {
+                    ...state,
+                    myFeedList: state.myFeedList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount: item.heartCount+1,
+                                isHeart: true
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
+            else if (action.feedtype === 'myfavorite') {
+                return {
+                    ...state,
+                    myFavoriteList: state.myFavoriteList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount: item.heartCount+1,
+                                isHeart: true
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
+            return {
+                ...state
+            }
         }
 
-        case DELETE_FAVORITE_FEED_SUCCESS:{
+        case GET_MY_FAVORITE_LIST_SUCCESS:{
             return {
                 ...state,
-                list:state.list.map((item)=>{
-                    if(item.id === action.feedId){
-                        return {
-                            ...item,
-                            heartCount:item.heartCount-1,
-                            isHeart: false
-                        }
-                    }
-                    return {
-                        ...item
-                    }
-                })
+                myFavoriteList:action.list
             }
+        }
+        case DELETE_FAVORITE_FEED_SUCCESS:{
+            if (action.feedtype === 'feed') {
+                return {
+                    ...state,
+                    list: state.list.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount:item.heartCount-1,
+                                isHeart: false
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
+            else if (action.feedtype === 'mylist') {
+                return {
+                    ...state,
+                    myFeedList: state.myFeedList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount:item.heartCount-1,
+                                isHeart: false
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
+            else if (action.feedtype === 'myfavorite') {
+                return {
+                    ...state,
+                    myFavoriteList: state.myFavoriteList.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount:item.heartCount-1,
+                                isHeart: false
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
+            return {
+                ...state
+            }
+
         }
         case GET_MY_FEED_LIST_SUCCESS:{
             return {
@@ -71,15 +156,9 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                 myFeedList: action.list
             }
         }
-        case GET_MY_FAVORITE_LIST_SUCCESS:{
-            return {
-                ...state,
-                myFavoriteList: action.list
-            }
-        }
     }
-
     return {
-        ...state,
+            ...state,
     }
+    
 }

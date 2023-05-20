@@ -1,5 +1,5 @@
 
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { View } from 'react-native';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';

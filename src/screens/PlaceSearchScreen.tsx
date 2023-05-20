@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FlatList, TextInput, TouchableOpacity, View, Platform } from 'react-native';
+import { FlatList, TextInput, TouchableOpacity, View, Platform, Pressable } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
@@ -37,30 +37,33 @@ export const PlaceSearchScreen:React.FC = ()=>{
 
     const renderItem = (item:PlaceInfo) => {
         return (
-            <View style={{paddingHorizontal:10, paddingVertical:10}}>
-                <Button onPress={() => {onPressButton(item)}}>
+            <View style={{paddingHorizontal:7}}>
+                <Pressable onPress={() => {onPressButton(item)}} 
+                style={{backgroundColor:'white', paddingHorizontal:10, paddingVertical:10, borderRadius:22,marginBottom:10, ...Platform.select({
+                ios: {
+                shadowColor: 'black',shadowOffset: {
+                    width: 1,
+                    height: 1,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 1,
+                },
+                android: {
+                    elevation: 2,
+                },
+                })}}>
                 <View style={{flexDirection:'row'}}>
-                    <View style={{backgroundColor:'#EDCAE9', width: 60, height:60, alignItems: 'center', justifyContent:'center', borderRadius:60/2, ...Platform.select({
-                        ios: {
-                        shadowColor: 'black',shadowOffset: {
-                            width: 3,
-                            height: 3,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3,
-                        },
-                        android: {
-                            elevation: 10,
-                        }
-                        })}}>
+                    <View style={{
+                         backgroundColor:'#EDCAE9', width: 50, height:50, alignItems: 'center', justifyContent:'center', borderRadius:50/2}}>
                         <TabIcon iconName='restaurant' iconColor='black'></TabIcon>
+                        {/* <Image source={require('../../assets/kitchen-pack.png')} style={{width:30, height:30}}/> */}
                     </View>
                     <Spacer space={15} horizontal/>
                     <View style={{justifyContent:'center'}}>
-                        <Typography fontSize={20} bold>{item.placeName}</Typography>
+                        <Typography fontSize={16} font='notosans-medium'>{item.placeName}</Typography>
                     </View>
                 </View>
-                </Button>
+                </Pressable>
             </View>
         )
     }
@@ -80,19 +83,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
             </Header>
             <View style={{paddingHorizontal:10, backgroundColor:'white'}}>
                 <View style={{paddingVertical:20, flexDirection:'row'}}>
-                    <View style={{flex:1, alignSelf:'stretch', justifyContent:'center', backgroundColor:'#E4E4E4', borderRadius:4, padding:12, ...Platform.select({
-                        ios: {
-                        shadowColor: 'black',shadowOffset: {
-                            width: 3,
-                            height: 3,
-                        },
-                        shadowOpacity: 0.25,
-                        shadowRadius: 3,
-                        },
-                        android: {
-                            elevation: 10,
-                        }
-                        })}}>
+                    <View style={{flex:1, alignSelf:'stretch', justifyContent:'center', backgroundColor:'#E4E4E4', borderRadius:4, padding:12}}>
                         <TextInput value={keyword} autoCorrect={false} onChangeText={setKeyword} autoCapitalize={'none'} onSubmitEditing={() => onPressEnter(keyword)} style={{fontSize:15}} placeholder='검색할 장소를 입력하세요'></TextInput>
                     </View>
                     <Spacer space={10} horizontal/>
@@ -118,7 +109,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
                     {searchResults.length > 0 ?
                     <View>
                         <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
-                            <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
+                            <Typography fontSize={11}>총 {searchResults.length}개</Typography>
                         </View> 
                         <View>
                             <FlatList<PlaceInfo>
@@ -129,7 +120,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
                         </View>
                     </View> : 
                     <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
-                        <Typography fontSize={12} bold>총 {searchResults.length}개</Typography>
+                        <Typography fontSize={11}>총 {searchResults.length}개</Typography>
                     </View> 
                     }
                 </View>

@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
-import { FlatList, View, Platform } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, View, Platform, ActivityIndicator } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { FeedInfo } from '../@types/FeedInfo';
@@ -10,7 +10,7 @@ import { Header } from '../components/Header/Header';
 import { Icon } from '../components/Icons';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
-import { useTotalFeedList } from '../selectors/feed';
+import { useFeedCount, useHasNext, useTotalFeedList } from '../selectors/feed';
 
 
 export const TotalFeedListScreen:React.FC = ()=>{
@@ -18,7 +18,27 @@ export const TotalFeedListScreen:React.FC = ()=>{
     const stackNavigation = useHomeNavigation();
     const dispatch = useDispatch<TypeFeedListDispatch>();
     const feedList = useTotalFeedList();
+    const hasNext = useHasNext();
+    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
+    const onRefresh = () => {
+        if(!refreshing) {
+            setRefreshing(true);
+            dispatch(getFeedList(true));
+            setRefreshing(false);
+        }
+    }
+
+    const onEndReached = () => {
+        if (!loading) {
+            if (feedList.length >= 5 && hasNext){
+                setLoading(true);
+                dispatch(getFeedList());
+                setLoading(false);
+            }
+        }
+    }
     useEffect(()=>{
         dispatch(getFeedList());
     },[]);
@@ -57,6 +77,11 @@ export const TotalFeedListScreen:React.FC = ()=>{
                 ItemSeparatorComponent={()=>(
                     <Spacer space={24}/>
                 )}
+                onEndReached={onEndReached}
+                onEndReachedThreshold={0.6}
+                ListFooterComponent={loading && <ActivityIndicator />}
+                onRefresh={onRefresh}
+                refreshing={refreshing}
             />
             <View style={{position:'absolute', right:24, bottom:10 + safeAreaInset.bottom, ...Platform.select({
                         ios: {

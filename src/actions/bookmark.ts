@@ -2,8 +2,6 @@ import axios from "axios";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { BookmarkInfo } from "../@types/BookmarkInfo";
 import { RootReducer } from "../store";
-import qs from 'qs';
-import { sleep } from "../utils/utils";
 import { Config } from "../config";
 
 export const GET_BOOKMARK_LIST_REQUEST = 'GET_BOOKMARK_LIST_REQUEST' as const;

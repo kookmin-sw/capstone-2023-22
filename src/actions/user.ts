@@ -1,5 +1,4 @@
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { FeedInfo } from "../@types/FeedInfo";
 import { UserInfo } from "../@types/UserInfo";
 import { RootReducer } from "../store";
 import { sleep } from "../utils/utils";

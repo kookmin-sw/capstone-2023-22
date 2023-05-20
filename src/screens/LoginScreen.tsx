@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useRootNavigation, useRootRoute } from '../RootApp';
+import React, { useEffect } from 'react';
+import { useRootNavigation } from '../RootApp';
 import { Image, TouchableOpacity, View } from 'react-native';
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
@@ -14,7 +14,6 @@ WebBrowser.maybeCompleteAuthSession();
 
 export const LoginScreen:React.FC = () => {
     const rootNavigation = useRootNavigation();
-    const route = useRootRoute();
     const dispatch = useDispatch<TypeUserDispatch>();
 
     const [request, response, promptAsync] = Google.useAuthRequest({

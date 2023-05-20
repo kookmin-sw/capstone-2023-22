@@ -3,11 +3,15 @@ import { CREATE_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, FeedListActions, GET_FEED_L
 
 export type TypeFeedListReducer ={
     list:FeedInfo[];
+    count:number;
+    hasNext:boolean;
     myFeedList:FeedInfo[];
     myFavoriteList:FeedInfo[];
 }
 const defaultFeedListState:TypeFeedListReducer = {
     list:[],
+    count:0,
+    hasNext:true,
     myFeedList:[],
     myFavoriteList:[]
 }
@@ -16,9 +20,35 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
 
     switch(action.type){
         case GET_FEED_LIST_SUCCESS:{
+            if (action.isRefresh) {
+                if (action.count < 5){
+                    return {
+                        ...state,
+                        list: action.list,
+                        count: 0,
+                        hasNext: false
+                    }
+                }
+                return {
+                    ...state,
+                    list: action.list,
+                    count: action.count,
+                    hasNext: true
+                }
+            }
+            else if (action.count < 5){
+                return {
+                    ...state,
+                    list:state.list.concat(action.list),
+                    count: 0,
+                    hasNext:false
+                }
+            }
             return {
                 ...state,
-                list:action.list,
+                list: state.list.concat(action.list),
+                count: state.count+action.count,
+                hasNext:true
             }
         }
         // TODO: 뒤로 넘어가는 문제 발생 -> 당연 로직 변경을 생각

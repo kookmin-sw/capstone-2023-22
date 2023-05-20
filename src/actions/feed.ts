@@ -121,7 +121,7 @@ export const favoriteFeedRequest = ()=>{
         type:FAVORITE_FEED_REQUEST
     }
 }
-export const favoriteFeedSuccess = (feedId:FeedInfo['id'], feedtype:string)=>{
+export const favoriteFeedSuccess = (feedId:number, feedtype:string)=>{
     return {
         type:FAVORITE_FEED_SUCCESS,
         feedId,
@@ -134,30 +134,17 @@ export const favoriteFeedFailure = ()=>{
     }
 }
 
-// 피드 좋아요 - 내가 쓴 게시물
-export const favoriteMyListSuccess = (feedId:FeedInfo['id'])=>{
-    return {
-        type:FAVORITE_MYLIST_SUCCESS,
-        feedId,
-    }
-}
-// 피드 좋아요 - 내가 좋아요한 게시물
-export const favoriteMyFavoriteSuccess = (feedId:FeedInfo['id'])=>{
-    return {
-        type:FAVORITE_MYFAVORITE_SUCCESS,
-        feedId,
-    }
-}
 // 피드 좋아요 취소 - 토탈 피드
 export const deleteFavoriteFeedRequest = ()=>{
     return {
         type:DELETE_FAVORITE_FEED_REQUEST
     }
 }
-export const deleteFavoriteFeedSuccess = (feedId:FeedInfo['id'])=>{
+export const deleteFavoriteFeedSuccess = (feedId:FeedInfo['id'], feedtype:string)=>{
     return {
         type:DELETE_FAVORITE_FEED_SUCCESS,
         feedId,
+        feedtype
     }
 }
 
@@ -194,10 +181,10 @@ export const getMyFavoriteListRequest = ()=>{
     }
 }
 
-export const getMyFavoriteListSuccess = (item:FeedInfo)=>{
+export const getMyFavoriteListSuccess = (list:FeedInfo[])=>{
     return {
         type:GET_MY_FAVORITE_LIST_SUCCESS,
-        item
+        list
     }
 }
 
@@ -212,7 +199,6 @@ export const getFeedList = ():FeedListThunkAction=> async (dispatch)=>{
     dispatch(getFeedListRequest());
     axios.interceptors.request.clear();
     axios.get(`${Config.server}/posts`).then(async(res) => {
-        console.log(res);
         // console.log(res.data.result);
         // TODO: 피드 좋아요 상태 조회 추가 => 백엔드로부터 받을 예정.
         const feedList:FeedInfo[] = res.data.result;
@@ -261,28 +247,24 @@ export const createFeed = (item:Omit<FeedInfo, 'id'|'heartCount'|'userName'|'upd
 }
 // TODO: 피드에서 좋아요한 경우, 마이리스트에서 좋아요한 경우, 내가 좋아요한 리스트에서 좋아요한 경우 나눠서
 export const favoriteFeed = (feedId:number, feedtype:string):FeedListThunkAction => async (dispatch)=>{
-    console.log("-------------------1-----------------");
     dispatch(favoriteFeedRequest());
-    console.log("-------------------2-----------------");
 
-    axios.post(`${Config.server}/${feedId}/heart`).then(res => console.log(res)).catch(err => console.log(err));
-    console.log("-------------------3-----------------");
+    axios.post(`${Config.server}/posts/${feedId}/heart`).then(res => console.log(res.data)).catch(err => console.log(err));
 
     // 찾아서 갱신하고
     dispatch(favoriteFeedSuccess(feedId, feedtype));
     // myfavorite으로 집어 넣는 거 하나
-    console.log("-------------------4-----------------");
-
-    dispatch(getFeedAndPutMyFavorite(feedId));
-    console.log("-------------------5-----------------");
+    // dispatch(getFeedAndPutMyFavorite(feedId));
 
 }
 
-export const deleteFavoriteFeed = (feedId:number, type:string):FeedListThunkAction => async (dispatch)=>{
+export const deleteFavoriteFeed = (feedId:number, feedtype:string):FeedListThunkAction => async (dispatch)=>{
     dispatch(deleteFavoriteFeedRequest());
-    axios.delete(`${Config.server}/${feedId}/heart`).then(res => console.log(res)).catch(err => console.log(err));
-    // dispatch(deleteFavoriteFeedSuccess(feedId));
-    dispatch(getMyFavoriteList());
+    axios.delete(`${Config.server}/posts/${feedId}/heart`).then(res => console.log(res.data)).catch(err => console.log(err));
+
+    // 찾아서 갱신
+    dispatch(deleteFavoriteFeedSuccess(feedId, feedtype));
+    // dispatch(getMyFavoriteList());
 }
 // export const pushToMyFavorite = (item:FeedInfo):FeedListThunkAction => async (dispatch)=>{
     
@@ -292,7 +274,10 @@ export const getMyFeedList = ():FeedListThunkAction => async (dispatch)=>{
     dispatch(getMyFeedListRequest());
     await axios.get(`${Config.server}/posts/my-posts`)
     .then((res) => {
-        dispatch(getMyFeedListSuccess(res.data.result));
+        const feedList:FeedInfo[] = res.data.result;
+        const feedListNew = feedList.map(item => {return {...item, updatedAt: getTimeDiff(dayjs(item.updatedAt.replace('T', ' ')))}});
+        dispatch(getMyFeedListSuccess(feedListNew));
+
     }).catch(err =>{
         console.log(err);
     });
@@ -302,8 +287,9 @@ export const getMyFavoriteList = ():FeedListThunkAction => async (dispatch)=>{
     dispatch(getMyFavoriteListRequest());
     await axios.get(`${Config.server}/posts/my-heart-posts`)
     .then((res) => {
-        console.log(res);
-        dispatch(getMyFeedListSuccess(res.data.result));
+        const feedList:FeedInfo[] = res.data.result;
+        const feedListNew = feedList.map(item => {return {...item, updatedAt: getTimeDiff(dayjs(item.updatedAt.replace('T', ' ')))}});
+        dispatch(getMyFavoriteListSuccess(feedListNew));
     }).catch(err =>{
         console.log(err);
     });
@@ -330,5 +316,5 @@ export type FeedListActions =
     | ReturnType<typeof getMyFavoriteListRequest>
     | ReturnType<typeof getMyFavoriteListSuccess>
     | ReturnType<typeof getMyFavoriteListFailure>;
-    // | ReturnType<typeof favoriteMyListSuccess>
+    // | ReturnType<typeof favoriteMyListSuccess>;
     // | ReturnType<typeof favoriteMyFavoriteSuccess>;

@@ -29,8 +29,9 @@ export const WritePostScreen:React.FC = ()=>{
     }, [])
 
     const onPressPost = useCallback((input:string) =>{
-        dispatch(createFeed({content:input, placeName:params.placeName, imageUrl:params.image}));
-        bottomTabNavigation.navigate('Space');
+        // dispatch(createFeed({content:input, placeName:params.placeName, imageUrl:params.image}));
+        HomeNavigation.popToTop('Space');
+        
     }, [])
     return (
         <View style={{flex:1, backgroundColor:'white'}}>

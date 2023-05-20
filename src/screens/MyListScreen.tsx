@@ -48,7 +48,9 @@ export const MyListScreen:React.FC = () => {
                         {/* <Image source={require('../../assets/kitchen-pack.png')} style={{width:30, height:30}}/> */}
                     </View>
                     <Spacer space={15} horizontal/>
-                    <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} style={{justifyContent:'center'}}>
+                    <Pressable onPress={() => {
+                        homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})
+                        }} style={{justifyContent:'center'}}>
                         <Typography fontSize={20} bold font='notosans-medium'>{item.placeName}</Typography>
                     </Pressable>
                 </View>
@@ -66,7 +68,7 @@ export const MyListScreen:React.FC = () => {
             <View style={{flex:1}}>
                 <FlatList<BookmarkInfo>
                     data={bookmarkList}
-                    keyExtractor={(item:BookmarkInfo) => `${item.bookmarkId}`}
+                    keyExtractor={(item:BookmarkInfo) => `${item.placeId}`}
                     renderItem={({item}) => renderItem(item)}
                     ListHeaderComponent={
                         <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingVertical:20}}>

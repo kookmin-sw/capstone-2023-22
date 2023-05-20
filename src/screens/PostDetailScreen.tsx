@@ -1,10 +1,11 @@
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View } from 'react-native';
 import { FeedListItem } from '../components/FeedListItem';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
+import { useSelectedFeed, useSelectedMyFavoriteList, useSelectedMyFeedList } from '../selectors/feed';
 
 export const PostDetailScreen:React.FC = () => {
     const homeNavigation = useHomeNavigation();
@@ -12,7 +13,18 @@ export const PostDetailScreen:React.FC = () => {
     const onPressBack = useCallback(()=>{
         homeNavigation.goBack();
     }, [])
-    
+    const selectFeed = useCallback((feedtype:string) => {
+        if (feedtype === 'feed'){
+            return useSelectedFeed(params.item.id);
+        }
+        if (feedtype === 'mylist'){
+            return useSelectedMyFeedList(params.item.id);
+        }
+        if (feedtype === 'myfavorite'){
+            return useSelectedMyFavoriteList(params.item.id);
+        }
+    },[])
+    const feed = selectFeed(params.type);
     return (
         <View style={{flex:1}}>
             <Header>
@@ -29,16 +41,16 @@ export const PostDetailScreen:React.FC = () => {
             </Header>
 
             <FeedListItem
-                feedId={params.item.id}
-                content={params.item.content}
-                heartCount={params.item.heartCount}
-                userName={params.item.userName}
-                placeName={params.item.placeName}
-                updatedAt={params.item.updatedAt}
-                profileImage={params.item.profileImage}
-                imageUrl={params.item.imageUrl}
-                isHeart={params.item.isHeart}
-                placeId={params.item.placeId}
+                feedId={feed.id}
+                content={feed.content}
+                heartCount={feed.heartCount}
+                userName={feed.userName}
+                placeName={feed.placeName}
+                updatedAt={feed.updatedAt}
+                profileImage={feed.profileImage}
+                imageUrl={feed.imageUrl}
+                isHeart={feed.isHeart}
+                placeId={feed.placeId}
                 onPressFeed={()=>{
                     console.log('onPressFeed')
                 }}

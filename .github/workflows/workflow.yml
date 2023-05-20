@@ -67,6 +67,5 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}
-            sudo docker tag ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7} sesohaeng
-            sudo docker stop sesohaeng
-            sudo docker run -d --rm --name sesohaeng -p 8080:8080 sesohaeng
+            sudo docker stop server
+            sudo docker run -d --rm --name server -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/sesohaeng:${GITHUB_SHA::7}

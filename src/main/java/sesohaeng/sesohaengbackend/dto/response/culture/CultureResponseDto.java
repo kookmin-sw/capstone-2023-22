@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 import sesohaeng.sesohaengbackend.dto.response.feed.FeedWithResponseDto;
+import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.persistence.Column;
 import java.time.LocalDateTime;
@@ -44,5 +45,5 @@ public class CultureResponseDto {
 
     LocalDateTime endDatetime;
 
-    List<FeedWithResponseDto> feeds;
+    List<FeedServiceResponse> feeds;
 }

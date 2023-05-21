@@ -17,6 +17,10 @@ public class CafeResponseAreaDto {
     Double latitude;
 
     Double longitude;
-
     String address;
+    String telephone;
+    String postalCode;
+    String roadAddress;
+    String roadPostalCode;
+    String homepage;
 }

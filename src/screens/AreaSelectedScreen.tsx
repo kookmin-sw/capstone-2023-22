@@ -58,8 +58,8 @@ export const AreaSelectedScreen:React.FC = ()=>{
                 initialRegion={{
                     latitude: params.latitude,
                     longitude: params.longitude,
-                    latitudeDelta: 0.024,
-                    longitudeDelta: 0.024,
+                    latitudeDelta: 0.018,
+                    longitudeDelta: 0.018,
                 }}>
                 {
                     areaCultureList.map((e): any => {

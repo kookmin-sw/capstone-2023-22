@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet, Pressable } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
@@ -12,6 +12,7 @@ import { Icon } from '../components/Icons';
 
 import * as WebBrowser from 'expo-web-browser';
 import { AreaDetailSheet } from './AreaDetailSheet';
+import { FeedInfo } from '../@types/FeedInfo';
 
 type propsType = {
     iconName: string,
@@ -46,7 +47,7 @@ export const PlaceDetailScreen:React.FC = ()=>{
 
     const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
     const [placeType, setPlaceType] = useState<string>("");
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<any>([]);
 
     useEffect(() => {
         axios.get(`${Config.server}/place/${params.placeId}`, {})
@@ -54,11 +55,11 @@ export const PlaceDetailScreen:React.FC = ()=>{
             if (response.data.data.cafeResponseDto === null) {
                 setPlaceType("culture");
                 setPlaceInfo(response.data.data.cultureResponseDtos[0]);
-                console.log("setPlaceInfo", response.data.data.cultureResponseDtos[0]);
+                setPosts(response.data.data.cultureResponseDtos[0].feeds);
             } else {
                 setPlaceType("cafe");
                 setPlaceInfo(response.data.data.cafeResponseDto);
-                console.log("setPlaceInfo", response.data.data.cafeResponseDto);
+                setPosts(response.data.data.cafeResponseDto.feeds);
             }
         })
         .catch(error => {
@@ -66,18 +67,9 @@ export const PlaceDetailScreen:React.FC = ()=>{
         });
     }, [])
 
-    useEffect(() => {
-        axios.get(`${Config.server}/posts/1`, {})
-        .then(response => {
-            console.log("THIS:", response.data.data);
-            setPosts(response.data.data);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }, [])
-
     const GetPlace: React.FC = () => {
+        const [postItem, setPostItem] = useState<FeedInfo>();
+
         return (
             <View style={{flex: 1, marginLeft: 10}}>
                 {
@@ -90,7 +82,37 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address}/>
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
-                            {/* todo: 커뮤니티 사진 넣기 */}
+                            {posts.length == 0 ? <Typography>아직 게시물이 없습니다.</Typography> : <Typography></Typography>}
+                            {
+                                posts.map((e: any) => {
+                                    useEffect(() => {
+                                        axios.get(`${Config.server}/posts/${e.id}`, {})
+                                        .then(response => {
+                                            console.log("data:", response.data.data)
+                                            setPostItem(response.data.data);
+                                        })
+                                        .catch(error => {
+                                            console.log(error);
+                                        });
+                                    }, [e])
+                                    return (
+                                        <View>
+                                            {
+                                                postItem && (
+                                                    <Pressable key={e.id} onPress={() =>
+                                                            homeNavigation.navigate('PostDetail', {item: postItem, type: "feed"})}>
+                                                        <Image
+                                                            style={{width: "30%", height: "50%", borderRadius: 16}}
+                                                            resizeMode="cover"
+                                                            source={{ uri: e.image.imageUrl }}
+                                                        />
+                                                    </Pressable>
+                                                )
+                                            }
+                                        </View>
+                                    );
+                                })
+                            }
                         </View>
                     )
                 }

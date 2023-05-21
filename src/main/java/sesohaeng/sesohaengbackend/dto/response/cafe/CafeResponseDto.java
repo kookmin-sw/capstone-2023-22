@@ -17,16 +17,16 @@ public class CafeResponseDto {
 
     String areaName;
     Long id;
-
     Long placeId;
-
     String cafe_name;
-
     Double latitude;
-
     Double longitude;
-
+    String telephone;
     String address;
+    String postalCode;
+    String roadAddress;
+    String roadPostalCode;
+    String homepage;
 
     List<FeedWithResponseDto> feeds;
 }

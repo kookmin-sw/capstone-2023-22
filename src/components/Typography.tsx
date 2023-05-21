@@ -28,7 +28,7 @@ export const Typography:React.FC<{
       color: props.color ?? 'black',
       fontWeight: props.bold ? 'bold': 'normal',
       fontSize: props.fontSize ?? 10,
-      fontFamily:props.font ?? "Arial"
+      fontFamily:props.font 
     }}
     numberOfLines={props.numberOfLines}
   >

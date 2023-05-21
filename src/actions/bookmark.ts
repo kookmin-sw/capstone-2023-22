@@ -65,6 +65,7 @@ export const postBookmark = (id:number):BookmarkListThunkAction => async (dispat
                 "placeId": id,
                 "placeName": res.data.data.placeName,
         }))
+            return alert("저장된 장소에 추가되었습니다!");
         }
     } catch (err) {
         if (err.response.status === 400 ) {

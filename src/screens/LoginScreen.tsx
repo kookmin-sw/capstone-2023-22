@@ -10,6 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Config } from '../config';
 import { useDispatch } from 'react-redux';
 
+import LoginLogo from '../../assets/login-logo.png'
+import { Spacer } from '../components/Spacer';
+import { Typography } from '../components/Typography';
+
 WebBrowser.maybeCompleteAuthSession();
 
 export const LoginScreen:React.FC = () => {
@@ -51,8 +55,12 @@ export const LoginScreen:React.FC = () => {
 
     return (
     <View>
+      <Spacer space={100} />
+      <Image style={{resizeMode: "contain", width: "100%", height: "32%"}} source={LoginLogo}/>
+      <Spacer space={200} />
+      <View style={{alignSelf: "center"}}><Typography fontSize={24} color="gray">세소행에 오신 것을 환영합니다!</Typography></View>
         <TouchableOpacity
-            style={{alignItems: "center", justifyContent: "flex-end", marginTop: 500}}
+            style={{alignItems: "center", marginTop: "10%"}}
             onPress={() => {promptAsync();}}>
             <Image style={{resizeMode: "contain", width: "80%"}} source={googleLogin} />
         </TouchableOpacity>

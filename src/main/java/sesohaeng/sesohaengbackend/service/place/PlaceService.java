@@ -12,5 +12,5 @@ import java.util.List;
 public interface PlaceService {
 
     List<GetPlaceListDto> searchPlaceByKeyword(String keyword);
-    PlaceResponseDto getPlace(Long placeId);
+    PlaceResponseDto getPlace(Long placeId, Long userId);
 }

@@ -16,6 +16,7 @@ import sesohaeng.sesohaengbackend.domain.feed.Feed;
 import sesohaeng.sesohaengbackend.domain.feed.FeedRepository;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImage;
 import sesohaeng.sesohaengbackend.domain.feedimage.FeedImageRepository;
+import sesohaeng.sesohaengbackend.domain.heart.HeartRepository;
 import sesohaeng.sesohaengbackend.domain.place.Place;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepository;
 import sesohaeng.sesohaengbackend.domain.place.PlaceRepositoryCustom;
@@ -27,11 +28,11 @@ import sesohaeng.sesohaengbackend.dto.response.feed.FeedWithResponseDto;
 import sesohaeng.sesohaengbackend.dto.response.feedimage.FeedImageDto;
 import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
 import sesohaeng.sesohaengbackend.exception.NoDataException;
+import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static sesohaeng.sesohaengbackend.service.feed.FeedService.convertFeedResponse;
 
 @Service
 @Slf4j
@@ -50,6 +51,7 @@ public class PlaceServiceImpl implements PlaceService{
     private final CultureRepository cultureRepository;
 
     private final CafeRepository cafeRepository;
+    private final HeartRepository heartRepository;
 
 
 //    @Transactional
@@ -67,7 +69,7 @@ public class PlaceServiceImpl implements PlaceService{
 
 
     @Transactional
-    public PlaceResponseDto getPlace(Long placeId) {
+    public PlaceResponseDto getPlace(Long placeId, Long userId) {
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(NoDataException::new);
         log.info("getPlace 도착");
@@ -75,30 +77,21 @@ public class PlaceServiceImpl implements PlaceService{
         List<Culture> cultures = cultureRepository.findAllByPlace(place);
         Optional<Cafe> cafe = cafeRepository.findByPlace(place);
 
-        PlaceResponseDto placeResponseDto = judgeCafeOrCulture(place, cultures, cafe);
+        PlaceResponseDto placeResponseDto = judgeCafeOrCulture(place, userId, cultures, cafe);
         return placeResponseDto;
     }
 
 
-    private PlaceResponseDto judgeCafeOrCulture(Place place, List<Culture> cultures, Optional<Cafe> cafe) {
+    private PlaceResponseDto judgeCafeOrCulture(Place place, Long userId, List<Culture> cultures, Optional<Cafe> cafe) {
         log.info("judgeCafeOrCulture 도착");
-        List<FeedWithResponseDto> feedResponse = new LinkedList<>();
         List<Feed> feeds = feedRepository.findByPlace(place);
 
+        List<FeedServiceResponse> feedResponse = new LinkedList<>();
 
-
-            for(Feed feed : feeds){
-                FeedImage byFeed = feedImageRepository.findByFeed(feed);
-                feedResponse.add(
-                        new FeedWithResponseDto(
-                        feed.getId(),
-                        place.getPlaceName(),
-                                new FeedImageDto(
-                                        byFeed.getId(),
-                                        byFeed.getImageUrl()
-                                )
-                ));
-            }
+        feeds.forEach(feed -> {
+            Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(feed.getId(), userId));
+            feedResponse.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart));
+        });
 
         if (cultures.isEmpty() && cafe.isPresent()) {
             return new PlaceResponseDto(

@@ -16,15 +16,20 @@ import { useHomeNavigation } from '../navigations/HomeStackNavigation';
 import ModalSelector from 'react-native-modal-selector';
 import { TextInput, FlatList } from 'react-native-gesture-handler';
 import { AreaInfo } from '../@types/AreaInfo';
+import { useTotalAreaMarkerList } from '../selectors/areamarker';
+import { TypeAreaMarkerListDispatch, getAreaMarkerList } from '../actions/areaMarker';
+import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
 
 export const SearchScreen:React.FC = ()=>{
     const [keyword, setKeyword] = useState('');
     const [isWordcloudSelected, setIsWordcloudSelected] = useState(false);
     const dispatch = useDispatch<TypeSearchDispatch>();
+    const dispatchArea = useDispatch<TypeAreaMarkerListDispatch>();
     const searchResults = useSearchResult();
     const homeNavigation = useHomeNavigation();
     const wordCloudUri = useWordCloudUri();
     const popularArea = useAreaRanking();
+    const areaMarkerList = useTotalAreaMarkerList();
     const [selectedArea, setSelectedArea] = useState('');
 
     const onPressEnter = useCallback((query:string) => {
@@ -38,15 +43,20 @@ export const SearchScreen:React.FC = ()=>{
         dispatch(getSearchSuccess([]));
         setKeyword('');
         // homeNavigation.navigate();
-        
-    }, [])
 
-    // useMemo(() => {return use(); return searchKeyword},[keyword]); 
+    }, []);
+
+    const checkLatLng = (area: AreaInfo): AreaMarkerInfo => {
+        return areaMarkerList[area.areaId - 1];
+    }
+
+    // useMemo(() => {return use(); return searchKeyword},[keyword]);
     useEffect(() =>{
         dispatch(getSearchSuccess([]));
         dispatch(getAreaRanking());
+        dispatchArea(getAreaMarkerList());
     },[]);
-    
+
     const data = [
         { key: 1, section: true, label: '특구'},
         { key: 2, label: '홍대 관광특구' },
@@ -59,7 +69,7 @@ export const SearchScreen:React.FC = ()=>{
     const renderItem = (item:PlaceInfo) => {
         return (
             <View style={{paddingHorizontal:7}}>
-                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} 
+                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}}
                 style={{backgroundColor:'white', paddingHorizontal:10, paddingVertical:10, borderRadius:22,marginBottom:10, ...Platform.select({
                 ios: {
                 shadowColor: 'black',shadowOffset: {
@@ -90,7 +100,15 @@ export const SearchScreen:React.FC = ()=>{
     }
     const renderRankingItem = ({item, index}:{item:AreaInfo, index:number}) => {
         return (
-            <Pressable style={{justifyContent:'center',width:353,paddingBottom:10}}>
+            <View>
+                {
+                    checkLatLng(item) && (
+                        <Pressable
+                style={{justifyContent:'center',width:353,paddingBottom:10}}
+                onPress={(e) => {
+                    console.log("onPress:", item);
+                    homeNavigation.navigate('AreaSelected', checkLatLng(item));
+                }}>
                 <View style={{flexDirection:'row', alignItems:'center', paddingHorizontal:'10%',borderRadius:11, backgroundColor:'white', height:50, ...Platform.select({
                 ios: {
                 shadowColor: 'black',shadowOffset: {
@@ -108,6 +126,11 @@ export const SearchScreen:React.FC = ()=>{
                     <Text style={{color:'#764AF1', fontSize:16, fontWeight:'bold'}}>{item.areaName}</Text>
                 </View>
             </Pressable>
+                    )
+                }
+            </View>
+
+
         )
     }
 
@@ -125,18 +148,18 @@ export const SearchScreen:React.FC = ()=>{
                 {(searchResults.length > 0 || keyword !== '') ?
                 <View style={{height:'82.5%'}}>
                     <View>
-                        <FlatList<PlaceInfo> 
+                        <FlatList<PlaceInfo>
                         data={searchResults}
                         keyExtractor={(item:PlaceInfo) => `${item.placeId}`}
                         renderItem={({item}) => renderItem(item)}
                         ListHeaderComponent={
                             <View style={{alignItems:"flex-end", paddingHorizontal:10, paddingBottom:10}}>
                                 <Typography fontSize={11}>총 {searchResults.length}개</Typography>
-                            </View> 
+                            </View>
                         }
                         />
                     </View>
-                </View> : 
+                </View> :
                 <View>
                     <View style={{paddingVertical:20}}>
                     <View style={{flexDirection:'row', alignItems:'center'}}>
@@ -145,7 +168,7 @@ export const SearchScreen:React.FC = ()=>{
                         </View>
                         <View style={{flexDirection:'row'}}>
                             <View style={{backgroundColor:'#D9D9D9', padding:5, borderRadius:2}}>
-                                <Pressable onPress={() => 
+                                <Pressable onPress={() =>
                                     {
                                         dispatch(getAreaRanking());
                                         setIsWordcloudSelected(false);
@@ -161,7 +184,7 @@ export const SearchScreen:React.FC = ()=>{
                             </View>
                         </View>
                     </View>
-                    { isWordcloudSelected ? 
+                    { isWordcloudSelected ?
                     <View style={{marginTop:30}}>
                         <View style={{...Platform.select({
                         ios: {
@@ -195,19 +218,19 @@ export const SearchScreen:React.FC = ()=>{
                          wordCloudUri && <View style={{alignItems:'center', marginTop:40}}>
                          <RemoteImage url={wordCloudUri}
                                  width={400} height={230}/>
-                        </View>  
+                        </View>
                         }
 
                     </View>
                      :
                         <View>
-                            <FlatList<AreaInfo> 
+                            <FlatList<AreaInfo>
                             data={popularArea}
                             renderItem={renderRankingItem}
                             style={{width:'100%', marginTop:'7%', alignSelf:'center',height:'82%'}}
                             contentContainerStyle={{alignItems:'center'}}
                             showsVerticalScrollIndicator={true}
-                            
+
                             />
                         </View>
                     }

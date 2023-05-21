@@ -226,7 +226,7 @@ public class FeedService {
         return feedServiceResponses;
     }
 
-    private FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount, Boolean isHeart) {
+    public static FeedServiceResponse convertFeedResponse(Feed feed, FeedImage feedImage, Integer heartCount, Boolean isHeart) {
         return FeedServiceResponse.of(
                 feed.getId(),
                 feed.getContent(),

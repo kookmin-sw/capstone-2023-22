@@ -3,6 +3,7 @@ package sesohaeng.sesohaengbackend.controller.place;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import sesohaeng.sesohaengbackend.dto.response.place.PlaceResponseDto;
 import sesohaeng.sesohaengbackend.response.CommonResponse;
 import sesohaeng.sesohaengbackend.response.ListResponse;
 import sesohaeng.sesohaengbackend.response.SingleResponse;
+import sesohaeng.sesohaengbackend.security.CustomUserDetails;
 import sesohaeng.sesohaengbackend.service.place.PlaceService;
 
 import java.util.List;
@@ -38,13 +40,14 @@ public class PlaceController {
     }
 
     @GetMapping("/place/{placeId}")
-    public final CommonResponse getPlace( @PathVariable Long placeId
+    public final CommonResponse getPlace( @PathVariable Long placeId,
+                                          @AuthenticationPrincipal CustomUserDetails customUserDetails
     ){
         return SingleResponse.<PlaceResponseDto>builder()
                 .success(true)
                 .status(200)
                 .message("장소 상세 검색 성공")
-                .data(placeService.getPlace(placeId))
+                .data(placeService.getPlace(placeId, Long.valueOf(customUserDetails.getName())))
                 .build();
     }
 }

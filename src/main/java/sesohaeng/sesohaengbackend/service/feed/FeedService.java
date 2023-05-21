@@ -165,11 +165,10 @@ public class FeedService {
         List<Feed> feeds = feedRepository.findByUserOrderByCreatedAtDesc(user);
         List<FeedServiceResponse> feedServiceResponses = new LinkedList<>();
 
-        feeds.forEach(feed -> {
+        for(Feed feed:feeds){
             Boolean isHeart = !Objects.isNull(heartRepository.findByFeedIdAndUserId(feed.getId(), userId));
             feedServiceResponses.add(convertFeedResponse(feed, feedImageRepository.findByFeed(feed), heartRepository.countByFeedId(feed.getId()), isHeart));
-        });
-
+        }
         return feedServiceResponses;
     }
 

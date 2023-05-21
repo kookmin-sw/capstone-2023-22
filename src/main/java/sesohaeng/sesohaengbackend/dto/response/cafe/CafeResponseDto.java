@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.lang.Nullable;
 import sesohaeng.sesohaengbackend.dto.response.feed.FeedWithResponseDto;
+import sesohaeng.sesohaengbackend.service.feed.dto.response.FeedServiceResponse;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -28,5 +29,5 @@ public class CafeResponseDto {
     String roadPostalCode;
     String homepage;
 
-    List<FeedWithResponseDto> feeds;
+    List<FeedServiceResponse> feeds;
 }

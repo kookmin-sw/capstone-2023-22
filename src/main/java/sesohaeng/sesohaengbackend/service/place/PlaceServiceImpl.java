@@ -110,7 +110,12 @@ public class PlaceServiceImpl implements PlaceService{
                             cafe.get().getCafe_name(),
                             place.getLatitude(),
                             place.getLongitude(),
+                            cafe.get().getTelephone(),
                             cafe.get().getAddress(),
+                            cafe.get().getPostal_code(),
+                            cafe.get().getRoad_address(),
+                            cafe.get().getRoad_postal_code(),
+                            cafe.get().getHomepage(),
                             feedResponse
             ), null);
         } else if (!(cultures.isEmpty()) && cafe.isEmpty()) {

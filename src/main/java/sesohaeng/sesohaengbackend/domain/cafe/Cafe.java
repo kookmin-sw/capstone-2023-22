@@ -19,7 +19,22 @@ public class Cafe {
     private String cafe_name;
 
     @Column
+    private String telephone;
+
+    @Column
     private String address;
+
+    @Column
+    private String postal_code;
+
+    @Column
+    private String road_address;
+
+    @Column
+    private String road_postal_code;
+
+    @Column
+    private String homepage;
 
     @OneToOne
     @JoinColumn(name = "place_id")

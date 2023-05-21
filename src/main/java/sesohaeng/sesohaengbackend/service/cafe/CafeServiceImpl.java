@@ -43,7 +43,13 @@ public class CafeServiceImpl implements CafeService{
                     cafe.getCafe_name(),
                     cafe.getPlace().getLatitude(),
                     cafe.getPlace().getLongitude(),
-                    cafe.getAddress()
+                    cafe.getAddress(),
+                    cafe.getTelephone(),
+                    cafe.getPostal_code(),
+                    cafe.getRoad_address(),
+                    cafe.getRoad_postal_code(),
+                    cafe.getHomepage()
+
             ));
         }
         return responseDtos;

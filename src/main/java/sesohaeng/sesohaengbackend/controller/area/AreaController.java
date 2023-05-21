@@ -40,7 +40,7 @@ public class AreaController {
                 .build();
     }
 
-    @GetMapping("rank")
+    @GetMapping("/rank")
     public final CommonResponse getRank() {
         return ListResponse.<AreaRankResponse>builder()
                 .success(true)

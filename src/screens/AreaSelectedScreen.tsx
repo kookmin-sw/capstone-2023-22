@@ -16,6 +16,7 @@ import CafeLandmarkImage from '../../assets/cafe-landmark.png';
 import { AreaCultureInfo } from '../@types/AreaCultureInfo';
 import { AreaCafeInfo } from '../@types/AreaCafeInfo';
 import { AreaDetailSheet } from './AreaDetailSheet';
+import { Spacer } from '../components/Spacer';
 
 
 export const AreaSelectedScreen:React.FC = ()=>{
@@ -50,6 +51,7 @@ export const AreaSelectedScreen:React.FC = ()=>{
                     <Header.Title title={params.areaName}></Header.Title>
                 </Header.Group>
                 <Header.Group>
+                    <Spacer horizontal space={28}/>
                 </Header.Group>
             </Header>
             <MapView
@@ -58,8 +60,8 @@ export const AreaSelectedScreen:React.FC = ()=>{
                 initialRegion={{
                     latitude: params.latitude,
                     longitude: params.longitude,
-                    latitudeDelta: 0.024,
-                    longitudeDelta: 0.024,
+                    latitudeDelta: 0.02,
+                    longitudeDelta: 0.02,
                 }}>
                 {
                     areaCultureList.map((e): any => {

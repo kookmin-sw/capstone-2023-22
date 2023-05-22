@@ -138,8 +138,15 @@ export const SearchScreen:React.FC = ()=>{
         <Pressable onPress={Keyboard.dismiss} style={{ flex:1, backgroundColor:'white'}}>
             <Header>
                 <Header.Group>
-                    <Header.Title title='검색'></Header.Title>
+                    <Spacer space={28} horizontal />
                 </Header.Group>
+                <Header.Group>
+                    <Header.Title title='세소행 탐색'></Header.Title>
+                </Header.Group>
+                <Header.Group>
+                    <Icon name="add" size={28} color='rgb(118, 74, 241)' />
+                </Header.Group>
+
             </Header>
             <View style={{paddingHorizontal:10, backgroundColor:'white'}}>
                 <View style={{paddingVertical:20}}>

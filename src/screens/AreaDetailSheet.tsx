@@ -15,9 +15,22 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
     const [modelImageError, setModelImageError] = useState(false);
     const [oldImageError, setOldImageError] = useState(false);
     const [sexImageError, setSexImageError] = useState(false);
+    const [trendImageError, setTrendImageError] = useState(false);
 
     const [livePopulationLevel, setLivePopulationLevel] = useState<String>();
     const [livePopulationMessage, setLivePopulationMessage] = useState<String>();
+
+    const checkColor = (item: string): string => {
+        if (item === "여유")
+            return "green";
+        if (item === "보통")
+            return "yellow";
+        if (item === "약간 붐빔")
+            return "orange";
+        if (item === "붐빔")
+            return "red";
+        return "black";
+    }
 
     // callbacks
     const handleSheetChange = useCallback((index: number) => {
@@ -51,11 +64,11 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
                     <Typography fontSize={24} bold={true}>{props.name}</Typography>
                     <Spacer space={28} />
                     <View style={styles.contentBox}>
-                        <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>{props.name} 인구혼잡도</Typography></View>
+                        <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>인구정보</Typography></View>
                         <Spacer space={12} />
-                        <Typography fontSize={16}>{livePopulationLevel}</Typography>
+                        <Typography fontSize={20} color={checkColor(livePopulationLevel)} bold>현재 인구혼잡도는 {livePopulationLevel}입니다.</Typography>
                         <Spacer space={8} />
-                        <Typography fontSize={10}>{livePopulationMessage}</Typography>
+                        <Typography fontSize={14}>{livePopulationMessage}</Typography>
                         {
                             !modelImageError ?
                             <Image
@@ -70,7 +83,22 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
                         }
                     </View>
                     <View style={styles.contentBox}>
-                        <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>{props.name} 연령 비율</Typography></View>
+                        <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>주간 트렌드</Typography></View>
+                        {
+                            !trendImageError ?
+                            <Image
+                                onError={() => setTrendImageError(true)}
+                                style={{width: "100%", height: 300}}
+                                resizeMode="contain"
+                                source={{ uri: `${Config.s3_server}/week_trend/${props.name}/${props.name}_week.png` }}
+                            /> :
+                            <View style={{paddingBottom: 20, paddingTop: 20}}>
+                                <Typography fontSize={15} color="gray">{props.name} 의 주간 트렌드 정보는 현재 제공 준비중입니다.</Typography>
+                            </View>
+                        }
+                    </View>
+                    <View style={styles.contentBox}>
+                        <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>연령 비율 정보</Typography></View>
                         {
                             !oldImageError ?
                             <Image
@@ -85,7 +113,7 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
                         }
                     </View>
                     <View style={styles.contentBox}>
-                    <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>{props.name} 성별 비율</Typography></View>
+                    <View style={{alignSelf: "flex-start"}}><Typography fontSize={20} bold={true}>성별 비율 정보</Typography></View>
                         {
                             !sexImageError ?
                             <Image
@@ -99,9 +127,6 @@ export const AreaDetailSheet = (props: any): JSX.Element => {
                             </View>
                         }
                     </View>
-
-
-
                 </View>
             </BottomSheetScrollView>
         </BottomSheet>

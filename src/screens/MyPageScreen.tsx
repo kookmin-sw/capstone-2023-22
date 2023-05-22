@@ -48,9 +48,14 @@ export const MyPageScreen:React.FC = ()=>{
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
                 <Header.Group>
-                    <Header.Title title='마이페이지'></Header.Title>
+                    <Spacer space={28} horizontal />
                 </Header.Group>
-                <Header.Icon iconName='settings' onPress={onPressSetting}/>
+                <Header.Group>
+                    <Header.Title title='마이페이지' />
+                </Header.Group>
+                <Header.Group>
+                    <Header.Icon iconName='settings' onPress={onPressSetting}/>
+                </Header.Group>
             </Header>
             <View>
                 <View style={{flexDirection:'row', paddingHorizontal:10, paddingVertical:25, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF' }}>
@@ -74,7 +79,7 @@ export const MyPageScreen:React.FC = ()=>{
                         <Typography color='black' bold fontSize={20}>{userInfo?.name}</Typography>
                         <Spacer space={3}/>
                         <Typography color='#9A9A9A' fontSize={15}>구글 계정 로그인 회원</Typography>
-                    </View>     
+                    </View>
                 </View>
                 <View style={{flexDirection:'row', paddingVertical:8, borderBottomWidth:0.5, borderBottomColor:'#AFAFAF'}}>
                     <Pressable onPress={() => {
@@ -83,16 +88,16 @@ export const MyPageScreen:React.FC = ()=>{
                     }} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='albums-outline' size={20} color='black'/>
                     </Pressable>
-                    <Pressable onPress={() => 
+                    <Pressable onPress={() =>
                     {
-                        setIsFocusedOnMyFeedList(false);         
+                        setIsFocusedOnMyFeedList(false);
                         dispatch(getMyFavoriteList());
                     }} style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                         <Icon name='heart-outline' size={20} color='black'/>
                     </Pressable>
                 </View>
                 {
-                    isFocusedOnMyFeedList ? 
+                    isFocusedOnMyFeedList ?
                     <FlatList<FeedInfo>
                     data={myFeeds}
                     numColumns={3}

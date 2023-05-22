@@ -5,5 +5,8 @@ export type AreaCafeInfo = {
     latitude: number,
     longitude: number,
     address: string,
-    areaName: string
+    roadAddress: string,
+    roadPostalCode: string,
+    areaName: string,
+    telephone: string | null,
 }

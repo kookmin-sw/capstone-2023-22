@@ -3,7 +3,6 @@ import {FlatList, Pressable, View} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Platform } from 'react-native';
 
-import { Button } from '../components/Button';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { TabIcon } from '../components/TabIcon';
@@ -17,10 +16,6 @@ export const MyListScreen:React.FC = () => {
     const dispatch = useDispatch<TypeBookmarkListDispatch>();
     const bookmarkList = useTotalBookmarkList();
     const homeNavigation = useHomeNavigation();
-
-    const onPress = () => {
-        console.log('clicked');
-    }
     useEffect(()=>{
         dispatch(getBookmarkList());
     }, [])

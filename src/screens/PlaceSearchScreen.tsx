@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { getSearch, getSearchSuccess, TypeSearchDispatch } from '../actions/search';
 import { useSearchResult } from '../selectors/search';
 import { PlaceInfo } from '../@types/PlaceInfo';
-import { Button } from '../components/Button';
 import { TabIcon } from '../components/TabIcon';
 
 
@@ -60,7 +59,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
                     </View>
                     <Spacer space={15} horizontal/>
                     <View style={{justifyContent:'center'}}>
-                        <Typography fontSize={16} font='notosans-medium'>{item.placeName}</Typography>
+                        <Typography fontSize={16}>{item.placeName}</Typography>
                     </View>
                 </View>
                 </Pressable>
@@ -70,7 +69,7 @@ export const PlaceSearchScreen:React.FC = ()=>{
 
     return (
         <View style={{flex:1, backgroundColor:'white'}}>
-            <Header>
+            <Header >
                 <Header.Group>
                     <Header.Icon iconName='chevron-back' onPress={onPressBack}/>
                 </Header.Group>

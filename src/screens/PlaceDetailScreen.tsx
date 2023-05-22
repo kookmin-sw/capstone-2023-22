@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import React, { useCallback, useEffect, useState } from 'react';
 import { Image, TouchableOpacity, View, StyleSheet, Pressable } from 'react-native';
 import { Header } from '../components/Header/Header';
@@ -13,6 +14,9 @@ import { Icon } from '../components/Icons';
 import * as WebBrowser from 'expo-web-browser';
 import { AreaDetailSheet } from './AreaDetailSheet';
 import { FeedInfo } from '../@types/FeedInfo';
+import { useSelectedPlaceFeeds } from '../selectors/feed';
+import { getSelectedPlaceFeedListSuccess, TypeFeedListDispatch } from '../actions/feed';
+import { useDispatch } from 'react-redux';
 
 type propsType = {
     iconName: string,
@@ -39,15 +43,22 @@ const PlaceDetailInfo: React.FC<propsType> = (props: propsType) => {
 }
 
 export const PlaceDetailScreen:React.FC = ()=>{
+    const selectedPlaceFeeds = useSelectedPlaceFeeds();
     const homeNavigation = useHomeNavigation();
     const {params} = useHomeRoute<'PlaceDetail'>();
+    const dispatch = useDispatch<TypeFeedListDispatch>();
     const onPressBack = useCallback(()=>{
         homeNavigation.goBack();
+    }, [])
+
+    const onPressFeed = useCallback((id:number)=>{
+        homeNavigation.navigate('PostDetail', {item: {id:id}, type: "placeDetail"});
     }, [])
 
     const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
     const [placeType, setPlaceType] = useState<string>("");
     const [posts, setPosts] = useState<any>([]);
+
 
     useEffect(() => {
         axios.get(`${Config.server}/place/${params.placeId}`, {})
@@ -56,10 +67,12 @@ export const PlaceDetailScreen:React.FC = ()=>{
                 setPlaceType("culture");
                 setPlaceInfo(response.data.data.cultureResponseDtos[0]);
                 setPosts(response.data.data.cultureResponseDtos[0].feeds);
+                dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cultureResponseDtos.feeds));
             } else {
                 setPlaceType("cafe");
                 setPlaceInfo(response.data.data.cafeResponseDto);
                 setPosts(response.data.data.cafeResponseDto.feeds);
+                dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cafeResponseDto.feeds));
             }
         })
         .catch(error => {
@@ -82,36 +95,18 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address}/>
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
-                            {posts.length == 0 ? <Typography>아직 게시물이 없습니다.</Typography> : <Typography></Typography>}
-                            {
-                                posts.map((e: any) => {
-                                    useEffect(() => {
-                                        axios.get(`${Config.server}/posts/${e.id}`, {})
-                                        .then(response => {
-                                            console.log("data:", response.data.data)
-                                            setPostItem(response.data.data);
-                                        })
-                                        .catch(error => {
-                                            console.log(error);
-                                        });
-                                    }, [e])
-                                    return (
-                                        <View>
-                                            {
-                                                postItem && (
-                                                    <Pressable key={e.id} onPress={() =>
-                                                            homeNavigation.navigate('PostDetail', {item: postItem, type: "feed"})}>
-                                                        <Image
-                                                            style={{width: "30%", height: "50%", borderRadius: 16}}
-                                                            resizeMode="cover"
-                                                            source={{ uri: e.image.imageUrl }}
-                                                        />
-                                                    </Pressable>
-                                                )
-                                            }
-                                        </View>
-                                    );
-                                })
+                            {selectedPlaceFeeds === undefined ? 
+                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            <View style={{flexDirection:'row'}}>{ 
+                            selectedPlaceFeeds.map((f) => { return (
+                                <View key={f.id}>
+                                    <Pressable onPress={() => onPressFeed(f.id)}>
+                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:3, marginTop:5}}
+                                            resizeMode="cover" source={{ uri: f.imageUrl }}/>
+                                    </Pressable>
+                                </View>
+                            )})}
+                            </View>
                             }
                         </View>
                     )

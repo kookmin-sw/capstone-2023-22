@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { View, useWindowDimensions } from 'react-native';
+import { View, useWindowDimensions, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Spacer } from '../Spacer';
 import { HeaderTitle } from './HeaderTitle';
@@ -37,7 +37,19 @@ export const Header:React.FC<{
         borderBottomWidth: 1,
         alignItems: 'flex-end',
         paddingBottom:10,
-      }}
+        ...Platform.select({
+          ios: {
+          shadowColor: 'black',shadowOffset: {
+              width: 0,
+              height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 2,
+          },
+          android: {
+              elevation: 1,
+          },
+          })}}
       >
         <Spacer horizontal space={12} />
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>

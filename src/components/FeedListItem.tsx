@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Pressable, useWindowDimensions, View } from 'react-native';
+import { Image, Pressable, useWindowDimensions, View } from 'react-native';
 import { Platform } from 'react-native';
 import { TypeBookmarkListDispatch, postBookmark } from '../actions/bookmark';
 import { Button } from './Button';
@@ -59,12 +59,14 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
                             elevation: 1,
                         },
                         })}}>
-                        <RemoteImage url={props.profileImage} width={36} height={36} style={{borderRadius: 36/2}}/>
+                        <RemoteImage url={props.profileImage} width={40} height={40} style={{borderRadius: 40/2}}/>
                     </View>
                     <Spacer space={8} horizontal/>
                     <View style={{justifyContent: 'flex-start'}}>
-                        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-                            <Typography fontSize={12} color={'gray'}>{props.placeName}</Typography>
+                        <View style={{flexDirection:'row',alignItems:'center', justifyContent:'space-between'}}>
+                            <View style={{alignItems:'center', justifyContent:'center'}}>
+                                <Typography fontSize={13} color={'gray'}>{props.placeName}</Typography>
+                            </View>
                             <Spacer space={10} horizontal />
                             <View style={{...Platform.select({
                                     ios: {
@@ -79,10 +81,14 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
                                     elevation: 1,
                                     },
                                     })}}>
-                                <Pressable onPress={() => onPressBookmark(props.placeId)} style={{backgroundColor:'#764AF1', paddingHorizontal:6, paddingVertical:1.8, borderRadius:8, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                                <Icon name='star-outline' size={9} color='white'/>
+                                <Pressable hitSlop={{left:5, right:5, top:5}} onPress={() => onPressBookmark(props.placeId)} style={{backgroundColor:'#764AF1', paddingHorizontal:6, paddingVertical:1.8, borderRadius:8, flexDirection:'row', justifyContent:'center'}}>
+                                    <View style={{justifyContent:'center'}}>
+                                        <Icon name='star-outline' size={8} color='white'/>
+                                    </View>
                                 <Spacer space={4} horizontal/>
-                                <Typography fontSize={9} color={'white'}>{'장소추가'}</Typography>
+                                <View>
+                                    <Typography fontSize={10} color={'white'}>{'장소추가'}</Typography>
+                                </View>
                                 </Pressable>
                             </View>
                         </View>
@@ -108,7 +114,7 @@ export const FeedListItem:React.FC<{feedId:number, content:string, heartCount:nu
                 {/*<Spacer space={10}/>*/}
 
                 <View style={{paddingHorizontal:12, paddingVertical:12, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-                    <Pressable style={{...Platform.select({
+                    <Pressable hitSlop={{left:5, right:5, top:5, bottom:5}} style={{...Platform.select({
                         ios: {
                         shadowColor: 'black',shadowOffset: {
                             width: 1,

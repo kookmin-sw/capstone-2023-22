@@ -59,7 +59,6 @@ export const PlaceDetailScreen:React.FC = ()=>{
     const [placeType, setPlaceType] = useState<string>("");
     const [posts, setPosts] = useState<any>([]);
 
-
     useEffect(() => {
         axios.get(`${Config.server}/place/${params.placeId}`, {})
         .then(response => {
@@ -74,6 +73,17 @@ export const PlaceDetailScreen:React.FC = ()=>{
                 setPosts(response.data.data.cafeResponseDto.feeds);
                 dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cafeResponseDto.feeds));
             }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }, [])
+
+    useEffect(() => {
+        axios.get(`${Config.server}/posts/1`, {})
+        .then(response => {
+            console.log("THIS:", response.data.data);
+            setPosts(response.data.data);
         })
         .catch(error => {
             console.log(error);

@@ -68,11 +68,17 @@ export const PlaceDetailScreen:React.FC = ()=>{
                 setPlaceType("culture");
                 setPlaceInfo(response.data.data.cultureResponseDtos[0]);
                 setPosts(response.data.data.cultureResponseDtos[0].feeds);
+                if (response.data.data.cultureResponseDtos.feeds === undefined){
+                    return dispatch(getSelectedPlaceFeedListSuccess([]));
+                }
                 dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cultureResponseDtos.feeds));
             } else {
                 setPlaceType("cafe");
                 setPlaceInfo(response.data.data.cafeResponseDto);
                 setPosts(response.data.data.cafeResponseDto.feeds);
+                if (response.data.data.cafeResponseDto.feeds === undefined){
+                    return dispatch(getSelectedPlaceFeedListSuccess([]));
+                }
                 dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cafeResponseDto.feeds));
             }
         })
@@ -112,13 +118,15 @@ export const PlaceDetailScreen:React.FC = ()=>{
                                 </TouchableOpacity>}
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
-                            {selectedPlaceFeeds === undefined ? 
-                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            {selectedPlaceFeeds.length === 0 ? 
+                            <View style={{marginTop:20}}>
+                                <Typography fontSize={13}>아직 게시물이 없습니다.</Typography> 
+                            </View> :
                             <View style={{flexDirection:'row'}}>{ 
                             selectedPlaceFeeds.map((f) => { return (
-                                <View key={f.id}>
+                                <View key={f.id} style={{marginTop:15}}>
                                     <Pressable onPress={() => onPressFeed(f.id)}>
-                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:3, marginTop:5}}
+                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:8}}
                                             resizeMode="cover" source={{ uri: f.imageUrl }}/>
                                     </Pressable>
                                 </View>
@@ -146,8 +154,10 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
                             {/* todo: 커뮤니티 사진 넣기 */}
-                            {selectedPlaceFeeds === undefined ? 
-                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            {selectedPlaceFeeds.length === 0 ? 
+                            <View style={{marginTop:20}}>
+                            <Typography fontSize={13}>아직 게시물이 없습니다.</Typography> 
+                            </View> :
                             <View style={{flexDirection:'row'}}>{ 
                             selectedPlaceFeeds.map((f) => { return (
                                 <View key={f.id}>

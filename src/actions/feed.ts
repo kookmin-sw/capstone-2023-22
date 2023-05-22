@@ -227,6 +227,13 @@ export const getMyFavoriteListFailure = ()=>{
 
 // 피드 리스트 - 장소 세부 정보
 export const getSelectedPlaceFeedListSuccess = (list:FeedInfo[])=>{
+    if (list === undefined || list.length === 0) {
+        const newFeedList:FeedInfo = [];
+        return {
+            type:GET_SELECTED_PLACE_FEED_LIST_SUCCESS,
+            newFeedList
+        }
+    }
     const newFeedList:FeedInfo[] = list.map(f => {
         return {
             id: f.id,

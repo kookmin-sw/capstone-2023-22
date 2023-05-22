@@ -129,6 +129,19 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
                             {/* todo: 커뮤니티 사진 넣기 */}
+                            {selectedPlaceFeeds === undefined ? 
+                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            <View style={{flexDirection:'row'}}>{ 
+                            selectedPlaceFeeds.map((f) => { return (
+                                <View key={f.id}>
+                                    <Pressable onPress={() => onPressFeed(f.id)}>
+                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:3, marginTop:5}}
+                                            resizeMode="cover" source={{ uri: f.imageUrl }}/>
+                                    </Pressable>
+                                </View>
+                            )})}
+                            </View>
+                            }
                             <Spacer space={4} />
                         </View>
                     )

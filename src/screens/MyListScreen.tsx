@@ -46,7 +46,7 @@ export const MyListScreen:React.FC = () => {
                     </View>
                     <Spacer space={15} horizontal/>
                     <View style={{justifyContent:'center'}}>
-                        <Typography fontSize={16} font='notosans-medium'>{item.placeName}</Typography>
+                        <Typography fontSize={16}>{item.placeName}</Typography>
                     </View>
                 </View>
                 </Pressable>

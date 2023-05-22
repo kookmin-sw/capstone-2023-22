@@ -31,8 +31,6 @@ export const ImageSelectScreen:React.FC = ()=>{
         if (result.canceled) {
             return alert("게시글을 업로드 하려면 사진 선택이 필요합니다.");
         }
-
-        console.log(result);
         homeNavigation.navigate('WritePost', {image:result.assets[0].uri, placeName: params.placeName})
     };
     useEffect(() => {

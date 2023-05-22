@@ -1,5 +1,5 @@
 import { FeedInfo } from "../@types/FeedInfo"
-import { CREATE_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, FeedListActions, GET_FEED_LIST_SUCCESS, DELETE_FAVORITE_FEED_SUCCESS, GET_MY_FEED_LIST_SUCCESS, GET_MY_FAVORITE_LIST_SUCCESS} from "../actions/feed"
+import { CREATE_FEED_SUCCESS, FAVORITE_FEED_SUCCESS, FeedListActions, GET_FEED_LIST_SUCCESS, DELETE_FAVORITE_FEED_SUCCESS, GET_MY_FEED_LIST_SUCCESS, GET_MY_FAVORITE_LIST_SUCCESS, GET_SELECTED_PLACE_FEED_LIST_SUCCESS, GET_SELECTED_PLACE_FEED_SUCCESS, DELETE_FEED_SUCCESS} from "../actions/feed"
 
 export type TypeFeedListReducer ={
     list:FeedInfo[];
@@ -7,13 +7,17 @@ export type TypeFeedListReducer ={
     hasNext:boolean;
     myFeedList:FeedInfo[];
     myFavoriteList:FeedInfo[];
+    selectedPlaceFeeds:FeedInfo[];
+    selectedPlaceSelectdFeed:FeedInfo;
 }
 const defaultFeedListState:TypeFeedListReducer = {
     list:[],
     count:0,
     hasNext:true,
     myFeedList:[],
-    myFavoriteList:[]
+    myFavoriteList:[],
+    selectedPlaceFeeds:[],
+    selectedPlaceSelectdFeed:<FeedInfo>{}
 }
 
 export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState, action:FeedListActions)=>{
@@ -112,6 +116,23 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                     })
                 }
             }
+            else if (action.feedtype === 'placeDetail') {
+                return {
+                    ...state,
+                    selectedPlaceFeeds: state.selectedPlaceFeeds.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount: item.heartCount+1,
+                                isHeart: true
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
             return {
                 ...state
             }
@@ -175,6 +196,23 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
                     })
                 }
             }
+            else if (action.feedtype === 'placeDetail') {
+                return {
+                    ...state,
+                    selectedPlaceFeeds: state.selectedPlaceFeeds.map((item) => {
+                        if (item.id === action.feedId){
+                            return {
+                                ...item,
+                                heartCount:item.heartCount-1,
+                                isHeart: false
+                            }
+                        }
+                        return {
+                            ...item
+                        }
+                    })
+                }
+            }
             return {
                 ...state
             }
@@ -184,6 +222,27 @@ export const feedListReducer = (state:TypeFeedListReducer = defaultFeedListState
             return {
                 ...state,
                 myFeedList: action.list
+            }
+        }
+
+        case GET_SELECTED_PLACE_FEED_LIST_SUCCESS:{
+            return {
+                ...state,
+                selectedPlaceFeeds:action.newFeedList
+            }
+        }
+
+        case GET_SELECTED_PLACE_FEED_SUCCESS:
+            return {
+                ...state,
+                selectedPlaceSelectdFeed:action.item
+            }
+        case DELETE_FEED_SUCCESS:{
+            return {
+                ...state,
+                myFeedList: state.myFeedList.filter(post => post.id !== action.feedId),
+                list: state.list.filter(post => post.id !== action.feedId),
+                myFavoriteList: state.myFavoriteList.filter(post => post.id !== action.feedId)
             }
         }
     }

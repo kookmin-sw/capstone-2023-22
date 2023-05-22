@@ -46,11 +46,15 @@ export const CREATE_FEED_REQUEST = 'CREATE_FEED_REQUEST' as const;
 export const CREATE_FEED_SUCCESS = 'CREATE_FEED_SUCCESS' as const;
 export const CREATE_FEED_FAILURE = 'CREATE_FEED_FAILURE' as const;
 
+export const DELETE_FEED_REQUEST = 'DELETE_FEED_REQUEST' as const;
+export const DELETE_FEED_SUCCESS = 'DELETE_FEED_SUCCESS' as const;
+export const DELETE_FEED_FAILURE = 'DELETE_FEED_FAILURE' as const;
+
+
 
 export const FAVORITE_FEED_REQUEST = 'FAVORITE_FEED_REQUEST' as const;
 export const FAVORITE_FEED_SUCCESS = 'FAVORITE_FEED_SUCCESS' as const;
 export const FAVORITE_FEED_FAILURE = 'FAVORITE_FEED_FAILURE' as const;
-
 
 export const FAVORITE_MYLIST_SUCCESS = 'FAVORITE_MYLIST_SUCCESS' as const;
 export const FAVORITE_MYFAVORITE_SUCCESS = 'FAVORITE_MYFAVORITE_SUCCESS' as const;
@@ -66,6 +70,14 @@ export const GET_MY_FEED_LIST_FAILURE = 'GET_MY_FEED_LIST_FAILURE' as const;
 export const GET_MY_FAVORITE_LIST_REQUEST = 'GET_MY_FAVORITE_LIST_REQUEST' as const;
 export const GET_MY_FAVORITE_LIST_SUCCESS = 'GET_MY_FAVORITE_LIST_SUCCESS' as const;
 export const GET_MY_FAVORITE_LIST_FAILURE = 'GET_MY_FAVORITE_LIST_FAILURE' as const;
+
+export const GET_SELECTED_PLACE_FEED_LIST_REQUEST = 'GET_SELECTED_PLACE_FEED_LIST_REQUEST' as const;
+export const GET_SELECTED_PLACE_FEED_LIST_SUCCESS = 'GET_SELECTED_PLACE_FEED_LIST_SUCCESS' as const;
+export const GET_SELECTED_PLACE_FEED_LIST_FAILURE = 'GET_SELECTED_PLACE_FEED_LIST_FAILURE' as const;
+
+export const GET_SELECTED_PLACE_FEED_REQUEST = 'GET_SELECTED_PLACE_FEED_REQUEST' as const;
+export const GET_SELECTED_PLACE_FEED_SUCCESS = 'GET_SELECTED_PLACE_FEED_SUCCESS' as const;
+export const GET_SELECTED_PLACE_FEED_FAILURE = 'GET_SELECTED_PLACE_FEED_FAILURE' as const;
 
 // 피드 리스트 가져오기
 export const getFeedListRequest = ()=>{
@@ -111,6 +123,25 @@ export const createFeedSuccess = (item:FeedInfo)=>{
 export const createFeedFailure = ()=>{
     return {
         type: CREATE_FEED_FAILURE
+    }
+}
+// 피드 삭제
+export const deleteFeedRequest = ()=>{
+    return {
+        type: DELETE_FEED_REQUEST,
+    }
+}
+
+export const deleteFeedSuccess = (feedId:number)=>{
+    return {
+        type:DELETE_FEED_SUCCESS,
+        feedId,
+    }
+}
+
+export const deleteFeedFailure = ()=>{
+    return {
+        type: DELETE_FEED_FAILURE
     }
 }
 
@@ -193,6 +224,56 @@ export const getMyFavoriteListFailure = ()=>{
         type: GET_MY_FAVORITE_LIST_FAILURE
     }
 }
+
+// 피드 리스트 - 장소 세부 정보
+export const getSelectedPlaceFeedListSuccess = (list:FeedInfo[])=>{
+    const newFeedList:FeedInfo[] = list.map(f => {
+        return {
+            id: f.id,
+            content: f.content,
+            userName: f.userName,
+            profileImage: f.profileImage,
+            placeId: f.placeId,
+            placeName: f.placeName,
+            updatedAt: getTimeDiff(dayjs(f.updatedAt.replace('T', ' '))),
+            imageUrl: f.imageUrl,
+            heartCount: f.heartCount,
+            isHeart: f.isHeart
+        }
+    })
+    return {
+        type:GET_SELECTED_PLACE_FEED_LIST_SUCCESS,
+        newFeedList
+    }
+}
+// 피드 조회 - 장소 세부 정보 - legacy
+export const getSelectedPlaceFeedSuccess = (item:FeedInfo)=>{
+    return {
+        type:GET_SELECTED_PLACE_FEED_SUCCESS,
+        item
+    }
+}
+// 피드 조회 - 장소 세부 정보 - legacy
+export const getSelectedPlaceFeed = (feedId:number):FeedListThunkAction => async (dispatch)=>{
+    axios.get(`${Config.server}/posts/${feedId}`).then(async(res) => {
+        // console.log(res.data.result);
+        // TODO: 피드 좋아요 상태 조회 추가 => 백엔드로부터 받을 예정.
+        const feed:FeedInfo = {
+            id: res.data.data.id,
+            content: res.data.data.content,
+            userName: res.data.data.userName,
+            profileImage: res.data.data.profileImage,
+            placeId: res.data.data.placeId,
+            placeName: res.data.data.placeName,
+            updatedAt: getTimeDiff(dayjs(res.data.data.updatedAt.replace('T', ' '))),
+            imageUrl: res.data.data.imageUrl,
+            heartCount: res.data.data.heartCount,
+            isHeart: res.data.data.isHeart
+        };
+        dispatch(getSelectedPlaceFeedSuccess(feed));
+    }).catch(err => {console.log(err.response)});
+}
+
 // 토탈 피드 리스트 가져오기
 export const getFeedList = (isRefresh:boolean):FeedListThunkAction=> async (dispatch, getState)=>{
     dispatch(getFeedListRequest());
@@ -292,8 +373,18 @@ export const getMyFavoriteList = ():FeedListThunkAction => async (dispatch)=>{
     }).catch(err =>{
         console.log(err);
     });
-
 }
+// 피드 삭제 - 내가 쓴 글
+export const deleteFeed = (feedId:number):FeedListThunkAction => async (dispatch)=>{
+    dispatch(deleteFeedRequest());
+    await axios.delete(`${Config.server}/posts/${feedId}`)
+    .then((res) => {
+        dispatch(deleteFeedSuccess(feedId));
+    }).catch(err =>{
+        console.log(err);
+    });
+}
+
 export type FeedListThunkAction = ThunkAction<void, RootReducer, undefined, FeedListActions>;
 export type TypeFeedListDispatch = ThunkDispatch<RootReducer, undefined, FeedListActions>;
 export type FeedListActions =
@@ -303,6 +394,9 @@ export type FeedListActions =
     | ReturnType<typeof createFeedRequest>
     | ReturnType<typeof createFeedSuccess>
     | ReturnType<typeof createFeedFailure>
+    | ReturnType<typeof deleteFeedRequest>
+    | ReturnType<typeof deleteFeedSuccess>
+    | ReturnType<typeof deleteFeedFailure>
     | ReturnType<typeof favoriteFeedRequest>
     | ReturnType<typeof favoriteFeedSuccess>
     | ReturnType<typeof favoriteFeedFailure>
@@ -314,6 +408,8 @@ export type FeedListActions =
     | ReturnType<typeof getMyFeedListFailure>
     | ReturnType<typeof getMyFavoriteListRequest>
     | ReturnType<typeof getMyFavoriteListSuccess>
-    | ReturnType<typeof getMyFavoriteListFailure>;
+    | ReturnType<typeof getMyFavoriteListFailure>
+    | ReturnType<typeof getSelectedPlaceFeedListSuccess>
+    | ReturnType<typeof getSelectedPlaceFeedSuccess>;
     // | ReturnType<typeof favoriteMyListSuccess>;
     // | ReturnType<typeof favoriteMyFavoriteSuccess>;

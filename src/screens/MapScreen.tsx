@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Header } from '../components/Header/Header';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
 
@@ -13,8 +13,10 @@ import { AreaMarkerInfo } from '../@types/AreaMarkerInfo';
 import AreaMarkerImage from '../../assets/area-landmark.png';
 import { Spacer } from '../components/Spacer';
 import ModalSelector from 'react-native-modal-selector';
+import { Pressable } from 'react-native';
 
 export const MapScreen:React.FC = ()=>{
+    const [isRegionChanged, setIsRegionChanged] = useState<Boolean>(false);
     const homeNavigation = useHomeNavigation<'Map'>();
     const stackNavigation = useHomeNavigation();
     const route = useHomeRoute();
@@ -64,7 +66,11 @@ export const MapScreen:React.FC = ()=>{
                     longitude: 126.986,
                     latitudeDelta: 0.2,
                     longitudeDelta: 0.2,
-                }}>
+                }}
+                onRegionChange={() => {
+                    setIsRegionChanged(true);
+                }}
+                >
                 {
                     areaMarkerList.map((e): any => {
                         return (
@@ -83,7 +89,6 @@ export const MapScreen:React.FC = ()=>{
                         );
                     })
                 }
-
             </MapView>
         </>
     )

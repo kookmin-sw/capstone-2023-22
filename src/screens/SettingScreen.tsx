@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, TouchableOpacity} from 'react-native';
+import { View, Text, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TypeUserDispatch, updateUserBirth, updateUserNickname } from '../actions/user';
 import { Header } from '../components/Header/Header';
@@ -76,6 +76,7 @@ export const SettingScreen:React.FC = ()=>{
                     </View>
                 </View>
                 <ModifyModal
+                hasTextInput
                 value={nickname} 
                 modalVisible={modifyNicknameModalVisible}
                 setModalVisible={()=>setModifyNicknameModalVisible(!modifyNicknameModalVisible)} 
@@ -90,9 +91,11 @@ export const SettingScreen:React.FC = ()=>{
                     setNickname("");
                 }} 
                 onChangeValue={setNickname}>
-                    <Text style={{fontSize:17, paddingVertical: 5, marginTop:18}}>닉네임 수정</Text>
-                    <Text style={{fontSize:13}}>수정할 닉네임을 입력하세요.</Text>
-                    <Text style={{fontSize:13}}>닉네임은 2글자 이상이어야 합니다.</Text>
+                    <View style={{alignItems:'center'}}>
+                        <Text style={{fontSize:17, paddingVertical: 5, marginTop:18}}>닉네임 수정</Text>
+                        <Text style={{fontSize:13}}>수정할 닉네임을 입력하세요.</Text>
+                        <Text style={{fontSize:13}}>닉네임은 2글자 이상이어야 합니다.</Text>
+                    </View>
                 </ModifyModal>
                 <DateTimePickerModal
                     isVisible={modifyBirthModalVisible}

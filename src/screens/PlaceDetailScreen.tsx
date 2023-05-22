@@ -1,5 +1,6 @@
+/* eslint-disable react/jsx-key */
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Image, TouchableOpacity, View, StyleSheet, Pressable } from 'react-native';
 import { Header } from '../components/Header/Header';
 import { Spacer } from '../components/Spacer';
 import { useHomeNavigation, useHomeRoute } from '../navigations/HomeStackNavigation';
@@ -12,6 +13,10 @@ import { Icon } from '../components/Icons';
 
 import * as WebBrowser from 'expo-web-browser';
 import { AreaDetailSheet } from './AreaDetailSheet';
+import { FeedInfo } from '../@types/FeedInfo';
+import { useSelectedPlaceFeeds } from '../selectors/feed';
+import { getSelectedPlaceFeedListSuccess, TypeFeedListDispatch } from '../actions/feed';
+import { useDispatch } from 'react-redux';
 
 import * as Linking from 'expo-linking';
 
@@ -40,15 +45,21 @@ const PlaceDetailInfo: React.FC<propsType> = (props: propsType) => {
 }
 
 export const PlaceDetailScreen:React.FC = ()=>{
+    const selectedPlaceFeeds = useSelectedPlaceFeeds();
     const homeNavigation = useHomeNavigation();
     const {params} = useHomeRoute<'PlaceDetail'>();
+    const dispatch = useDispatch<TypeFeedListDispatch>();
     const onPressBack = useCallback(()=>{
         homeNavigation.goBack();
     }, [])
 
+    const onPressFeed = useCallback((id:number)=>{
+        homeNavigation.navigate('PostDetail', {item: {id:id}, type: "placeDetail"});
+    }, [])
+
     const [placeInfo, setPlaceInfo] = useState<AreaCafeInfo | AreaCultureInfo | undefined>();
     const [placeType, setPlaceType] = useState<string>("");
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState<any>([]);
 
     useEffect(() => {
         axios.get(`${Config.server}/place/${params.placeId}`, {})
@@ -56,11 +67,13 @@ export const PlaceDetailScreen:React.FC = ()=>{
             if (response.data.data.cafeResponseDto === null) {
                 setPlaceType("culture");
                 setPlaceInfo(response.data.data.cultureResponseDtos[0]);
-                console.log("setPlaceInfo", response.data.data.cultureResponseDtos[0]);
+                setPosts(response.data.data.cultureResponseDtos[0].feeds);
+                dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cultureResponseDtos.feeds));
             } else {
                 setPlaceType("cafe");
                 setPlaceInfo(response.data.data.cafeResponseDto);
-                console.log("setPlaceInfo", response.data.data.cafeResponseDto);
+                setPosts(response.data.data.cafeResponseDto.feeds);
+                dispatch(getSelectedPlaceFeedListSuccess(response.data.data.cafeResponseDto.feeds));
             }
         })
         .catch(error => {
@@ -80,6 +93,8 @@ export const PlaceDetailScreen:React.FC = ()=>{
     }, [])
 
     const GetPlace: React.FC = () => {
+        const [postItem, setPostItem] = useState<FeedInfo>();
+
         return (
             <View style={{flex: 1, marginLeft: 10}}>
                 {
@@ -97,7 +112,19 @@ export const PlaceDetailScreen:React.FC = ()=>{
                                 </TouchableOpacity>}
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
-                            {/* todo: 커뮤니티 사진 넣기 */}
+                            {selectedPlaceFeeds === undefined ? 
+                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            <View style={{flexDirection:'row'}}>{ 
+                            selectedPlaceFeeds.map((f) => { return (
+                                <View key={f.id}>
+                                    <Pressable onPress={() => onPressFeed(f.id)}>
+                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:3, marginTop:5}}
+                                            resizeMode="cover" source={{ uri: f.imageUrl }}/>
+                                    </Pressable>
+                                </View>
+                            )})}
+                            </View>
+                            }
                         </View>
                     )
                 }
@@ -119,6 +146,19 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
                             {/* todo: 커뮤니티 사진 넣기 */}
+                            {selectedPlaceFeeds === undefined ? 
+                            <Typography>아직 게시물이 없습니다.</Typography> :
+                            <View style={{flexDirection:'row'}}>{ 
+                            selectedPlaceFeeds.map((f) => { return (
+                                <View key={f.id}>
+                                    <Pressable onPress={() => onPressFeed(f.id)}>
+                                        <Image style={{width: 120, height: 200, borderRadius: 16, marginRight:3, marginTop:5}}
+                                            resizeMode="cover" source={{ uri: f.imageUrl }}/>
+                                    </Pressable>
+                                </View>
+                            )})}
+                            </View>
+                            }
                             <Spacer space={4} />
                         </View>
                     )

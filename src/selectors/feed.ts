@@ -4,7 +4,15 @@ import { RootReducer } from "../store";
 
 export const useTotalFeedList = () => useSelector<RootReducer, FeedInfo[]>((state)=> state.feedList.list)
 export const useFeedCount = () => useSelector<RootReducer, number>((state)=> state.feedList.count)
-export const useHasNext = () => useSelector<RootReducer, number>((state)=> state.feedList.hasNext)
+export const useHasNext = () => useSelector<RootReducer, boolean>((state)=> state.feedList.hasNext)
+export const useSelectedPlaceFeed = (feedId:number) => useSelector<RootReducer, FeedInfo>((state)=> {   
+    const found = state.feedList.selectedPlaceFeeds.find(item => item.id === feedId);
+    if (found === undefined){
+        return <FeedInfo>{};
+    }
+    return found;
+})
+export const useSelectedPlaceFeeds = () => useSelector<RootReducer, FeedInfo[]>((state)=> state.feedList.selectedPlaceFeeds)
 export const useSelectedFeed = (feedId:number) => useSelector<RootReducer, FeedInfo>((state)=> {
     const found = state.feedList.list.find(item => item.id === feedId);
     if (found === undefined){

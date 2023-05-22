@@ -26,13 +26,9 @@ export const updateNickname = (payload:string) => {
     }
 }
 
-export const updateUserNickname = (nickname:string):UserThunkAction => async (dispatch, getState) => {
+export const updateUserNickname = (nickname:string):UserThunkAction => async (dispatch) => {
     console.log(nickname);
     axios.interceptors.request.clear();
-    axios.interceptors.request.use(request => {
-        console.log('Starting Request', JSON.stringify(request, null, 2))
-        return request
-      });
     axios.put(`${Config.server}/user/username`,JSON.stringify({
         userName:nickname
     }),{

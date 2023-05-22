@@ -51,7 +51,13 @@ export const TotalFeedListScreen:React.FC = ()=>{
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
                 <Header.Group>
-                    <Header.Title title='새소행 공간'></Header.Title>
+                    <Spacer space={28} horizontal />
+                </Header.Group>
+                <Header.Group>
+                    <Header.Title title='세소행 공간'></Header.Title>
+                </Header.Group>
+                <Header.Group>
+                    <Icon name="add" size={28} color='rgb(118, 74, 241)' />
                 </Header.Group>
             </Header>
             <FlatList<FeedInfo>

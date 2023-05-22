@@ -18,6 +18,8 @@ import { useSelectedPlaceFeeds } from '../selectors/feed';
 import { getSelectedPlaceFeedListSuccess, TypeFeedListDispatch } from '../actions/feed';
 import { useDispatch } from 'react-redux';
 
+import * as Linking from 'expo-linking';
+
 type propsType = {
     iconName: string,
     content: string,
@@ -102,7 +104,12 @@ export const PlaceDetailScreen:React.FC = ()=>{
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>장소 정보</Typography>
                             <Spacer space={8} />
-                            <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address}/>
+                            <PlaceDetailInfo iconName="ios-home" iconColor="gray" content={placeInfo.address + " [" + placeInfo.postalCode + "]"}/>
+                            <PlaceDetailInfo iconName="ios-home" iconColor="white" content={placeInfo.roadAddress}/>
+                            {placeInfo.telephone &&
+                                <TouchableOpacity onPress={() => { Linking.openURL(`tel:+82${(placeInfo.telephone).replace(" ", "").substring(1)}`); }}>
+                                    <PlaceDetailInfo iconName="call" iconColor="blue" content={`${placeInfo.telephone}`} fontColor="blue"/>
+                                </TouchableOpacity>}
                             <Spacer space={20} />
                             <Typography fontSize={20} bold={true}>세소행 공간</Typography>
                             {selectedPlaceFeeds === undefined ? 
@@ -166,7 +173,11 @@ export const PlaceDetailScreen:React.FC = ()=>{
     //     cafe_name: string,
     //     latitude: number,
     //     longitude: number,
-    //     address: string
+    //     address: string,
+    //     roadAddress: string,
+    //     roadPostalCode: string,
+    //     areaName: string,
+    //     telephone: string | null,
     // }
 
     // export type AreaCultureInfo = {

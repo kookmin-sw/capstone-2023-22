@@ -11,6 +11,7 @@ import { BookmarkInfo } from '../@types/BookmarkInfo';
 import { getBookmarkList, TypeBookmarkListDispatch } from '../actions/bookmark';
 import { useTotalBookmarkList } from '../selectors/bookmark';
 import { useHomeNavigation } from '../navigations/HomeStackNavigation';
+import { Icon } from '../components/Icons';
 
 export const MyListScreen:React.FC = () => {
     const dispatch = useDispatch<TypeBookmarkListDispatch>();
@@ -20,11 +21,11 @@ export const MyListScreen:React.FC = () => {
         dispatch(getBookmarkList());
     }, [])
 
-    
+
     const renderItem = (item:BookmarkInfo) => {
         return (
             <View style={{paddingHorizontal:7}}>
-                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}} 
+                <Pressable onPress={() => {homeNavigation.navigate('PlaceDetail', {placeId:item.placeId})}}
                 style={{backgroundColor:'white', paddingHorizontal:10, paddingVertical:10, borderRadius:30,marginBottom:10, ...Platform.select({
                 ios: {
                 shadowColor: 'black',shadowOffset: {
@@ -57,7 +58,13 @@ export const MyListScreen:React.FC = () => {
         <View style={{flex:1, backgroundColor:'white'}}>
             <Header>
                 <Header.Group>
-                    <Header.Title title='저장된 장소'/>
+                    <Spacer space={28} horizontal />
+                </Header.Group>
+                <Header.Group>
+                    <Header.Title title='저장한 장소' />
+                </Header.Group>
+                <Header.Group>
+                    <Icon name="add" size={28} color='rgb(118, 74, 241)' />
                 </Header.Group>
             </Header>
             <View style={{flex:1}}>

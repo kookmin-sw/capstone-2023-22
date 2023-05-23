@@ -14,6 +14,7 @@ import io
 import schedule
 import time
 
+
 def job():
     # S3 버킷 및 파일 경로
     bucket_name = 'mlops-api-output'

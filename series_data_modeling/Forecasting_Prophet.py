@@ -14,6 +14,7 @@ import io
 import schedule
 import time
 
+
 # def job():
 # S3 버킷 및 파일 경로
 bucket_name = 'mlops-api-output'
@@ -44,7 +45,7 @@ df['ds'] = pd.to_datetime(df['ds'])
 for i in local_list:
 
     plt.clf() # plt 초기화
-    local_df = df["지역"] == i  # "지역" column에서 "경복궁" 값을 가지고 있는 행 추출
+    local_df = df["지역"] == "광화문·덕수궁"  # "지역" column에서 "경복궁" 값을 가지고 있는 행 추출
     print(i)
     filtered_local_df = df[local_df]
 
@@ -137,27 +138,27 @@ for i in local_list:
     # for y in yticks:
     #     ax.axhline(y, linestyle=(0, (5, 2)), color='grey', alpha=0.5)  ## 눈금선 생성
 
-    plt.title("%s 인구혼잡도" % i, weight='bold',fontsize=10)
+    #plt.title("%s 인구혼잡도" % i, weight='bold',fontsize=10)
     plt.xlabel("날짜")
     plt.xticks(rotation=45, ha='right',weight='bold')
     plt.ylabel('인구혼잡도', rotation='vertical', ha='right',weight='bold')
     ax.legend(handles=[line0, line1, line2, line3], loc='upper left', fontsize=8,
           labels=['예측값범위', '실제 값', '예측 값','모델 결과값'], edgecolor='black', shadow=True)
 
-    plt.savefig("%s_model.png" % i,bbox_inches = 'tight') # 각 구에 맞는 나이 비율 이미지
-# plt.show()
-    plt.close()
-
-    output_filename = "%s_model.png" % i
-    file_name = output_filename
-
-    file_path = os.path.realpath(output_filename)
-# # # S3 버킷 이름과 업로드할 객체 키를 지정합니다.
-    bucket_name = 'mlops-models-bucket'
-    object_key = "prophet/" + "%s/" % i + file_name
-    # 로컬 파일을 S3에 업로드합니다.
-    s3.upload_file(file_path, bucket_name, object_key)
-# break
+    # plt.savefig("%s_model.png" % i,bbox_inches = 'tight') # 각 구에 맞는 나이 비율 이미지
+    plt.show()
+    #     plt.close()
+    #
+    #     output_filename = "%s_model.png" % i
+    #     file_name = output_filename
+    #
+    #     file_path = os.path.realpath(output_filename)
+    # # # # S3 버킷 이름과 업로드할 객체 키를 지정합니다.
+    #     bucket_name = 'mlops-models-bucket'
+    #     object_key = "prophet/" + "%s/" % i + file_name
+    #     # 로컬 파일을 S3에 업로드합니다.
+    #     s3.upload_file(file_path, bucket_name, object_key)
+    # break
 # schedule.every().day.at("00:05").do(job)
 #
 # while True:

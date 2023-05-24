@@ -1,0 +1,78 @@
+[2023-03-22T10:22:37.053+0000] {processor.py:153} INFO - Started process (PID=64571) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:22:37.090+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:22:37.091+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:22:37.091+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:22:39.253+0000] {processor.py:153} INFO - Started process (PID=64639) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:22:39.254+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:22:39.254+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:22:39.254+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:22:39.414+0000] {logging_mixin.py:137} WARNING - /usr/local/lib/python3.8/dist-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2023-03-22T10:22:39.416+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:22:39.415+0000] {dagbag.py:341} ERROR - Failed to import: /home/ubuntu/airflow/dags/redshift_data.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ubuntu/airflow/dags/redshift_data.py", line 4, in <module>
+    from airflow.operators.sensors import S3KeySensor
+ModuleNotFoundError: No module named 'airflow.operators.sensors'
+[2023-03-22T10:22:39.416+0000] {processor.py:755} WARNING - No viable dags retrieved from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:22:39.659+0000] {processor.py:175} INFO - Processing /home/ubuntu/airflow/dags/redshift_data.py took 0.422 seconds
+[2023-03-22T10:23:09.914+0000] {processor.py:153} INFO - Started process (PID=64743) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:09.915+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:23:09.916+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:23:09.915+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:09.961+0000] {logging_mixin.py:137} WARNING - /usr/local/lib/python3.8/dist-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2023-03-22T10:23:09.964+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:23:09.963+0000] {dagbag.py:341} ERROR - Failed to import: /home/ubuntu/airflow/dags/redshift_data.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ubuntu/airflow/dags/redshift_data.py", line 4, in <module>
+    from airflow.operators.sensors import S3KeySensor
+ModuleNotFoundError: No module named 'airflow.operators.sensors'
+[2023-03-22T10:23:09.964+0000] {processor.py:755} WARNING - No viable dags retrieved from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:09.985+0000] {processor.py:175} INFO - Processing /home/ubuntu/airflow/dags/redshift_data.py took 0.074 seconds
+[2023-03-22T10:23:40.032+0000] {processor.py:153} INFO - Started process (PID=64750) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:40.033+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:23:40.033+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:23:40.033+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:40.055+0000] {logging_mixin.py:137} WARNING - /usr/local/lib/python3.8/dist-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2023-03-22T10:23:40.057+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:23:40.056+0000] {dagbag.py:341} ERROR - Failed to import: /home/ubuntu/airflow/dags/redshift_data.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ubuntu/airflow/dags/redshift_data.py", line 4, in <module>
+    from airflow.operators.sensors import S3KeySensor
+ModuleNotFoundError: No module named 'airflow.operators.sensors'
+[2023-03-22T10:23:40.057+0000] {processor.py:755} WARNING - No viable dags retrieved from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:23:40.082+0000] {processor.py:175} INFO - Processing /home/ubuntu/airflow/dags/redshift_data.py took 0.053 seconds
+[2023-03-22T10:24:10.213+0000] {processor.py:153} INFO - Started process (PID=64767) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:24:10.214+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:24:10.214+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:24:10.214+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:24:10.240+0000] {logging_mixin.py:137} WARNING - /usr/local/lib/python3.8/dist-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2023-03-22T10:24:10.244+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:24:10.243+0000] {dagbag.py:341} ERROR - Failed to import: /home/ubuntu/airflow/dags/redshift_data.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ubuntu/airflow/dags/redshift_data.py", line 4, in <module>
+    from airflow.operators.sensors import S3KeySensor
+ModuleNotFoundError: No module named 'airflow.operators.sensors'
+[2023-03-22T10:24:10.244+0000] {processor.py:755} WARNING - No viable dags retrieved from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:24:10.265+0000] {processor.py:175} INFO - Processing /home/ubuntu/airflow/dags/redshift_data.py took 0.058 seconds
+[2023-03-22T10:41:59.872+0000] {processor.py:153} INFO - Started process (PID=64894) to work on /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:41:59.876+0000] {processor.py:743} INFO - Processing file /home/ubuntu/airflow/dags/redshift_data.py for tasks to queue
+[2023-03-22T10:41:59.876+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:41:59.876+0000] {dagbag.py:532} INFO - Filling up the DagBag from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:41:59.950+0000] {logging_mixin.py:137} WARNING - /usr/local/lib/python3.8/dist-packages/airflow/providers/postgres/hooks/postgres.py:30 RemovedInAirflow3Warning: This module is deprecated. Please use `airflow.providers.common.sql.hooks.sql`.
+[2023-03-22T10:41:59.960+0000] {logging_mixin.py:137} INFO - [2023-03-22T10:41:59.957+0000] {dagbag.py:341} ERROR - Failed to import: /home/ubuntu/airflow/dags/redshift_data.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.8/dist-packages/airflow/models/dagbag.py", line 337, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 848, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ubuntu/airflow/dags/redshift_data.py", line 4, in <module>
+    from airflow.providers.amazon.aws.sensors.s3_key import S3KeySensor
+ModuleNotFoundError: No module named 'airflow.providers.amazon.aws.sensors.s3_key'
+[2023-03-22T10:41:59.961+0000] {processor.py:755} WARNING - No viable dags retrieved from /home/ubuntu/airflow/dags/redshift_data.py
+[2023-03-22T10:41:59.990+0000] {processor.py:175} INFO - Processing /home/ubuntu/airflow/dags/redshift_data.py took 0.128 seconds

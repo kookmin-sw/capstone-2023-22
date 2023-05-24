@@ -1,7 +1,8 @@
 # 2023년도 1학기 다학제간캡스톤디자인 I - 22팀
 > 세상의 소소한 문화행복 생활을 즐기다, 세소행
 
-![logo](./img/logo.png)
+
+<img src="./img/logo.png" width="200" />
 
 ## :question: 팀 소개 & 팀 페이지
 
@@ -37,7 +38,8 @@
 
 ### MLOps
 
-- (MLOps의 주요 기능 코드는 master 브랜치에서 확인할 수 있습니다.)
+- main: 트렌드 WordCloud, S3 연계 등 주요 작업물 제출을 위한 branch입니다.<br />
+( MLOps의 main branch 코드는 master 브랜치에서도 확인할 수 있습니다.) 
 
 ## :raised_hands: 협업 규칙
 

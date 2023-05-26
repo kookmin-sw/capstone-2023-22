@@ -4,11 +4,17 @@
 
 <img src="./img/logo.png" width="200" />
 
-## :question: 팀 소개 & 팀 페이지
+## :question: 프로젝트 소개 & 팀 페이지
+
+<img src="./img/team-poster.png" width="500" />
 
 ### 팀페이지 주소: [https://kookmin-sw.github.io/capstone-2023-22/](https://kookmin-sw.github.io/capstone-2023-22/)
 
 프로젝트 소개 / 소개 영상 / 팀원 소개 / 사용법 등 프로젝트 정보들은 위의 링크에서 확인할 수 있습니다.
+
+### 시연 영상
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/JS9QPI9w1qA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## :evergreen_tree: 브랜치 설명
 
@@ -39,7 +45,7 @@
 ### MLOps
 
 - main: 트렌드 WordCloud, S3 연계 등 주요 작업물 제출을 위한 branch입니다.<br />
-( MLOps의 main branch 코드는 master 브랜치에서도 확인할 수 있습니다.) 
+( MLOps의 main branch 코드는 master 브랜치에서도 확인할 수 있습니다.)
 
 ## :raised_hands: 협업 규칙
 

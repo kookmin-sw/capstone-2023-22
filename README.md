@@ -14,7 +14,7 @@
 
 ### 시연 영상
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/JS9QPI9w1qA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+[시연 영상 링크](https://youtu.be/JS9QPI9w1qA)
 
 ## :evergreen_tree: 브랜치 설명
 
